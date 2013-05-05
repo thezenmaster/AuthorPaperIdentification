@@ -1,0 +1,512 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AuthorPaperModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="AuthorPaperModelStoreContainer">
+          <EntitySet Name="Author" EntityType="AuthorPaperModel.Store.Author" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Conference" EntityType="AuthorPaperModel.Store.Conference" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ConfirmedPaper" EntityType="AuthorPaperModel.Store.ConfirmedPaper" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DeletedPaper" EntityType="AuthorPaperModel.Store.DeletedPaper" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Journal" EntityType="AuthorPaperModel.Store.Journal" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Paper" EntityType="AuthorPaperModel.Store.Paper" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PaperAuthor" EntityType="AuthorPaperModel.Store.PaperAuthor" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ValidatedPaper" EntityType="AuthorPaperModel.Store.ValidatedPaper" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__Confirmed__Autho__4316F928" Association="AuthorPaperModel.Store.FK__Confirmed__Autho__4316F928">
+            <End Role="Author" EntitySet="Author" />
+            <End Role="ConfirmedPaper" EntitySet="ConfirmedPaper" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Confirmed__Paper__4222D4EF" Association="AuthorPaperModel.Store.FK__Confirmed__Paper__4222D4EF">
+            <End Role="Paper" EntitySet="Paper" />
+            <End Role="ConfirmedPaper" EntitySet="ConfirmedPaper" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DeletedPa__Autho__46E78A0C" Association="AuthorPaperModel.Store.FK__DeletedPa__Autho__46E78A0C">
+            <End Role="Author" EntitySet="Author" />
+            <End Role="DeletedPaper" EntitySet="DeletedPaper" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DeletedPa__Paper__45F365D3" Association="AuthorPaperModel.Store.FK__DeletedPa__Paper__45F365D3">
+            <End Role="Paper" EntitySet="Paper" />
+            <End Role="DeletedPaper" EntitySet="DeletedPaper" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Paper__Conferenc__3A81B327" Association="AuthorPaperModel.Store.FK__Paper__Conferenc__3A81B327">
+            <End Role="Conference" EntitySet="Conference" />
+            <End Role="Paper" EntitySet="Paper" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Paper__JournalId__3B75D760" Association="AuthorPaperModel.Store.FK__Paper__JournalId__3B75D760">
+            <End Role="Journal" EntitySet="Journal" />
+            <End Role="Paper" EntitySet="Paper" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PaperAuth__Autho__3F466844" Association="AuthorPaperModel.Store.FK__PaperAuth__Autho__3F466844">
+            <End Role="Author" EntitySet="Author" />
+            <End Role="PaperAuthor" EntitySet="PaperAuthor" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PaperAuth__Paper__3E52440B" Association="AuthorPaperModel.Store.FK__PaperAuth__Paper__3E52440B">
+            <End Role="Paper" EntitySet="Paper" />
+            <End Role="PaperAuthor" EntitySet="PaperAuthor" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Validated__Autho__4AB81AF0" Association="AuthorPaperModel.Store.FK__Validated__Autho__4AB81AF0">
+            <End Role="Author" EntitySet="Author" />
+            <End Role="ValidatedPaper" EntitySet="ValidatedPaper" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Validated__Paper__49C3F6B7" Association="AuthorPaperModel.Store.FK__Validated__Paper__49C3F6B7">
+            <End Role="Paper" EntitySet="Paper" />
+            <End Role="ValidatedPaper" EntitySet="ValidatedPaper" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Author">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="1024" />
+          <Property Name="Affiliation" Type="nvarchar" MaxLength="1024" />
+        </EntityType>
+        <EntityType Name="Conference">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="ShortName" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="FullName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="HomePage" Type="nvarchar" MaxLength="1024" />
+        </EntityType>
+        <EntityType Name="ConfirmedPaper">
+          <Key>
+            <PropertyRef Name="PaperId" />
+            <PropertyRef Name="AuthorId" />
+          </Key>
+          <Property Name="PaperId" Type="int" Nullable="false" />
+          <Property Name="AuthorId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DeletedPaper">
+          <Key>
+            <PropertyRef Name="PaperId" />
+            <PropertyRef Name="AuthorId" />
+          </Key>
+          <Property Name="PaperId" Type="int" Nullable="false" />
+          <Property Name="AuthorId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Journal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="ShortName" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="FullName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="HomePage" Type="nvarchar" MaxLength="1024" />
+        </EntityType>
+        <EntityType Name="Paper">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="1024" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="ConferenceId" Type="int" />
+          <Property Name="JournalId" Type="int" />
+          <Property Name="Keywords" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="PaperAuthor">
+          <Key>
+            <PropertyRef Name="PaperId" />
+            <PropertyRef Name="AuthorId" />
+          </Key>
+          <Property Name="PaperId" Type="int" Nullable="false" />
+          <Property Name="AuthorId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1024" />
+          <Property Name="Affiliation" Type="nvarchar" MaxLength="1024" />
+        </EntityType>
+        <EntityType Name="ValidatedPaper">
+          <Key>
+            <PropertyRef Name="PaperId" />
+            <PropertyRef Name="AuthorId" />
+          </Key>
+          <Property Name="PaperId" Type="int" Nullable="false" />
+          <Property Name="AuthorId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Confirmed__Autho__4316F928">
+          <End Role="Author" Type="AuthorPaperModel.Store.Author" Multiplicity="1" />
+          <End Role="ConfirmedPaper" Type="AuthorPaperModel.Store.ConfirmedPaper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Author">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ConfirmedPaper">
+              <PropertyRef Name="AuthorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Confirmed__Paper__4222D4EF">
+          <End Role="Paper" Type="AuthorPaperModel.Store.Paper" Multiplicity="1" />
+          <End Role="ConfirmedPaper" Type="AuthorPaperModel.Store.ConfirmedPaper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ConfirmedPaper">
+              <PropertyRef Name="PaperId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DeletedPa__Autho__46E78A0C">
+          <End Role="Author" Type="AuthorPaperModel.Store.Author" Multiplicity="1" />
+          <End Role="DeletedPaper" Type="AuthorPaperModel.Store.DeletedPaper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Author">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeletedPaper">
+              <PropertyRef Name="AuthorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DeletedPa__Paper__45F365D3">
+          <End Role="Paper" Type="AuthorPaperModel.Store.Paper" Multiplicity="1" />
+          <End Role="DeletedPaper" Type="AuthorPaperModel.Store.DeletedPaper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeletedPaper">
+              <PropertyRef Name="PaperId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Paper__Conferenc__3A81B327">
+          <End Role="Conference" Type="AuthorPaperModel.Store.Conference" Multiplicity="0..1" />
+          <End Role="Paper" Type="AuthorPaperModel.Store.Paper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conference">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paper">
+              <PropertyRef Name="ConferenceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Paper__JournalId__3B75D760">
+          <End Role="Journal" Type="AuthorPaperModel.Store.Journal" Multiplicity="0..1" />
+          <End Role="Paper" Type="AuthorPaperModel.Store.Paper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Journal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paper">
+              <PropertyRef Name="JournalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PaperAuth__Autho__3F466844">
+          <End Role="Author" Type="AuthorPaperModel.Store.Author" Multiplicity="1" />
+          <End Role="PaperAuthor" Type="AuthorPaperModel.Store.PaperAuthor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Author">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaperAuthor">
+              <PropertyRef Name="AuthorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PaperAuth__Paper__3E52440B">
+          <End Role="Paper" Type="AuthorPaperModel.Store.Paper" Multiplicity="1" />
+          <End Role="PaperAuthor" Type="AuthorPaperModel.Store.PaperAuthor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaperAuthor">
+              <PropertyRef Name="PaperId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Validated__Autho__4AB81AF0">
+          <End Role="Author" Type="AuthorPaperModel.Store.Author" Multiplicity="1" />
+          <End Role="ValidatedPaper" Type="AuthorPaperModel.Store.ValidatedPaper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Author">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ValidatedPaper">
+              <PropertyRef Name="AuthorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Validated__Paper__49C3F6B7">
+          <End Role="Paper" Type="AuthorPaperModel.Store.Paper" Multiplicity="1" />
+          <End Role="ValidatedPaper" Type="AuthorPaperModel.Store.ValidatedPaper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ValidatedPaper">
+              <PropertyRef Name="PaperId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AuthorPaperModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="AuthorPaperEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Authors" EntityType="AuthorPaperModel.Author" />
+          <EntitySet Name="Conferences" EntityType="AuthorPaperModel.Conference" />
+          <EntitySet Name="Journals" EntityType="AuthorPaperModel.Journal" />
+          <EntitySet Name="Papers" EntityType="AuthorPaperModel.Paper" />
+          <EntitySet Name="PaperAuthors" EntityType="AuthorPaperModel.PaperAuthor" />
+          <AssociationSet Name="FK__PaperAuth__Autho__22AA2996" Association="AuthorPaperModel.FK__PaperAuth__Autho__22AA2996">
+            <End Role="Author" EntitySet="Authors" />
+            <End Role="PaperAuthor" EntitySet="PaperAuthors" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Paper__Conferenc__1DE57479" Association="AuthorPaperModel.FK__Paper__Conferenc__1DE57479">
+            <End Role="Conference" EntitySet="Conferences" />
+            <End Role="Paper" EntitySet="Papers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Paper__JournalId__1ED998B2" Association="AuthorPaperModel.FK__Paper__JournalId__1ED998B2">
+            <End Role="Journal" EntitySet="Journals" />
+            <End Role="Paper" EntitySet="Papers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PaperAuth__Paper__21B6055D" Association="AuthorPaperModel.FK__PaperAuth__Paper__21B6055D">
+            <End Role="Paper" EntitySet="Papers" />
+            <End Role="PaperAuthor" EntitySet="PaperAuthors" />
+          </AssociationSet>
+          <AssociationSet Name="ConfirmedPaper" Association="AuthorPaperModel.ConfirmedPaper">
+            <End Role="Author" EntitySet="Authors" />
+            <End Role="Paper" EntitySet="Papers" />
+          </AssociationSet>
+          <AssociationSet Name="DeletedPaper" Association="AuthorPaperModel.DeletedPaper">
+            <End Role="Author" EntitySet="Authors" />
+            <End Role="Paper" EntitySet="Papers" />
+          </AssociationSet>
+          <AssociationSet Name="ValidatedPaper" Association="AuthorPaperModel.ValidatedPaper">
+            <End Role="Author" EntitySet="Authors" />
+            <End Role="Paper" EntitySet="Papers" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Author">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="Affiliation" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="PaperAuthors" Relationship="AuthorPaperModel.FK__PaperAuth__Autho__22AA2996" FromRole="Author" ToRole="PaperAuthor" />
+          <NavigationProperty Name="Papers" Relationship="AuthorPaperModel.ConfirmedPaper" FromRole="Author" ToRole="Paper" />
+          <NavigationProperty Name="Papers1" Relationship="AuthorPaperModel.DeletedPaper" FromRole="Author" ToRole="Paper" />
+          <NavigationProperty Name="Papers2" Relationship="AuthorPaperModel.ValidatedPaper" FromRole="Author" ToRole="Paper" />
+        </EntityType>
+        <EntityType Name="Conference">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ShortName" Type="String" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="HomePage" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Papers" Relationship="AuthorPaperModel.FK__Paper__Conferenc__1DE57479" FromRole="Conference" ToRole="Paper" />
+        </EntityType>
+        <EntityType Name="Journal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ShortName" Type="String" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="HomePage" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Papers" Relationship="AuthorPaperModel.FK__Paper__JournalId__1ED998B2" FromRole="Journal" ToRole="Paper" />
+        </EntityType>
+        <EntityType Name="Paper">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="ConferenceId" Type="Int32" />
+          <Property Name="JournalId" Type="Int32" />
+          <Property Name="Keywords" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Conference" Relationship="AuthorPaperModel.FK__Paper__Conferenc__1DE57479" FromRole="Paper" ToRole="Conference" />
+          <NavigationProperty Name="Journal" Relationship="AuthorPaperModel.FK__Paper__JournalId__1ED998B2" FromRole="Paper" ToRole="Journal" />
+          <NavigationProperty Name="PaperAuthors" Relationship="AuthorPaperModel.FK__PaperAuth__Paper__21B6055D" FromRole="Paper" ToRole="PaperAuthor" />
+          <NavigationProperty Name="Authors" Relationship="AuthorPaperModel.ConfirmedPaper" FromRole="Paper" ToRole="Author" />
+          <NavigationProperty Name="Authors1" Relationship="AuthorPaperModel.DeletedPaper" FromRole="Paper" ToRole="Author" />
+          <NavigationProperty Name="Authors2" Relationship="AuthorPaperModel.ValidatedPaper" FromRole="Paper" ToRole="Author" />
+        </EntityType>
+        <EntityType Name="PaperAuthor">
+          <Key>
+            <PropertyRef Name="PaperId" />
+            <PropertyRef Name="AuthorId" />
+          </Key>
+          <Property Name="PaperId" Type="Int32" Nullable="false" />
+          <Property Name="AuthorId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="Affiliation" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Author" Relationship="AuthorPaperModel.FK__PaperAuth__Autho__22AA2996" FromRole="PaperAuthor" ToRole="Author" />
+          <NavigationProperty Name="Paper" Relationship="AuthorPaperModel.FK__PaperAuth__Paper__21B6055D" FromRole="PaperAuthor" ToRole="Paper" />
+        </EntityType>
+        <Association Name="FK__PaperAuth__Autho__22AA2996">
+          <End Role="Author" Type="AuthorPaperModel.Author" Multiplicity="1" />
+          <End Role="PaperAuthor" Type="AuthorPaperModel.PaperAuthor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Author">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaperAuthor">
+              <PropertyRef Name="AuthorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Paper__Conferenc__1DE57479">
+          <End Role="Conference" Type="AuthorPaperModel.Conference" Multiplicity="0..1" />
+          <End Role="Paper" Type="AuthorPaperModel.Paper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conference">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paper">
+              <PropertyRef Name="ConferenceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Paper__JournalId__1ED998B2">
+          <End Role="Journal" Type="AuthorPaperModel.Journal" Multiplicity="0..1" />
+          <End Role="Paper" Type="AuthorPaperModel.Paper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Journal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paper">
+              <PropertyRef Name="JournalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PaperAuth__Paper__21B6055D">
+          <End Role="Paper" Type="AuthorPaperModel.Paper" Multiplicity="1" />
+          <End Role="PaperAuthor" Type="AuthorPaperModel.PaperAuthor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaperAuthor">
+              <PropertyRef Name="PaperId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConfirmedPaper">
+          <End Role="Author" Type="AuthorPaperModel.Author" Multiplicity="*" />
+          <End Role="Paper" Type="AuthorPaperModel.Paper" Multiplicity="*" />
+        </Association>
+        <Association Name="DeletedPaper">
+          <End Role="Author" Type="AuthorPaperModel.Author" Multiplicity="*" />
+          <End Role="Paper" Type="AuthorPaperModel.Paper" Multiplicity="*" />
+        </Association>
+        <Association Name="ValidatedPaper">
+          <End Role="Author" Type="AuthorPaperModel.Author" Multiplicity="*" />
+          <End Role="Paper" Type="AuthorPaperModel.Paper" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AuthorPaperModelStoreContainer" CdmEntityContainer="AuthorPaperEntities">
+          <EntitySetMapping Name="Authors">
+            <EntityTypeMapping TypeName="AuthorPaperModel.Author">
+              <MappingFragment StoreEntitySet="Author">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Affiliation" ColumnName="Affiliation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Conferences">
+            <EntityTypeMapping TypeName="AuthorPaperModel.Conference">
+              <MappingFragment StoreEntitySet="Conference">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="HomePage" ColumnName="HomePage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Journals">
+            <EntityTypeMapping TypeName="AuthorPaperModel.Journal">
+              <MappingFragment StoreEntitySet="Journal">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="HomePage" ColumnName="HomePage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Papers">
+            <EntityTypeMapping TypeName="AuthorPaperModel.Paper">
+              <MappingFragment StoreEntitySet="Paper">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="ConferenceId" ColumnName="ConferenceId" />
+                <ScalarProperty Name="JournalId" ColumnName="JournalId" />
+                <ScalarProperty Name="Keywords" ColumnName="Keywords" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaperAuthors">
+            <EntityTypeMapping TypeName="AuthorPaperModel.PaperAuthor">
+              <MappingFragment StoreEntitySet="PaperAuthor">
+                <ScalarProperty Name="PaperId" ColumnName="PaperId" />
+                <ScalarProperty Name="AuthorId" ColumnName="AuthorId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Affiliation" ColumnName="Affiliation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ConfirmedPaper" TypeName="AuthorPaperModel.ConfirmedPaper" StoreEntitySet="ConfirmedPaper">
+            <EndProperty Name="Author">
+              <ScalarProperty Name="Id" ColumnName="AuthorId" />
+            </EndProperty>
+            <EndProperty Name="Paper">
+              <ScalarProperty Name="Id" ColumnName="PaperId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="DeletedPaper" TypeName="AuthorPaperModel.DeletedPaper" StoreEntitySet="DeletedPaper">
+            <EndProperty Name="Author">
+              <ScalarProperty Name="Id" ColumnName="AuthorId" />
+            </EndProperty>
+            <EndProperty Name="Paper">
+              <ScalarProperty Name="Id" ColumnName="PaperId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ValidatedPaper" TypeName="AuthorPaperModel.ValidatedPaper" StoreEntitySet="ValidatedPaper">
+            <EndProperty Name="Author">
+              <ScalarProperty Name="Id" ColumnName="AuthorId" />
+            </EndProperty>
+            <EndProperty Name="Paper">
+              <ScalarProperty Name="Id" ColumnName="PaperId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

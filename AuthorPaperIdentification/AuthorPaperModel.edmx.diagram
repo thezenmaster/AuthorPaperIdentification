@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4d2991a87944476b949022b62666afd9" Name="Diagram1">
+        <EntityTypeShape EntityType="AuthorPaperModel.Author" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AuthorPaperModel.Conference" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AuthorPaperModel.Journal" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AuthorPaperModel.Paper" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AuthorPaperModel.PaperAuthor" Width="1.5" PointX="5.25" PointY="4" IsExpanded="true" />
+        <AssociationConnector Association="AuthorPaperModel.FK__PaperAuth__Autho__22AA2996" ManuallyRouted="false" />
+        <AssociationConnector Association="AuthorPaperModel.FK__Paper__Conferenc__1DE57479" ManuallyRouted="false" />
+        <AssociationConnector Association="AuthorPaperModel.FK__Paper__JournalId__1ED998B2" ManuallyRouted="false" />
+        <AssociationConnector Association="AuthorPaperModel.FK__PaperAuth__Paper__21B6055D" ManuallyRouted="false" />
+        <AssociationConnector Association="AuthorPaperModel.ConfirmedPaper" ManuallyRouted="false" />
+        <AssociationConnector Association="AuthorPaperModel.DeletedPaper" ManuallyRouted="false" />
+        <AssociationConnector Association="AuthorPaperModel.ValidatedPaper" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
