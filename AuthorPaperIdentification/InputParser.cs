@@ -13,8 +13,9 @@ namespace AuthorPaperIdentification
         static void Main(string[] args)
         {
             var startTime = DateTime.Now;
+            //Be careful with the order of reading the documents. Otherwise database constraints will be violated.
             //string[] files = { "Author", "Conference", "Journal", "Paper", "PaperAuthor", "Train", "Valid" };
-            string[] files = { "Conference", "Journal", "Paper" };
+            string[] files = { "Paper" };
             PopulateTables(files);
             var endTime = DateTime.Now;
             Console.WriteLine(endTime - startTime);
@@ -27,7 +28,7 @@ namespace AuthorPaperIdentification
             context.Configuration.AutoDetectChangesEnabled = false;
             foreach (var item in files)
             {
-                var filePath = @"..\..\Input\" + item + ".csv";
+                var filePath = @"..\..\..\Input\" + item + ".csv";
                 if (File.Exists(filePath))
                 {
                     using (StreamReader reader = new StreamReader(filePath))
@@ -62,10 +63,16 @@ namespace AuthorPaperIdentification
                             if (i == 1000)
                             {
                                 i = 0;
-                                context.SaveChanges();
-                                context.Dispose();
-                                context = new AuthorPaperEntities();
-                                context.Configuration.AutoDetectChangesEnabled = false;
+                                try
+                                {
+                                    context.SaveChanges();
+                                    context.Dispose();
+                                    context = new AuthorPaperEntities();
+                                    context.Configuration.AutoDetectChangesEnabled = false;
+                                }
+                                catch (Exception ex)
+                                {
+                                }
                             }
                         }
                         //After while loop is over, commit any remaining inserts. Those will be < 1000.
@@ -106,7 +113,12 @@ namespace AuthorPaperIdentification
                     rightSubstring = rightSubstring.Substring(quotesIndex + 1);
                     line = rightSubstring;
                 }
-            } while (quotesIndex > -1);
+                else
+                {
+                    //There are no quotes, so everything should be parsed.
+                    line = String.Empty;
+                }
+            } while (line.Length > 0);
 
             return values;
         }
@@ -250,11 +262,22 @@ namespace AuthorPaperIdentification
                     paper.Title = values[1];
                     paper.Year = int.Parse(values[2]);
                     var conferenceId = int.Parse(values[3]);
-                    if (conferenceId > 0)
+                    if ((conferenceId > 0) && (context.Conferences.Any(c => c.Id == conferenceId)))
+                    {
                         paper.ConferenceId = conferenceId;
+                    }
+                    else
+                    {
+
+                    }
                     var journalId = int.Parse(values[4]);
-                    if (journalId > 0)
+                    if ((journalId > 0) && (context.Journals.Any(j => j.Id == journalId)))
+                    {
                         paper.JournalId = journalId;
+                    }
+                    else
+                    {
+                    }
                     if (values.Count == 6)
                         paper.Keywords = values[5];
                     context.Papers.Add(paper);
