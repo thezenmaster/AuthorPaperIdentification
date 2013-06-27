@@ -88,7 +88,7 @@ namespace AuthorPaper
         public static void InsertPapers(AuthorPaperEntities context, StringBuilder stringStorage)
         {
             var iteration = 0;
-            var getItems = 1000000;
+            const int getItems = 1000000;
             var totalCount = context.papers.Count();
 
             while (totalCount > getItems * iteration)
