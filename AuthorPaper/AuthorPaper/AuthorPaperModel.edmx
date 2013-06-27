@@ -66,6 +66,7 @@
           <Property Name="keywordid" Type="bigint" Nullable="false" />
           <Property Name="count" Type="bigint" />
           <Property Name="value" Type="varchar" MaxLength="256" />
+          <Property Name="normalizedcount" Type="double precision" />
         </EntityType>
         <EntityType Name="paper">
           <Key>
@@ -95,6 +96,8 @@
           </Key>
           <Property Name="paperid" Type="bigint" Nullable="false" />
           <Property Name="keywordid" Type="bigint" Nullable="false" />
+          <Property Name="count" Type="bigint" />
+          <Property Name="normalizedcount" Type="double precision" />
         </EntityType>
         <EntityType Name="trainconfirmed">
           <Key>
@@ -279,6 +282,7 @@
           <Property Type="Int64" Name="count" />
           <Property Type="String" Name="value" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="papers" Relationship="kdd2013Model.paperkeyword" FromRole="keyword" ToRole="paper" />
+          <Property Type="Double" Name="normalizedcount" />
         </EntityType>
         <Association Name="paperkeyword">
           <End Type="kdd2013Model.keyword" Role="keyword" Multiplicity="*" />
@@ -396,6 +400,7 @@
           <EntitySetMapping Name="keyword">
             <EntityTypeMapping TypeName="kdd2013Model.keyword">
               <MappingFragment StoreEntitySet="keyword">
+                <ScalarProperty Name="normalizedcount" ColumnName="normalizedcount" />
                 <ScalarProperty Name="value" ColumnName="value" />
                 <ScalarProperty Name="count" ColumnName="count" />
                 <ScalarProperty Name="keywordid" ColumnName="keywordid" />
@@ -436,16 +441,13 @@
         <EntityTypeShape EntityType="kdd2013Model.journal" Width="1.5" PointX="0.75" PointY="3.75" Height="1.787985026041667" IsExpanded="true" />
         <EntityTypeShape EntityType="kdd2013Model.paper" Width="1.5" PointX="2.75" PointY="3.75" Height="2.1725878906249996" IsExpanded="true" />
         <EntityTypeShape EntityType="kdd2013Model.paperauthor" Width="1.5" PointX="5.75" PointY="0.75" Height="1.9802864583333317" />
-        <EntityTypeShape EntityType="kdd2013Model.trainconfirmed" Width="1.5" PointX="5.75" PointY="3.75" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="kdd2013Model.trainconfirmed" Width="1.5" PointX="5.5" PointY="6.75" Height="1.5956835937499996" />
         <EntityTypeShape EntityType="kdd2013Model.traindeleted" Width="1.5" PointX="0.75" PointY="6.75" Height="1.5956835937499996" />
         <EntityTypeShape EntityType="kdd2013Model.validpaper" Width="1.5" PointX="2.75" PointY="6.75" Height="1.5956835937499996" />
-        <EntityTypeShape EntityType="kdd2013Model.keyword" Width="1.5" PointX="5.75" PointY="6.75" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="kdd2013Model.keyword" Width="1.5" PointX="5.5" PointY="4.125" Height="1.7879850260416674" />
         <AssociationConnector Association="kdd2013Model.paperkeyword" >
-          <ConnectorPoint PointX="5.75" PointY="6.75" />
-          <ConnectorPoint PointX="5.375" PointY="6.375" />
-          <ConnectorPoint PointX="4.625" PointY="6.375" />
-          <ConnectorPoint PointX="4.625" PointY="6.8744921875" />
-          <ConnectorPoint PointX="4.25" PointY="6.4994921875" />
+          <ConnectorPoint PointX="5.5" PointY="5.0189925130208337" />
+          <ConnectorPoint PointX="4.25" PointY="5.0189925130208337" />
         </AssociationConnector>
         <AssociationConnector Association="kdd2013Model.paper_conference" >
           <ConnectorPoint PointX="3.5" PointY="2.7302864583333339" />

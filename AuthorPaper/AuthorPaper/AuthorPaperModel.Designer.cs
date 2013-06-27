@@ -815,6 +815,30 @@ namespace AuthorPaper
         private global::System.String _value;
         partial void OnvalueChanging(global::System.String value);
         partial void OnvalueChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Double> normalizedcount
+        {
+            get
+            {
+                return _normalizedcount;
+            }
+            set
+            {
+                OnnormalizedcountChanging(value);
+                ReportPropertyChanging("normalizedcount");
+                _normalizedcount = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("normalizedcount");
+                OnnormalizedcountChanged();
+            }
+        }
+        private Nullable<global::System.Double> _normalizedcount;
+        partial void OnnormalizedcountChanging(Nullable<global::System.Double> value);
+        partial void OnnormalizedcountChanged();
 
         #endregion
 
