@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="kdd2013Model.Store" Alias="Self" Provider="Devart.Data.PostgreSql" ProviderManifestToken="PostgreSQL" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="kdd2013ModelStoreContainer">
+          <EntitySet Name="author" EntityType="kdd2013Model.Store.author" store:Type="Tables" Schema="public" />
+          <EntitySet Name="conference" EntityType="kdd2013Model.Store.conference" store:Type="Tables" Schema="public" />
+          <EntitySet Name="journal" EntityType="kdd2013Model.Store.journal" store:Type="Tables" Schema="public" />
+          <EntitySet Name="paper" EntityType="kdd2013Model.Store.paper" store:Type="Tables" Schema="public" />
+          <EntitySet Name="paperauthor" EntityType="kdd2013Model.Store.paperauthor" store:Type="Tables" Schema="public" />
+          <EntitySet Name="trainconfirmed" EntityType="kdd2013Model.Store.trainconfirmed" store:Type="Tables" Schema="public" />
+          <EntitySet Name="traindeleted" EntityType="kdd2013Model.Store.traindeleted" store:Type="Tables" Schema="public" />
+          <EntitySet Name="validpaper" EntityType="kdd2013Model.Store.validpaper" store:Type="Tables" Schema="public" />
+        </EntityContainer>
+        <EntityType Name="author">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="name" Type="varchar" />
+          <Property Name="affiliation" Type="varchar" />
+        </EntityType>
+        <EntityType Name="conference">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="shortname" Type="varchar" />
+          <Property Name="fullname" Type="varchar" />
+          <Property Name="homepage" Type="varchar" />
+        </EntityType>
+        <EntityType Name="journal">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="shortname" Type="varchar" />
+          <Property Name="fullname" Type="varchar" />
+          <Property Name="homepage" Type="varchar" />
+        </EntityType>
+        <EntityType Name="paper">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="title" Type="varchar" />
+          <Property Name="year" Type="bigint" />
+          <Property Name="conferenceid" Type="bigint" />
+          <Property Name="journalid" Type="bigint" />
+          <Property Name="keyword" Type="varchar" />
+        </EntityType>
+        <EntityType Name="paperauthor">
+          <Key>
+            <PropertyRef Name="paperauthorid" />
+          </Key>
+          <Property Name="paperid" Type="bigint" />
+          <Property Name="authorid" Type="bigint" />
+          <Property Name="name" Type="varchar" />
+          <Property Name="affiliation" Type="varchar" />
+          <Property Name="paperauthorid" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="trainconfirmed">
+          <Key>
+            <PropertyRef Name="trainconfirmedid" />
+          </Key>
+          <Property Name="authorid" Type="bigint" />
+          <Property Name="paperid" Type="bigint" />
+          <Property Name="trainconfirmedid" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="traindeleted">
+          <Key>
+            <PropertyRef Name="traindeletedid" />
+          </Key>
+          <Property Name="authorid" Type="bigint" />
+          <Property Name="paperid" Type="bigint" />
+          <Property Name="traindeletedid" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="validpaper">
+          <Key>
+            <PropertyRef Name="validpaperid" />
+          </Key>
+          <Property Name="authorid" Type="bigint" />
+          <Property Name="paperid" Type="bigint" />
+          <Property Name="validpaperid" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+        </EntityType>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="kdd2013Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="AuthorPaperEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="authors" EntityType="kdd2013Model.author" />
+          <EntitySet Name="conferences" EntityType="kdd2013Model.conference" />
+          <EntitySet Name="journals" EntityType="kdd2013Model.journal" />
+          <EntitySet Name="papers" EntityType="kdd2013Model.paper" />
+          <EntitySet Name="paperauthor" EntityType="kdd2013Model.paperauthor" />
+          <EntitySet Name="trainconfirmed" EntityType="kdd2013Model.trainconfirmed" />
+          <EntitySet Name="traindeleted" EntityType="kdd2013Model.traindeleted" />
+          <EntitySet Name="validpaper" EntityType="kdd2013Model.validpaper" />
+        </EntityContainer>
+        <EntityType Name="author">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
+          <Property Name="affiliation" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="conference">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="shortname" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
+          <Property Name="fullname" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
+          <Property Name="homepage" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="journal">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="shortname" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
+          <Property Name="fullname" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
+          <Property Name="homepage" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="paper">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
+          <Property Name="year" Type="Int64" />
+          <Property Name="conferenceid" Type="Int64" />
+          <Property Name="journalid" Type="Int64" />
+          <Property Name="keyword" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="paperauthor">
+          <Key>
+            <PropertyRef Name="paperauthorid" />
+          </Key>
+          <Property Type="Int64" Name="paperid" />
+          <Property Type="Int64" Name="authorid" />
+          <Property Type="String" Name="name" MaxLength="65535" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="affiliation" MaxLength="65535" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="paperauthorid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="trainconfirmed">
+          <Key>
+            <PropertyRef Name="trainconfirmedid" />
+          </Key>
+          <Property Type="Int64" Name="authorid" />
+          <Property Type="Int64" Name="paperid" />
+          <Property Type="Int32" Name="trainconfirmedid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="traindeleted">
+          <Key>
+            <PropertyRef Name="traindeletedid" />
+          </Key>
+          <Property Type="Int64" Name="authorid" />
+          <Property Type="Int64" Name="paperid" />
+          <Property Type="Int32" Name="traindeletedid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="validpaper">
+          <Key>
+            <PropertyRef Name="validpaperid" />
+          </Key>
+          <Property Type="Int64" Name="authorid" />
+          <Property Type="Int64" Name="paperid" />
+          <Property Type="Int32" Name="validpaperid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="kdd2013ModelStoreContainer" CdmEntityContainer="AuthorPaperEntities">
+          <EntitySetMapping Name="authors">
+            <EntityTypeMapping TypeName="kdd2013Model.author">
+              <MappingFragment StoreEntitySet="author">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="affiliation" ColumnName="affiliation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="conferences">
+            <EntityTypeMapping TypeName="kdd2013Model.conference">
+              <MappingFragment StoreEntitySet="conference">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="shortname" ColumnName="shortname" />
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
+                <ScalarProperty Name="homepage" ColumnName="homepage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="journals">
+            <EntityTypeMapping TypeName="kdd2013Model.journal">
+              <MappingFragment StoreEntitySet="journal">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="shortname" ColumnName="shortname" />
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
+                <ScalarProperty Name="homepage" ColumnName="homepage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="papers">
+            <EntityTypeMapping TypeName="kdd2013Model.paper">
+              <MappingFragment StoreEntitySet="paper">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="conferenceid" ColumnName="conferenceid" />
+                <ScalarProperty Name="journalid" ColumnName="journalid" />
+                <ScalarProperty Name="keyword" ColumnName="keyword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="paperauthor">
+            <EntityTypeMapping TypeName="kdd2013Model.paperauthor">
+              <MappingFragment StoreEntitySet="paperauthor">
+                <ScalarProperty Name="paperauthorid" ColumnName="paperauthorid" />
+                <ScalarProperty Name="affiliation" ColumnName="affiliation" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="authorid" ColumnName="authorid" />
+                <ScalarProperty Name="paperid" ColumnName="paperid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="trainconfirmed">
+            <EntityTypeMapping TypeName="kdd2013Model.trainconfirmed">
+              <MappingFragment StoreEntitySet="trainconfirmed">
+                <ScalarProperty Name="trainconfirmedid" ColumnName="trainconfirmedid" />
+                <ScalarProperty Name="paperid" ColumnName="paperid" />
+                <ScalarProperty Name="authorid" ColumnName="authorid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="traindeleted">
+            <EntityTypeMapping TypeName="kdd2013Model.traindeleted">
+              <MappingFragment StoreEntitySet="traindeleted">
+                <ScalarProperty Name="traindeletedid" ColumnName="traindeletedid" />
+                <ScalarProperty Name="paperid" ColumnName="paperid" />
+                <ScalarProperty Name="authorid" ColumnName="authorid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="validpaper">
+            <EntityTypeMapping TypeName="kdd2013Model.validpaper">
+              <MappingFragment StoreEntitySet="validpaper">
+                <ScalarProperty Name="validpaperid" ColumnName="validpaperid" />
+                <ScalarProperty Name="paperid" ColumnName="paperid" />
+                <ScalarProperty Name="authorid" ColumnName="authorid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="Model1">
+        <EntityTypeShape EntityType="kdd2013Model.author" Width="1.5" PointX="0.75" PointY="0.75" Height="1.59568359375" IsExpanded="true" />
+        <EntityTypeShape EntityType="kdd2013Model.conference" Width="1.5" PointX="2.75" PointY="0.75" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="kdd2013Model.journal" Width="1.5" PointX="0.75" PointY="3.75" Height="1.787985026041667" IsExpanded="true" />
+        <EntityTypeShape EntityType="kdd2013Model.paper" Width="1.5" PointX="2.75" PointY="3.75" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="kdd2013Model.paperauthor" Width="1.5" PointX="5.75" PointY="0.75" Height="1.9802864583333317" />
+        <EntityTypeShape EntityType="kdd2013Model.trainconfirmed" Width="1.5" PointX="5.75" PointY="3.75" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="kdd2013Model.traindeleted" Width="1.5" PointX="0.75" PointY="6.75" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="kdd2013Model.validpaper" Width="1.5" PointX="2.75" PointY="6.75" Height="1.5956835937499996" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
