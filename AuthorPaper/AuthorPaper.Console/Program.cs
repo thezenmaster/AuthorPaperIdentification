@@ -33,17 +33,13 @@ namespace AuthorPaper.Console
                     var authorId = context.PaperAuthors.FirstOrDefault(x => x.PaperId == item.Paper.PaperId);
                     if (authorId != null && authorId.AuthorId != null)
                     {
-                        var author = context.Authors.FirstOrDefault(a => a.Id == authorId.AuthorId);
-                        if (author != null && author.Name != null)
-                        {
-                            sw.Write("Author Name={0}; Author Id={1}", author.Name, author.Id);
-                            sw.WriteLine();
-                            System.Console.WriteLine(author.Id);
-                            System.Console.WriteLine(author.Name);
+                        sw.Write("Author Name={0}; Author Id={1}", authorId.Name, authorId.AuthorId);
+                        sw.WriteLine();
+                        System.Console.WriteLine(authorId.AuthorId);
+                        System.Console.WriteLine(authorId.Name);
 
-                            if (author.Id == originalAuthorId.AuthorId)
-                                match = true;
-                        }
+                        if (authorId.AuthorId == originalAuthorId.AuthorId)
+                            match = true;
                     }
                 }
             }
