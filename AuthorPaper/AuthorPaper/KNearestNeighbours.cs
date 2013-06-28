@@ -15,7 +15,7 @@ namespace AuthorPaper
             using (var context = new AuthorPaperEntities())
             {
                 // todo: make sure child entity collections are loaded
-                var trainSet = context.papers.Where(p => p.paperkeyword != null && p.paperkeyword.Any());
+                var trainSet = context.Papers.Where(p => p.PaperKeywords != null && p.PaperKeywords.Any());
                 foreach (var paperItem in trainSet)
                 {
                     double scalarProduct = 0.0;
@@ -25,10 +25,10 @@ namespace AuthorPaper
                     {
                         var wordNormalizedCount = word.NormalizedCount;
                         inputVectorNorm += wordNormalizedCount * wordNormalizedCount;
-                        var keywordInDb = paperItem.paperkeyword.SingleOrDefault(k => k.keyword.value == word.Value);
-                        if (keywordInDb != null && keywordInDb.normalizedcount.HasValue)
+                        var keywordInDb = paperItem.PaperKeywords.SingleOrDefault(k => k.Keyword.Value == word.Value);
+                        if (keywordInDb != null && keywordInDb.NormalizedCount.HasValue)
                         {
-                            scalarProduct += wordNormalizedCount * keywordInDb.normalizedcount.Value;
+                            scalarProduct += wordNormalizedCount * keywordInDb.NormalizedCount.Value;
                         }
                     }
 
@@ -61,15 +61,15 @@ namespace AuthorPaper
             return nearestPapers;
         }
 
-        private static double CalculateNorm(paper paper)
+        private static double CalculateNorm(Paper paper)
         {
             double norm = 0.0;
 
-            foreach (var item in paper.paperkeyword)
+            foreach (var item in paper.PaperKeywords)
             {
-                if (item.normalizedcount.HasValue)
+                if (item.NormalizedCount.HasValue)
                 {
-                    double value = item.normalizedcount.Value;
+                    double value = item.NormalizedCount.Value;
                     norm += value*value;
                 }
             }
@@ -83,15 +83,15 @@ namespace AuthorPaper
             {
                 foreach (var word in index)
                 {
-                    var keyword = context.keyword.SingleOrDefault(k => k.value == word.Value);
+                    var keyword = context.Keywords.SingleOrDefault(k => k.Value == word.Value);
                     if (keyword == null)
                     {
                         //Why is this word missing from dictionary?
                         continue;
                     }
-                    if (keyword.count.HasValue)
+                    if (keyword.Count.HasValue)
                     {
-                        word.NormalizedCount = (double) word.Count / keyword.count.Value;
+                        word.NormalizedCount = (double) word.Count / keyword.Count.Value;
                     }
                 }
             }
@@ -102,7 +102,7 @@ namespace AuthorPaper
             List<Word> keywords;
             using (var context = new AuthorPaperEntities())
             {
-                var paper = context.papers.SingleOrDefault(p => p.id == paperId);
+                var paper = context.Papers.SingleOrDefault(p => p.Id == paperId);
                 if (paper == null)
                     return null;
                 keywords = LoadPaperKeywords(paper);
@@ -111,14 +111,14 @@ namespace AuthorPaper
             return keywords;
         }
 
-        private static List<Word> LoadPaperKeywords(paper paper)
+        private static List<Word> LoadPaperKeywords(Paper paper)
         {
             var splitChars = new [] { ',', ' ', ';', '.', '!', '?', '"' };
             var keywords = new List<Word>();
             var stopWords = LoadStopWords();
-            if (!String.IsNullOrEmpty(paper.title))
+            if (!String.IsNullOrEmpty(paper.Title))
             {
-                var titleKeywords = paper.title.Trim(new [] { '"' }).Split(splitChars).ToList();
+                var titleKeywords = paper.Title.Trim(new [] { '"' }).Split(splitChars).ToList();
                 foreach (var keyword in titleKeywords)
                 {
                     if (!stopWords.Contains(keyword) && !keywords.Contains(keyword))
@@ -131,9 +131,9 @@ namespace AuthorPaper
                     }
                 }
             }
-            if (!String.IsNullOrEmpty(paper.keyword))
+            if (!String.IsNullOrEmpty(paper.Keyword))
             {
-                var paperKeywords = paper.keyword.Trim(new [] { '"' }).Split(splitChars);
+                var paperKeywords = paper.Keyword.Trim(new[] { '"' }).Split(splitChars);
                 foreach (var keyword in paperKeywords)
                 {
                     if (!stopWords.Contains(keyword) && !keywords.Contains(keyword))

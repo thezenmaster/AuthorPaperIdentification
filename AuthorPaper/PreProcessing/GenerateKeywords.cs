@@ -20,11 +20,11 @@ namespace PreProcessing
         private static readonly char[] Separators = new[] {';', ',', '|'};
         private const int MinValidWordLength = 4;
         private const int MaxNumberOfWords = 4;
-        public static IEnumerable<Tuple<string, int>> GeneratePaperKeywords(paper paper)
+        public static IEnumerable<Tuple<string, int>> GeneratePaperKeywords(Paper paper)
         {
             var paperKeywords = new List<string>();
-            paperKeywords.AddRange(GetKeywords(paper.title, true));
-            paperKeywords.AddRange(GetKeywords(paper.keyword, false));
+            paperKeywords.AddRange(GetKeywords(paper.Title, true));
+            paperKeywords.AddRange(GetKeywords(paper.Keyword, false));
             // count number of occurrences
             return paperKeywords.GroupBy(pk => pk).Select(g => new Tuple<string, int>(g.Key, g.Count()));
         }

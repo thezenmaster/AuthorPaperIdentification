@@ -19,10 +19,10 @@ using System.Xml.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("kdd2013Model", "paper_conference", "conference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AuthorPaper.conference), "paper", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.paper), true)]
-[assembly: EdmRelationshipAttribute("kdd2013Model", "paper_journal", "journal", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AuthorPaper.journal), "paper", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.paper), true)]
-[assembly: EdmRelationshipAttribute("kdd2013Model", "paperkeyword_keyword", "keyword", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AuthorPaper.keyword), "paperkeyword", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.paperkeyword), true)]
-[assembly: EdmRelationshipAttribute("kdd2013Model", "paperkeyword_paper", "paper", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AuthorPaper.paper), "paperkeyword", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.paperkeyword), true)]
+[assembly: EdmRelationshipAttribute("kdd2013Model", "paper_conference", "conference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AuthorPaper.Conference), "paper", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.Paper), true)]
+[assembly: EdmRelationshipAttribute("kdd2013Model", "paper_journal", "journal", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AuthorPaper.Journal), "paper", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.Paper), true)]
+[assembly: EdmRelationshipAttribute("kdd2013Model", "paperkeyword_keyword", "keyword", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AuthorPaper.Keyword), "paperkeyword", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.PaperKeyword), true)]
+[assembly: EdmRelationshipAttribute("kdd2013Model", "paperkeyword_paper", "paper", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AuthorPaper.Paper), "paperkeyword", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.PaperKeyword), true)]
 
 #endregion
 
@@ -77,245 +77,245 @@ namespace AuthorPaper
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<author> authors
+        public ObjectSet<Author> Authors
         {
             get
             {
-                if ((_authors == null))
+                if ((_Authors == null))
                 {
-                    _authors = base.CreateObjectSet<author>("authors");
+                    _Authors = base.CreateObjectSet<Author>("Authors");
                 }
-                return _authors;
+                return _Authors;
             }
         }
-        private ObjectSet<author> _authors;
+        private ObjectSet<Author> _Authors;
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<conference> conferences
+        public ObjectSet<Conference> Conferences
         {
             get
             {
-                if ((_conferences == null))
+                if ((_Conferences == null))
                 {
-                    _conferences = base.CreateObjectSet<conference>("conferences");
+                    _Conferences = base.CreateObjectSet<Conference>("Conferences");
                 }
-                return _conferences;
+                return _Conferences;
             }
         }
-        private ObjectSet<conference> _conferences;
+        private ObjectSet<Conference> _Conferences;
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<journal> journals
+        public ObjectSet<Journal> Journals
         {
             get
             {
-                if ((_journals == null))
+                if ((_Journals == null))
                 {
-                    _journals = base.CreateObjectSet<journal>("journals");
+                    _Journals = base.CreateObjectSet<Journal>("Journals");
                 }
-                return _journals;
+                return _Journals;
             }
         }
-        private ObjectSet<journal> _journals;
+        private ObjectSet<Journal> _Journals;
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<paper> papers
+        public ObjectSet<Paper> Papers
         {
             get
             {
-                if ((_papers == null))
+                if ((_Papers == null))
                 {
-                    _papers = base.CreateObjectSet<paper>("papers");
+                    _Papers = base.CreateObjectSet<Paper>("Papers");
                 }
-                return _papers;
+                return _Papers;
             }
         }
-        private ObjectSet<paper> _papers;
+        private ObjectSet<Paper> _Papers;
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<paperauthor> paperauthor
+        public ObjectSet<PaperAuthor> PaperAuthors
         {
             get
             {
-                if ((_paperauthor == null))
+                if ((_PaperAuthors == null))
                 {
-                    _paperauthor = base.CreateObjectSet<paperauthor>("paperauthor");
+                    _PaperAuthors = base.CreateObjectSet<PaperAuthor>("PaperAuthors");
                 }
-                return _paperauthor;
+                return _PaperAuthors;
             }
         }
-        private ObjectSet<paperauthor> _paperauthor;
+        private ObjectSet<PaperAuthor> _PaperAuthors;
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<trainconfirmed> trainconfirmed
+        public ObjectSet<TrainConfirmed> TrainConfirmed
         {
             get
             {
-                if ((_trainconfirmed == null))
+                if ((_TrainConfirmed == null))
                 {
-                    _trainconfirmed = base.CreateObjectSet<trainconfirmed>("trainconfirmed");
+                    _TrainConfirmed = base.CreateObjectSet<TrainConfirmed>("TrainConfirmed");
                 }
-                return _trainconfirmed;
+                return _TrainConfirmed;
             }
         }
-        private ObjectSet<trainconfirmed> _trainconfirmed;
+        private ObjectSet<TrainConfirmed> _TrainConfirmed;
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<traindeleted> traindeleted
+        public ObjectSet<TrainDeleted> TrainDeleted
         {
             get
             {
-                if ((_traindeleted == null))
+                if ((_TrainDeleted == null))
                 {
-                    _traindeleted = base.CreateObjectSet<traindeleted>("traindeleted");
+                    _TrainDeleted = base.CreateObjectSet<TrainDeleted>("TrainDeleted");
                 }
-                return _traindeleted;
+                return _TrainDeleted;
             }
         }
-        private ObjectSet<traindeleted> _traindeleted;
+        private ObjectSet<TrainDeleted> _TrainDeleted;
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<validpaper> validpaper
+        public ObjectSet<ValidPaper> ValidPapers
         {
             get
             {
-                if ((_validpaper == null))
+                if ((_ValidPapers == null))
                 {
-                    _validpaper = base.CreateObjectSet<validpaper>("validpaper");
+                    _ValidPapers = base.CreateObjectSet<ValidPaper>("ValidPapers");
                 }
-                return _validpaper;
+                return _ValidPapers;
             }
         }
-        private ObjectSet<validpaper> _validpaper;
+        private ObjectSet<ValidPaper> _ValidPapers;
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<keyword> keyword
+        public ObjectSet<Keyword> Keywords
         {
             get
             {
-                if ((_keyword == null))
+                if ((_Keywords == null))
                 {
-                    _keyword = base.CreateObjectSet<keyword>("keyword");
+                    _Keywords = base.CreateObjectSet<Keyword>("Keywords");
                 }
-                return _keyword;
+                return _Keywords;
             }
         }
-        private ObjectSet<keyword> _keyword;
+        private ObjectSet<Keyword> _Keywords;
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<paperkeyword> paperkeyword
+        public ObjectSet<PaperKeyword> PaperKeywords
         {
             get
             {
-                if ((_paperkeyword == null))
+                if ((_PaperKeywords == null))
                 {
-                    _paperkeyword = base.CreateObjectSet<paperkeyword>("paperkeyword");
+                    _PaperKeywords = base.CreateObjectSet<PaperKeyword>("PaperKeywords");
                 }
-                return _paperkeyword;
+                return _PaperKeywords;
             }
         }
-        private ObjectSet<paperkeyword> _paperkeyword;
+        private ObjectSet<PaperKeyword> _PaperKeywords;
 
         #endregion
 
         #region AddTo Methods
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the authors EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the Authors EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToauthors(author author)
+        public void AddToAuthors(Author author)
         {
-            base.AddObject("authors", author);
+            base.AddObject("Authors", author);
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the conferences EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the Conferences EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToconferences(conference conference)
+        public void AddToConferences(Conference conference)
         {
-            base.AddObject("conferences", conference);
+            base.AddObject("Conferences", conference);
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the journals EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the Journals EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddTojournals(journal journal)
+        public void AddToJournals(Journal journal)
         {
-            base.AddObject("journals", journal);
+            base.AddObject("Journals", journal);
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the papers EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the Papers EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddTopapers(paper paper)
+        public void AddToPapers(Paper paper)
         {
-            base.AddObject("papers", paper);
+            base.AddObject("Papers", paper);
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the paperauthor EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the PaperAuthors EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddTopaperauthor(paperauthor paperauthor)
+        public void AddToPaperAuthors(PaperAuthor paperAuthor)
         {
-            base.AddObject("paperauthor", paperauthor);
+            base.AddObject("PaperAuthors", paperAuthor);
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the trainconfirmed EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the TrainConfirmed EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddTotrainconfirmed(trainconfirmed trainconfirmed)
+        public void AddToTrainConfirmed(TrainConfirmed trainConfirmed)
         {
-            base.AddObject("trainconfirmed", trainconfirmed);
+            base.AddObject("TrainConfirmed", trainConfirmed);
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the traindeleted EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the TrainDeleted EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddTotraindeleted(traindeleted traindeleted)
+        public void AddToTrainDeleted(TrainDeleted trainDeleted)
         {
-            base.AddObject("traindeleted", traindeleted);
+            base.AddObject("TrainDeleted", trainDeleted);
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the validpaper EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the ValidPapers EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddTovalidpaper(validpaper validpaper)
+        public void AddToValidPapers(ValidPaper validPaper)
         {
-            base.AddObject("validpaper", validpaper);
+            base.AddObject("ValidPapers", validPaper);
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the keyword EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the Keywords EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddTokeyword(keyword keyword)
+        public void AddToKeywords(Keyword keyword)
         {
-            base.AddObject("keyword", keyword);
+            base.AddObject("Keywords", keyword);
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the paperkeyword EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the PaperKeywords EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddTopaperkeyword(paperkeyword paperkeyword)
+        public void AddToPaperKeywords(PaperKeyword paperKeyword)
         {
-            base.AddObject("paperkeyword", paperkeyword);
+            base.AddObject("PaperKeywords", paperKeyword);
         }
 
         #endregion
@@ -329,21 +329,21 @@ namespace AuthorPaper
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="author")]
+    [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="Author")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class author : EntityObject
+    public partial class Author : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new author object.
+        /// Create a new Author object.
         /// </summary>
-        /// <param name="id">Initial value of the id property.</param>
-        public static author Createauthor(global::System.Int64 id)
+        /// <param name="id">Initial value of the Id property.</param>
+        public static Author CreateAuthor(global::System.Int64 id)
         {
-            author author = new author();
-            author.id = id;
+            Author author = new Author();
+            author.Id = id;
             return author;
         }
 
@@ -356,75 +356,75 @@ namespace AuthorPaper
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 id
+        public global::System.Int64 Id
         {
             get
             {
-                return _id;
+                return _Id;
             }
             set
             {
-                if (_id != value)
+                if (_Id != value)
                 {
-                    OnidChanging(value);
-                    ReportPropertyChanging("id");
-                    _id = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("id");
-                    OnidChanged();
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
                 }
             }
         }
-        private global::System.Int64 _id;
-        partial void OnidChanging(global::System.Int64 value);
-        partial void OnidChanged();
+        private global::System.Int64 _Id;
+        partial void OnIdChanging(global::System.Int64 value);
+        partial void OnIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String name
+        public global::System.String Name
         {
             get
             {
-                return _name;
+                return _Name;
             }
             set
             {
-                OnnameChanging(value);
-                ReportPropertyChanging("name");
-                _name = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("name");
-                OnnameChanged();
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
             }
         }
-        private global::System.String _name;
-        partial void OnnameChanging(global::System.String value);
-        partial void OnnameChanged();
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String affiliation
+        public global::System.String Affiliation
         {
             get
             {
-                return _affiliation;
+                return _Affiliation;
             }
             set
             {
-                OnaffiliationChanging(value);
-                ReportPropertyChanging("affiliation");
-                _affiliation = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("affiliation");
-                OnaffiliationChanged();
+                OnAffiliationChanging(value);
+                ReportPropertyChanging("Affiliation");
+                _Affiliation = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Affiliation");
+                OnAffiliationChanged();
             }
         }
-        private global::System.String _affiliation;
-        partial void OnaffiliationChanging(global::System.String value);
-        partial void OnaffiliationChanged();
+        private global::System.String _Affiliation;
+        partial void OnAffiliationChanging(global::System.String value);
+        partial void OnAffiliationChanged();
 
         #endregion
 
@@ -434,21 +434,21 @@ namespace AuthorPaper
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="conference")]
+    [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="Conference")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class conference : EntityObject
+    public partial class Conference : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new conference object.
+        /// Create a new Conference object.
         /// </summary>
-        /// <param name="id">Initial value of the id property.</param>
-        public static conference Createconference(global::System.Int64 id)
+        /// <param name="id">Initial value of the Id property.</param>
+        public static Conference CreateConference(global::System.Int64 id)
         {
-            conference conference = new conference();
-            conference.id = id;
+            Conference conference = new Conference();
+            conference.Id = id;
             return conference;
         }
 
@@ -461,99 +461,99 @@ namespace AuthorPaper
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 id
+        public global::System.Int64 Id
         {
             get
             {
-                return _id;
+                return _Id;
             }
             set
             {
-                if (_id != value)
+                if (_Id != value)
                 {
-                    OnidChanging(value);
-                    ReportPropertyChanging("id");
-                    _id = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("id");
-                    OnidChanged();
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
                 }
             }
         }
-        private global::System.Int64 _id;
-        partial void OnidChanging(global::System.Int64 value);
-        partial void OnidChanged();
+        private global::System.Int64 _Id;
+        partial void OnIdChanging(global::System.Int64 value);
+        partial void OnIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String shortname
+        public global::System.String ShortName
         {
             get
             {
-                return _shortname;
+                return _ShortName;
             }
             set
             {
-                OnshortnameChanging(value);
-                ReportPropertyChanging("shortname");
-                _shortname = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("shortname");
-                OnshortnameChanged();
+                OnShortNameChanging(value);
+                ReportPropertyChanging("ShortName");
+                _ShortName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ShortName");
+                OnShortNameChanged();
             }
         }
-        private global::System.String _shortname;
-        partial void OnshortnameChanging(global::System.String value);
-        partial void OnshortnameChanged();
+        private global::System.String _ShortName;
+        partial void OnShortNameChanging(global::System.String value);
+        partial void OnShortNameChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String fullname
+        public global::System.String FullName
         {
             get
             {
-                return _fullname;
+                return _FullName;
             }
             set
             {
-                OnfullnameChanging(value);
-                ReportPropertyChanging("fullname");
-                _fullname = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("fullname");
-                OnfullnameChanged();
+                OnFullNameChanging(value);
+                ReportPropertyChanging("FullName");
+                _FullName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("FullName");
+                OnFullNameChanged();
             }
         }
-        private global::System.String _fullname;
-        partial void OnfullnameChanging(global::System.String value);
-        partial void OnfullnameChanged();
+        private global::System.String _FullName;
+        partial void OnFullNameChanging(global::System.String value);
+        partial void OnFullNameChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String homepage
+        public global::System.String HomePage
         {
             get
             {
-                return _homepage;
+                return _HomePage;
             }
             set
             {
-                OnhomepageChanging(value);
-                ReportPropertyChanging("homepage");
-                _homepage = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("homepage");
-                OnhomepageChanged();
+                OnHomePageChanging(value);
+                ReportPropertyChanging("HomePage");
+                _HomePage = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("HomePage");
+                OnHomePageChanged();
             }
         }
-        private global::System.String _homepage;
-        partial void OnhomepageChanging(global::System.String value);
-        partial void OnhomepageChanged();
+        private global::System.String _HomePage;
+        partial void OnHomePageChanging(global::System.String value);
+        partial void OnHomePageChanged();
 
         #endregion
 
@@ -567,17 +567,17 @@ namespace AuthorPaper
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("kdd2013Model", "paper_conference", "paper")]
-        public EntityCollection<paper> paper
+        public EntityCollection<Paper> Papers
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<paper>("kdd2013Model.paper_conference", "paper");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Paper>("kdd2013Model.paper_conference", "paper");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<paper>("kdd2013Model.paper_conference", "paper", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Paper>("kdd2013Model.paper_conference", "paper", value);
                 }
             }
         }
@@ -589,21 +589,21 @@ namespace AuthorPaper
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="journal")]
+    [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="Journal")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class journal : EntityObject
+    public partial class Journal : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new journal object.
+        /// Create a new Journal object.
         /// </summary>
-        /// <param name="id">Initial value of the id property.</param>
-        public static journal Createjournal(global::System.Int64 id)
+        /// <param name="id">Initial value of the Id property.</param>
+        public static Journal CreateJournal(global::System.Int64 id)
         {
-            journal journal = new journal();
-            journal.id = id;
+            Journal journal = new Journal();
+            journal.Id = id;
             return journal;
         }
 
@@ -616,99 +616,99 @@ namespace AuthorPaper
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 id
+        public global::System.Int64 Id
         {
             get
             {
-                return _id;
+                return _Id;
             }
             set
             {
-                if (_id != value)
+                if (_Id != value)
                 {
-                    OnidChanging(value);
-                    ReportPropertyChanging("id");
-                    _id = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("id");
-                    OnidChanged();
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
                 }
             }
         }
-        private global::System.Int64 _id;
-        partial void OnidChanging(global::System.Int64 value);
-        partial void OnidChanged();
+        private global::System.Int64 _Id;
+        partial void OnIdChanging(global::System.Int64 value);
+        partial void OnIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String shortname
+        public global::System.String ShortName
         {
             get
             {
-                return _shortname;
+                return _ShortName;
             }
             set
             {
-                OnshortnameChanging(value);
-                ReportPropertyChanging("shortname");
-                _shortname = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("shortname");
-                OnshortnameChanged();
+                OnShortNameChanging(value);
+                ReportPropertyChanging("ShortName");
+                _ShortName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ShortName");
+                OnShortNameChanged();
             }
         }
-        private global::System.String _shortname;
-        partial void OnshortnameChanging(global::System.String value);
-        partial void OnshortnameChanged();
+        private global::System.String _ShortName;
+        partial void OnShortNameChanging(global::System.String value);
+        partial void OnShortNameChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String fullname
+        public global::System.String FullName
         {
             get
             {
-                return _fullname;
+                return _FullName;
             }
             set
             {
-                OnfullnameChanging(value);
-                ReportPropertyChanging("fullname");
-                _fullname = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("fullname");
-                OnfullnameChanged();
+                OnFullNameChanging(value);
+                ReportPropertyChanging("FullName");
+                _FullName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("FullName");
+                OnFullNameChanged();
             }
         }
-        private global::System.String _fullname;
-        partial void OnfullnameChanging(global::System.String value);
-        partial void OnfullnameChanged();
+        private global::System.String _FullName;
+        partial void OnFullNameChanging(global::System.String value);
+        partial void OnFullNameChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String homepage
+        public global::System.String HomePage
         {
             get
             {
-                return _homepage;
+                return _HomePage;
             }
             set
             {
-                OnhomepageChanging(value);
-                ReportPropertyChanging("homepage");
-                _homepage = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("homepage");
-                OnhomepageChanged();
+                OnHomePageChanging(value);
+                ReportPropertyChanging("HomePage");
+                _HomePage = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("HomePage");
+                OnHomePageChanged();
             }
         }
-        private global::System.String _homepage;
-        partial void OnhomepageChanging(global::System.String value);
-        partial void OnhomepageChanged();
+        private global::System.String _HomePage;
+        partial void OnHomePageChanging(global::System.String value);
+        partial void OnHomePageChanged();
 
         #endregion
 
@@ -722,17 +722,17 @@ namespace AuthorPaper
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("kdd2013Model", "paper_journal", "paper")]
-        public EntityCollection<paper> paper
+        public EntityCollection<Paper> Papers
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<paper>("kdd2013Model.paper_journal", "paper");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Paper>("kdd2013Model.paper_journal", "paper");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<paper>("kdd2013Model.paper_journal", "paper", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Paper>("kdd2013Model.paper_journal", "paper", value);
                 }
             }
         }
@@ -744,21 +744,21 @@ namespace AuthorPaper
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="keyword")]
+    [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="Keyword")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class keyword : EntityObject
+    public partial class Keyword : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new keyword object.
+        /// Create a new Keyword object.
         /// </summary>
-        /// <param name="keywordid">Initial value of the keywordid property.</param>
-        public static keyword Createkeyword(global::System.Int32 keywordid)
+        /// <param name="keywordId">Initial value of the KeywordId property.</param>
+        public static Keyword CreateKeyword(global::System.Int32 keywordId)
         {
-            keyword keyword = new keyword();
-            keyword.keywordid = keywordid;
+            Keyword keyword = new Keyword();
+            keyword.KeywordId = keywordId;
             return keyword;
         }
 
@@ -771,99 +771,99 @@ namespace AuthorPaper
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 keywordid
+        public global::System.Int32 KeywordId
         {
             get
             {
-                return _keywordid;
+                return _KeywordId;
             }
             set
             {
-                if (_keywordid != value)
+                if (_KeywordId != value)
                 {
-                    OnkeywordidChanging(value);
-                    ReportPropertyChanging("keywordid");
-                    _keywordid = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("keywordid");
-                    OnkeywordidChanged();
+                    OnKeywordIdChanging(value);
+                    ReportPropertyChanging("KeywordId");
+                    _KeywordId = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("KeywordId");
+                    OnKeywordIdChanged();
                 }
             }
         }
-        private global::System.Int32 _keywordid;
-        partial void OnkeywordidChanging(global::System.Int32 value);
-        partial void OnkeywordidChanged();
+        private global::System.Int32 _KeywordId;
+        partial void OnKeywordIdChanging(global::System.Int32 value);
+        partial void OnKeywordIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int64> count
+        public Nullable<global::System.Int64> Count
         {
             get
             {
-                return _count;
+                return _Count;
             }
             set
             {
-                OncountChanging(value);
-                ReportPropertyChanging("count");
-                _count = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("count");
-                OncountChanged();
+                OnCountChanging(value);
+                ReportPropertyChanging("Count");
+                _Count = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Count");
+                OnCountChanged();
             }
         }
-        private Nullable<global::System.Int64> _count;
-        partial void OncountChanging(Nullable<global::System.Int64> value);
-        partial void OncountChanged();
+        private Nullable<global::System.Int64> _Count;
+        partial void OnCountChanging(Nullable<global::System.Int64> value);
+        partial void OnCountChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String value
+        public global::System.String Value
         {
             get
             {
-                return _value;
+                return _Value;
             }
             set
             {
-                OnvalueChanging(value);
-                ReportPropertyChanging("value");
-                _value = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("value");
-                OnvalueChanged();
+                OnValueChanging(value);
+                ReportPropertyChanging("Value");
+                _Value = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Value");
+                OnValueChanged();
             }
         }
-        private global::System.String _value;
-        partial void OnvalueChanging(global::System.String value);
-        partial void OnvalueChanged();
+        private global::System.String _Value;
+        partial void OnValueChanging(global::System.String value);
+        partial void OnValueChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Double> normalizedcount
+        public Nullable<global::System.Double> NormalizedCount
         {
             get
             {
-                return _normalizedcount;
+                return _NormalizedCount;
             }
             set
             {
-                OnnormalizedcountChanging(value);
-                ReportPropertyChanging("normalizedcount");
-                _normalizedcount = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("normalizedcount");
-                OnnormalizedcountChanged();
+                OnNormalizedCountChanging(value);
+                ReportPropertyChanging("NormalizedCount");
+                _NormalizedCount = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("NormalizedCount");
+                OnNormalizedCountChanged();
             }
         }
-        private Nullable<global::System.Double> _normalizedcount;
-        partial void OnnormalizedcountChanging(Nullable<global::System.Double> value);
-        partial void OnnormalizedcountChanged();
+        private Nullable<global::System.Double> _NormalizedCount;
+        partial void OnNormalizedCountChanging(Nullable<global::System.Double> value);
+        partial void OnNormalizedCountChanged();
 
         #endregion
 
@@ -877,17 +877,17 @@ namespace AuthorPaper
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("kdd2013Model", "paperkeyword_keyword", "paperkeyword")]
-        public EntityCollection<paperkeyword> paperkeyword
+        public EntityCollection<PaperKeyword> PaperKeywords
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<paperkeyword>("kdd2013Model.paperkeyword_keyword", "paperkeyword");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<PaperKeyword>("kdd2013Model.paperkeyword_keyword", "paperkeyword");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<paperkeyword>("kdd2013Model.paperkeyword_keyword", "paperkeyword", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<PaperKeyword>("kdd2013Model.paperkeyword_keyword", "paperkeyword", value);
                 }
             }
         }
@@ -899,21 +899,21 @@ namespace AuthorPaper
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="paper")]
+    [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="Paper")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class paper : EntityObject
+    public partial class Paper : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new paper object.
+        /// Create a new Paper object.
         /// </summary>
-        /// <param name="id">Initial value of the id property.</param>
-        public static paper Createpaper(global::System.Int64 id)
+        /// <param name="id">Initial value of the Id property.</param>
+        public static Paper CreatePaper(global::System.Int64 id)
         {
-            paper paper = new paper();
-            paper.id = id;
+            Paper paper = new Paper();
+            paper.Id = id;
             return paper;
         }
 
@@ -926,147 +926,147 @@ namespace AuthorPaper
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 id
+        public global::System.Int64 Id
         {
             get
             {
-                return _id;
+                return _Id;
             }
             set
             {
-                if (_id != value)
+                if (_Id != value)
                 {
-                    OnidChanging(value);
-                    ReportPropertyChanging("id");
-                    _id = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("id");
-                    OnidChanged();
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
                 }
             }
         }
-        private global::System.Int64 _id;
-        partial void OnidChanging(global::System.Int64 value);
-        partial void OnidChanged();
+        private global::System.Int64 _Id;
+        partial void OnIdChanging(global::System.Int64 value);
+        partial void OnIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String title
+        public global::System.String Title
         {
             get
             {
-                return _title;
+                return _Title;
             }
             set
             {
-                OntitleChanging(value);
-                ReportPropertyChanging("title");
-                _title = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("title");
-                OntitleChanged();
+                OnTitleChanging(value);
+                ReportPropertyChanging("Title");
+                _Title = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Title");
+                OnTitleChanged();
             }
         }
-        private global::System.String _title;
-        partial void OntitleChanging(global::System.String value);
-        partial void OntitleChanged();
+        private global::System.String _Title;
+        partial void OnTitleChanging(global::System.String value);
+        partial void OnTitleChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int64> year
+        public Nullable<global::System.Int64> Year
         {
             get
             {
-                return _year;
+                return _Year;
             }
             set
             {
-                OnyearChanging(value);
-                ReportPropertyChanging("year");
-                _year = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("year");
-                OnyearChanged();
+                OnYearChanging(value);
+                ReportPropertyChanging("Year");
+                _Year = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Year");
+                OnYearChanged();
             }
         }
-        private Nullable<global::System.Int64> _year;
-        partial void OnyearChanging(Nullable<global::System.Int64> value);
-        partial void OnyearChanged();
+        private Nullable<global::System.Int64> _Year;
+        partial void OnYearChanging(Nullable<global::System.Int64> value);
+        partial void OnYearChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int64> conferenceid
+        public Nullable<global::System.Int64> ConferenceId
         {
             get
             {
-                return _conferenceid;
+                return _ConferenceId;
             }
             set
             {
-                OnconferenceidChanging(value);
-                ReportPropertyChanging("conferenceid");
-                _conferenceid = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("conferenceid");
-                OnconferenceidChanged();
+                OnConferenceIdChanging(value);
+                ReportPropertyChanging("ConferenceId");
+                _ConferenceId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ConferenceId");
+                OnConferenceIdChanged();
             }
         }
-        private Nullable<global::System.Int64> _conferenceid;
-        partial void OnconferenceidChanging(Nullable<global::System.Int64> value);
-        partial void OnconferenceidChanged();
+        private Nullable<global::System.Int64> _ConferenceId;
+        partial void OnConferenceIdChanging(Nullable<global::System.Int64> value);
+        partial void OnConferenceIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int64> journalid
+        public Nullable<global::System.Int64> JournalId
         {
             get
             {
-                return _journalid;
+                return _JournalId;
             }
             set
             {
-                OnjournalidChanging(value);
-                ReportPropertyChanging("journalid");
-                _journalid = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("journalid");
-                OnjournalidChanged();
+                OnJournalIdChanging(value);
+                ReportPropertyChanging("JournalId");
+                _JournalId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("JournalId");
+                OnJournalIdChanged();
             }
         }
-        private Nullable<global::System.Int64> _journalid;
-        partial void OnjournalidChanging(Nullable<global::System.Int64> value);
-        partial void OnjournalidChanged();
+        private Nullable<global::System.Int64> _JournalId;
+        partial void OnJournalIdChanging(Nullable<global::System.Int64> value);
+        partial void OnJournalIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String keyword
+        public global::System.String Keyword
         {
             get
             {
-                return _keyword;
+                return _Keyword;
             }
             set
             {
-                OnkeywordChanging(value);
-                ReportPropertyChanging("keyword");
-                _keyword = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("keyword");
-                OnkeywordChanged();
+                OnKeywordChanging(value);
+                ReportPropertyChanging("Keyword");
+                _Keyword = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Keyword");
+                OnKeywordChanged();
             }
         }
-        private global::System.String _keyword;
-        partial void OnkeywordChanging(global::System.String value);
-        partial void OnkeywordChanged();
+        private global::System.String _Keyword;
+        partial void OnKeywordChanging(global::System.String value);
+        partial void OnKeywordChanged();
 
         #endregion
 
@@ -1080,15 +1080,15 @@ namespace AuthorPaper
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("kdd2013Model", "paper_conference", "conference")]
-        public conference conference
+        public Conference Conference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<conference>("kdd2013Model.paper_conference", "conference").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Conference>("kdd2013Model.paper_conference", "conference").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<conference>("kdd2013Model.paper_conference", "conference").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Conference>("kdd2013Model.paper_conference", "conference").Value = value;
             }
         }
         /// <summary>
@@ -1096,17 +1096,17 @@ namespace AuthorPaper
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<conference> conferenceReference
+        public EntityReference<Conference> ConferenceReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<conference>("kdd2013Model.paper_conference", "conference");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Conference>("kdd2013Model.paper_conference", "conference");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<conference>("kdd2013Model.paper_conference", "conference", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Conference>("kdd2013Model.paper_conference", "conference", value);
                 }
             }
         }
@@ -1118,15 +1118,15 @@ namespace AuthorPaper
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("kdd2013Model", "paper_journal", "journal")]
-        public journal journal
+        public Journal Journal
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<journal>("kdd2013Model.paper_journal", "journal").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Journal>("kdd2013Model.paper_journal", "journal").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<journal>("kdd2013Model.paper_journal", "journal").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Journal>("kdd2013Model.paper_journal", "journal").Value = value;
             }
         }
         /// <summary>
@@ -1134,17 +1134,17 @@ namespace AuthorPaper
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<journal> journalReference
+        public EntityReference<Journal> JournalReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<journal>("kdd2013Model.paper_journal", "journal");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Journal>("kdd2013Model.paper_journal", "journal");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<journal>("kdd2013Model.paper_journal", "journal", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Journal>("kdd2013Model.paper_journal", "journal", value);
                 }
             }
         }
@@ -1156,17 +1156,17 @@ namespace AuthorPaper
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("kdd2013Model", "paperkeyword_paper", "paperkeyword")]
-        public EntityCollection<paperkeyword> paperkeyword
+        public EntityCollection<PaperKeyword> PaperKeywords
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<paperkeyword>("kdd2013Model.paperkeyword_paper", "paperkeyword");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<PaperKeyword>("kdd2013Model.paperkeyword_paper", "paperkeyword");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<paperkeyword>("kdd2013Model.paperkeyword_paper", "paperkeyword", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<PaperKeyword>("kdd2013Model.paperkeyword_paper", "paperkeyword", value);
                 }
             }
         }
@@ -1178,22 +1178,22 @@ namespace AuthorPaper
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="paperauthor")]
+    [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="PaperAuthor")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class paperauthor : EntityObject
+    public partial class PaperAuthor : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new paperauthor object.
+        /// Create a new PaperAuthor object.
         /// </summary>
-        /// <param name="paperauthorid">Initial value of the paperauthorid property.</param>
-        public static paperauthor Createpaperauthor(global::System.Int32 paperauthorid)
+        /// <param name="paperAuthorId">Initial value of the PaperAuthorId property.</param>
+        public static PaperAuthor CreatePaperAuthor(global::System.Int32 paperAuthorId)
         {
-            paperauthor paperauthor = new paperauthor();
-            paperauthor.paperauthorid = paperauthorid;
-            return paperauthor;
+            PaperAuthor paperAuthor = new PaperAuthor();
+            paperAuthor.PaperAuthorId = paperAuthorId;
+            return paperAuthor;
         }
 
         #endregion
@@ -1205,123 +1205,123 @@ namespace AuthorPaper
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int64> paperid
+        public Nullable<global::System.Int64> PaperId
         {
             get
             {
-                return _paperid;
+                return _PaperId;
             }
             set
             {
-                OnpaperidChanging(value);
-                ReportPropertyChanging("paperid");
-                _paperid = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("paperid");
-                OnpaperidChanged();
+                OnPaperIdChanging(value);
+                ReportPropertyChanging("PaperId");
+                _PaperId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PaperId");
+                OnPaperIdChanged();
             }
         }
-        private Nullable<global::System.Int64> _paperid;
-        partial void OnpaperidChanging(Nullable<global::System.Int64> value);
-        partial void OnpaperidChanged();
+        private Nullable<global::System.Int64> _PaperId;
+        partial void OnPaperIdChanging(Nullable<global::System.Int64> value);
+        partial void OnPaperIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int64> authorid
+        public Nullable<global::System.Int64> AuthorId
         {
             get
             {
-                return _authorid;
+                return _AuthorId;
             }
             set
             {
-                OnauthoridChanging(value);
-                ReportPropertyChanging("authorid");
-                _authorid = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("authorid");
-                OnauthoridChanged();
+                OnAuthorIdChanging(value);
+                ReportPropertyChanging("AuthorId");
+                _AuthorId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("AuthorId");
+                OnAuthorIdChanged();
             }
         }
-        private Nullable<global::System.Int64> _authorid;
-        partial void OnauthoridChanging(Nullable<global::System.Int64> value);
-        partial void OnauthoridChanged();
+        private Nullable<global::System.Int64> _AuthorId;
+        partial void OnAuthorIdChanging(Nullable<global::System.Int64> value);
+        partial void OnAuthorIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String name
+        public global::System.String Name
         {
             get
             {
-                return _name;
+                return _Name;
             }
             set
             {
-                OnnameChanging(value);
-                ReportPropertyChanging("name");
-                _name = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("name");
-                OnnameChanged();
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
             }
         }
-        private global::System.String _name;
-        partial void OnnameChanging(global::System.String value);
-        partial void OnnameChanged();
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String affiliation
+        public global::System.String Affiliation
         {
             get
             {
-                return _affiliation;
+                return _Affiliation;
             }
             set
             {
-                OnaffiliationChanging(value);
-                ReportPropertyChanging("affiliation");
-                _affiliation = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("affiliation");
-                OnaffiliationChanged();
+                OnAffiliationChanging(value);
+                ReportPropertyChanging("Affiliation");
+                _Affiliation = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Affiliation");
+                OnAffiliationChanged();
             }
         }
-        private global::System.String _affiliation;
-        partial void OnaffiliationChanging(global::System.String value);
-        partial void OnaffiliationChanged();
+        private global::System.String _Affiliation;
+        partial void OnAffiliationChanging(global::System.String value);
+        partial void OnAffiliationChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 paperauthorid
+        public global::System.Int32 PaperAuthorId
         {
             get
             {
-                return _paperauthorid;
+                return _PaperAuthorId;
             }
             set
             {
-                if (_paperauthorid != value)
+                if (_PaperAuthorId != value)
                 {
-                    OnpaperauthoridChanging(value);
-                    ReportPropertyChanging("paperauthorid");
-                    _paperauthorid = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("paperauthorid");
-                    OnpaperauthoridChanged();
+                    OnPaperAuthorIdChanging(value);
+                    ReportPropertyChanging("PaperAuthorId");
+                    _PaperAuthorId = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("PaperAuthorId");
+                    OnPaperAuthorIdChanged();
                 }
             }
         }
-        private global::System.Int32 _paperauthorid;
-        partial void OnpaperauthoridChanging(global::System.Int32 value);
-        partial void OnpaperauthoridChanged();
+        private global::System.Int32 _PaperAuthorId;
+        partial void OnPaperAuthorIdChanging(global::System.Int32 value);
+        partial void OnPaperAuthorIdChanged();
 
         #endregion
 
@@ -1331,26 +1331,26 @@ namespace AuthorPaper
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="paperkeyword")]
+    [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="PaperKeyword")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class paperkeyword : EntityObject
+    public partial class PaperKeyword : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new paperkeyword object.
+        /// Create a new PaperKeyword object.
         /// </summary>
-        /// <param name="paperid">Initial value of the paperid property.</param>
-        /// <param name="keywordid">Initial value of the keywordid property.</param>
-        /// <param name="paperkeywordid">Initial value of the paperkeywordid property.</param>
-        public static paperkeyword Createpaperkeyword(global::System.Int64 paperid, global::System.Int32 keywordid, global::System.Int32 paperkeywordid)
+        /// <param name="paperId">Initial value of the PaperId property.</param>
+        /// <param name="keywordId">Initial value of the KeywordId property.</param>
+        /// <param name="paperKeywordId">Initial value of the PaperKeywordId property.</param>
+        public static PaperKeyword CreatePaperKeyword(global::System.Int64 paperId, global::System.Int32 keywordId, global::System.Int32 paperKeywordId)
         {
-            paperkeyword paperkeyword = new paperkeyword();
-            paperkeyword.paperid = paperid;
-            paperkeyword.keywordid = keywordid;
-            paperkeyword.paperkeywordid = paperkeywordid;
-            return paperkeyword;
+            PaperKeyword paperKeyword = new PaperKeyword();
+            paperKeyword.PaperId = paperId;
+            paperKeyword.KeywordId = keywordId;
+            paperKeyword.PaperKeywordId = paperKeywordId;
+            return paperKeyword;
         }
 
         #endregion
@@ -1362,123 +1362,123 @@ namespace AuthorPaper
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 paperid
+        public global::System.Int64 PaperId
         {
             get
             {
-                return _paperid;
+                return _PaperId;
             }
             set
             {
-                OnpaperidChanging(value);
-                ReportPropertyChanging("paperid");
-                _paperid = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("paperid");
-                OnpaperidChanged();
+                OnPaperIdChanging(value);
+                ReportPropertyChanging("PaperId");
+                _PaperId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PaperId");
+                OnPaperIdChanged();
             }
         }
-        private global::System.Int64 _paperid;
-        partial void OnpaperidChanging(global::System.Int64 value);
-        partial void OnpaperidChanged();
+        private global::System.Int64 _PaperId;
+        partial void OnPaperIdChanging(global::System.Int64 value);
+        partial void OnPaperIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int64> count
+        public Nullable<global::System.Int64> Count
         {
             get
             {
-                return _count;
+                return _Count;
             }
             set
             {
-                OncountChanging(value);
-                ReportPropertyChanging("count");
-                _count = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("count");
-                OncountChanged();
+                OnCountChanging(value);
+                ReportPropertyChanging("Count");
+                _Count = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Count");
+                OnCountChanged();
             }
         }
-        private Nullable<global::System.Int64> _count;
-        partial void OncountChanging(Nullable<global::System.Int64> value);
-        partial void OncountChanged();
+        private Nullable<global::System.Int64> _Count;
+        partial void OnCountChanging(Nullable<global::System.Int64> value);
+        partial void OnCountChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Double> normalizedcount
+        public Nullable<global::System.Double> NormalizedCount
         {
             get
             {
-                return _normalizedcount;
+                return _NormalizedCount;
             }
             set
             {
-                OnnormalizedcountChanging(value);
-                ReportPropertyChanging("normalizedcount");
-                _normalizedcount = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("normalizedcount");
-                OnnormalizedcountChanged();
+                OnNormalizedCountChanging(value);
+                ReportPropertyChanging("NormalizedCount");
+                _NormalizedCount = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("NormalizedCount");
+                OnNormalizedCountChanged();
             }
         }
-        private Nullable<global::System.Double> _normalizedcount;
-        partial void OnnormalizedcountChanging(Nullable<global::System.Double> value);
-        partial void OnnormalizedcountChanged();
+        private Nullable<global::System.Double> _NormalizedCount;
+        partial void OnNormalizedCountChanging(Nullable<global::System.Double> value);
+        partial void OnNormalizedCountChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 keywordid
+        public global::System.Int32 KeywordId
         {
             get
             {
-                return _keywordid;
+                return _KeywordId;
             }
             set
             {
-                OnkeywordidChanging(value);
-                ReportPropertyChanging("keywordid");
-                _keywordid = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("keywordid");
-                OnkeywordidChanged();
+                OnKeywordIdChanging(value);
+                ReportPropertyChanging("KeywordId");
+                _KeywordId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("KeywordId");
+                OnKeywordIdChanged();
             }
         }
-        private global::System.Int32 _keywordid;
-        partial void OnkeywordidChanging(global::System.Int32 value);
-        partial void OnkeywordidChanged();
+        private global::System.Int32 _KeywordId;
+        partial void OnKeywordIdChanging(global::System.Int32 value);
+        partial void OnKeywordIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 paperkeywordid
+        public global::System.Int32 PaperKeywordId
         {
             get
             {
-                return _paperkeywordid;
+                return _PaperKeywordId;
             }
             set
             {
-                if (_paperkeywordid != value)
+                if (_PaperKeywordId != value)
                 {
-                    OnpaperkeywordidChanging(value);
-                    ReportPropertyChanging("paperkeywordid");
-                    _paperkeywordid = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("paperkeywordid");
-                    OnpaperkeywordidChanged();
+                    OnPaperKeywordIdChanging(value);
+                    ReportPropertyChanging("PaperKeywordId");
+                    _PaperKeywordId = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("PaperKeywordId");
+                    OnPaperKeywordIdChanged();
                 }
             }
         }
-        private global::System.Int32 _paperkeywordid;
-        partial void OnpaperkeywordidChanging(global::System.Int32 value);
-        partial void OnpaperkeywordidChanged();
+        private global::System.Int32 _PaperKeywordId;
+        partial void OnPaperKeywordIdChanging(global::System.Int32 value);
+        partial void OnPaperKeywordIdChanged();
 
         #endregion
 
@@ -1492,15 +1492,15 @@ namespace AuthorPaper
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("kdd2013Model", "paperkeyword_keyword", "keyword")]
-        public keyword keyword
+        public Keyword Keyword
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<keyword>("kdd2013Model.paperkeyword_keyword", "keyword").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Keyword>("kdd2013Model.paperkeyword_keyword", "keyword").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<keyword>("kdd2013Model.paperkeyword_keyword", "keyword").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Keyword>("kdd2013Model.paperkeyword_keyword", "keyword").Value = value;
             }
         }
         /// <summary>
@@ -1508,17 +1508,17 @@ namespace AuthorPaper
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<keyword> keywordReference
+        public EntityReference<Keyword> KeywordReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<keyword>("kdd2013Model.paperkeyword_keyword", "keyword");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Keyword>("kdd2013Model.paperkeyword_keyword", "keyword");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<keyword>("kdd2013Model.paperkeyword_keyword", "keyword", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Keyword>("kdd2013Model.paperkeyword_keyword", "keyword", value);
                 }
             }
         }
@@ -1530,15 +1530,15 @@ namespace AuthorPaper
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("kdd2013Model", "paperkeyword_paper", "paper")]
-        public paper paper
+        public Paper Paper
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<paper>("kdd2013Model.paperkeyword_paper", "paper").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Paper>("kdd2013Model.paperkeyword_paper", "paper").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<paper>("kdd2013Model.paperkeyword_paper", "paper").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Paper>("kdd2013Model.paperkeyword_paper", "paper").Value = value;
             }
         }
         /// <summary>
@@ -1546,17 +1546,17 @@ namespace AuthorPaper
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<paper> paperReference
+        public EntityReference<Paper> PaperReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<paper>("kdd2013Model.paperkeyword_paper", "paper");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Paper>("kdd2013Model.paperkeyword_paper", "paper");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<paper>("kdd2013Model.paperkeyword_paper", "paper", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Paper>("kdd2013Model.paperkeyword_paper", "paper", value);
                 }
             }
         }
@@ -1568,22 +1568,22 @@ namespace AuthorPaper
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="trainconfirmed")]
+    [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="TrainConfirmed")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class trainconfirmed : EntityObject
+    public partial class TrainConfirmed : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new trainconfirmed object.
+        /// Create a new TrainConfirmed object.
         /// </summary>
-        /// <param name="trainconfirmedid">Initial value of the trainconfirmedid property.</param>
-        public static trainconfirmed Createtrainconfirmed(global::System.Int32 trainconfirmedid)
+        /// <param name="trainConfirmedId">Initial value of the TrainConfirmedId property.</param>
+        public static TrainConfirmed CreateTrainConfirmed(global::System.Int32 trainConfirmedId)
         {
-            trainconfirmed trainconfirmed = new trainconfirmed();
-            trainconfirmed.trainconfirmedid = trainconfirmedid;
-            return trainconfirmed;
+            TrainConfirmed trainConfirmed = new TrainConfirmed();
+            trainConfirmed.TrainConfirmedId = trainConfirmedId;
+            return trainConfirmed;
         }
 
         #endregion
@@ -1595,75 +1595,75 @@ namespace AuthorPaper
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int64> authorid
+        public Nullable<global::System.Int64> AuthorId
         {
             get
             {
-                return _authorid;
+                return _AuthorId;
             }
             set
             {
-                OnauthoridChanging(value);
-                ReportPropertyChanging("authorid");
-                _authorid = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("authorid");
-                OnauthoridChanged();
+                OnAuthorIdChanging(value);
+                ReportPropertyChanging("AuthorId");
+                _AuthorId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("AuthorId");
+                OnAuthorIdChanged();
             }
         }
-        private Nullable<global::System.Int64> _authorid;
-        partial void OnauthoridChanging(Nullable<global::System.Int64> value);
-        partial void OnauthoridChanged();
+        private Nullable<global::System.Int64> _AuthorId;
+        partial void OnAuthorIdChanging(Nullable<global::System.Int64> value);
+        partial void OnAuthorIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int64> paperid
+        public Nullable<global::System.Int64> PaperId
         {
             get
             {
-                return _paperid;
+                return _PaperId;
             }
             set
             {
-                OnpaperidChanging(value);
-                ReportPropertyChanging("paperid");
-                _paperid = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("paperid");
-                OnpaperidChanged();
+                OnPaperIdChanging(value);
+                ReportPropertyChanging("PaperId");
+                _PaperId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PaperId");
+                OnPaperIdChanged();
             }
         }
-        private Nullable<global::System.Int64> _paperid;
-        partial void OnpaperidChanging(Nullable<global::System.Int64> value);
-        partial void OnpaperidChanged();
+        private Nullable<global::System.Int64> _PaperId;
+        partial void OnPaperIdChanging(Nullable<global::System.Int64> value);
+        partial void OnPaperIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 trainconfirmedid
+        public global::System.Int32 TrainConfirmedId
         {
             get
             {
-                return _trainconfirmedid;
+                return _TrainConfirmedId;
             }
             set
             {
-                if (_trainconfirmedid != value)
+                if (_TrainConfirmedId != value)
                 {
-                    OntrainconfirmedidChanging(value);
-                    ReportPropertyChanging("trainconfirmedid");
-                    _trainconfirmedid = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("trainconfirmedid");
-                    OntrainconfirmedidChanged();
+                    OnTrainConfirmedIdChanging(value);
+                    ReportPropertyChanging("TrainConfirmedId");
+                    _TrainConfirmedId = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("TrainConfirmedId");
+                    OnTrainConfirmedIdChanged();
                 }
             }
         }
-        private global::System.Int32 _trainconfirmedid;
-        partial void OntrainconfirmedidChanging(global::System.Int32 value);
-        partial void OntrainconfirmedidChanged();
+        private global::System.Int32 _TrainConfirmedId;
+        partial void OnTrainConfirmedIdChanging(global::System.Int32 value);
+        partial void OnTrainConfirmedIdChanged();
 
         #endregion
 
@@ -1673,22 +1673,22 @@ namespace AuthorPaper
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="traindeleted")]
+    [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="TrainDeleted")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class traindeleted : EntityObject
+    public partial class TrainDeleted : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new traindeleted object.
+        /// Create a new TrainDeleted object.
         /// </summary>
-        /// <param name="traindeletedid">Initial value of the traindeletedid property.</param>
-        public static traindeleted Createtraindeleted(global::System.Int32 traindeletedid)
+        /// <param name="trainDeletedId">Initial value of the TrainDeletedId property.</param>
+        public static TrainDeleted CreateTrainDeleted(global::System.Int32 trainDeletedId)
         {
-            traindeleted traindeleted = new traindeleted();
-            traindeleted.traindeletedid = traindeletedid;
-            return traindeleted;
+            TrainDeleted trainDeleted = new TrainDeleted();
+            trainDeleted.TrainDeletedId = trainDeletedId;
+            return trainDeleted;
         }
 
         #endregion
@@ -1700,75 +1700,75 @@ namespace AuthorPaper
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int64> authorid
+        public Nullable<global::System.Int64> AuthorId
         {
             get
             {
-                return _authorid;
+                return _AuthorId;
             }
             set
             {
-                OnauthoridChanging(value);
-                ReportPropertyChanging("authorid");
-                _authorid = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("authorid");
-                OnauthoridChanged();
+                OnAuthorIdChanging(value);
+                ReportPropertyChanging("AuthorId");
+                _AuthorId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("AuthorId");
+                OnAuthorIdChanged();
             }
         }
-        private Nullable<global::System.Int64> _authorid;
-        partial void OnauthoridChanging(Nullable<global::System.Int64> value);
-        partial void OnauthoridChanged();
+        private Nullable<global::System.Int64> _AuthorId;
+        partial void OnAuthorIdChanging(Nullable<global::System.Int64> value);
+        partial void OnAuthorIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int64> paperid
+        public Nullable<global::System.Int64> PaperId
         {
             get
             {
-                return _paperid;
+                return _PaperId;
             }
             set
             {
-                OnpaperidChanging(value);
-                ReportPropertyChanging("paperid");
-                _paperid = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("paperid");
-                OnpaperidChanged();
+                OnPaperIdChanging(value);
+                ReportPropertyChanging("PaperId");
+                _PaperId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PaperId");
+                OnPaperIdChanged();
             }
         }
-        private Nullable<global::System.Int64> _paperid;
-        partial void OnpaperidChanging(Nullable<global::System.Int64> value);
-        partial void OnpaperidChanged();
+        private Nullable<global::System.Int64> _PaperId;
+        partial void OnPaperIdChanging(Nullable<global::System.Int64> value);
+        partial void OnPaperIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 traindeletedid
+        public global::System.Int32 TrainDeletedId
         {
             get
             {
-                return _traindeletedid;
+                return _TrainDeletedId;
             }
             set
             {
-                if (_traindeletedid != value)
+                if (_TrainDeletedId != value)
                 {
-                    OntraindeletedidChanging(value);
-                    ReportPropertyChanging("traindeletedid");
-                    _traindeletedid = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("traindeletedid");
-                    OntraindeletedidChanged();
+                    OnTrainDeletedIdChanging(value);
+                    ReportPropertyChanging("TrainDeletedId");
+                    _TrainDeletedId = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("TrainDeletedId");
+                    OnTrainDeletedIdChanged();
                 }
             }
         }
-        private global::System.Int32 _traindeletedid;
-        partial void OntraindeletedidChanging(global::System.Int32 value);
-        partial void OntraindeletedidChanged();
+        private global::System.Int32 _TrainDeletedId;
+        partial void OnTrainDeletedIdChanging(global::System.Int32 value);
+        partial void OnTrainDeletedIdChanged();
 
         #endregion
 
@@ -1778,22 +1778,22 @@ namespace AuthorPaper
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="validpaper")]
+    [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="ValidPaper")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class validpaper : EntityObject
+    public partial class ValidPaper : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new validpaper object.
+        /// Create a new ValidPaper object.
         /// </summary>
-        /// <param name="validpaperid">Initial value of the validpaperid property.</param>
-        public static validpaper Createvalidpaper(global::System.Int32 validpaperid)
+        /// <param name="validPaperId">Initial value of the ValidPaperId property.</param>
+        public static ValidPaper CreateValidPaper(global::System.Int32 validPaperId)
         {
-            validpaper validpaper = new validpaper();
-            validpaper.validpaperid = validpaperid;
-            return validpaper;
+            ValidPaper validPaper = new ValidPaper();
+            validPaper.ValidPaperId = validPaperId;
+            return validPaper;
         }
 
         #endregion
@@ -1805,75 +1805,75 @@ namespace AuthorPaper
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int64> authorid
+        public Nullable<global::System.Int64> AuthorId
         {
             get
             {
-                return _authorid;
+                return _AuthorId;
             }
             set
             {
-                OnauthoridChanging(value);
-                ReportPropertyChanging("authorid");
-                _authorid = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("authorid");
-                OnauthoridChanged();
+                OnAuthorIdChanging(value);
+                ReportPropertyChanging("AuthorId");
+                _AuthorId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("AuthorId");
+                OnAuthorIdChanged();
             }
         }
-        private Nullable<global::System.Int64> _authorid;
-        partial void OnauthoridChanging(Nullable<global::System.Int64> value);
-        partial void OnauthoridChanged();
+        private Nullable<global::System.Int64> _AuthorId;
+        partial void OnAuthorIdChanging(Nullable<global::System.Int64> value);
+        partial void OnAuthorIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int64> paperid
+        public Nullable<global::System.Int64> PaperId
         {
             get
             {
-                return _paperid;
+                return _PaperId;
             }
             set
             {
-                OnpaperidChanging(value);
-                ReportPropertyChanging("paperid");
-                _paperid = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("paperid");
-                OnpaperidChanged();
+                OnPaperIdChanging(value);
+                ReportPropertyChanging("PaperId");
+                _PaperId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PaperId");
+                OnPaperIdChanged();
             }
         }
-        private Nullable<global::System.Int64> _paperid;
-        partial void OnpaperidChanging(Nullable<global::System.Int64> value);
-        partial void OnpaperidChanged();
+        private Nullable<global::System.Int64> _PaperId;
+        partial void OnPaperIdChanging(Nullable<global::System.Int64> value);
+        partial void OnPaperIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 validpaperid
+        public global::System.Int32 ValidPaperId
         {
             get
             {
-                return _validpaperid;
+                return _ValidPaperId;
             }
             set
             {
-                if (_validpaperid != value)
+                if (_ValidPaperId != value)
                 {
-                    OnvalidpaperidChanging(value);
-                    ReportPropertyChanging("validpaperid");
-                    _validpaperid = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("validpaperid");
-                    OnvalidpaperidChanged();
+                    OnValidPaperIdChanging(value);
+                    ReportPropertyChanging("ValidPaperId");
+                    _ValidPaperId = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ValidPaperId");
+                    OnValidPaperIdChanged();
                 }
             }
         }
-        private global::System.Int32 _validpaperid;
-        partial void OnvalidpaperidChanging(global::System.Int32 value);
-        partial void OnvalidpaperidChanged();
+        private global::System.Int32 _ValidPaperId;
+        partial void OnValidPaperIdChanging(global::System.Int32 value);
+        partial void OnValidPaperIdChanged();
 
         #endregion
 

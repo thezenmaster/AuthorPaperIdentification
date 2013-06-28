@@ -55,32 +55,32 @@ namespace AuthorPaper
 
         public static void InsertAuthors(AuthorPaperEntities context, StringBuilder stringStorage)
         {
-            foreach (var author in context.authors)
+            foreach (var author in context.Authors)
             {
                 stringStorage.AppendLine(string.Format("insert into Author(Id,Name,Affiliation) values ({0},N'{1}',N'{2}')",
-                    author.id, GetEscapedString(author.name), GetEscapedString(author.affiliation)));
+                    author.Id, GetEscapedString(author.Name), GetEscapedString(author.Affiliation)));
             }
             WriteFile("Authors", stringStorage);
         }
 
         public static void InsertConferences(AuthorPaperEntities context, StringBuilder stringStorage)
         {
-            foreach (var conference in context.conferences)
+            foreach (var conference in context.Conferences)
             {
                 stringStorage.AppendLine(string.Format("insert into Conference(Id,ShortName,FullName,HomePage) values ({0},N'{1}',N'{2}',N'{3}')",
-                    conference.id, GetEscapedString(conference.shortname), GetEscapedString(conference.fullname),
-                    GetEscapedString(conference.homepage)));
+                    conference.Id, GetEscapedString(conference.ShortName), GetEscapedString(conference.FullName),
+                    GetEscapedString(conference.HomePage)));
             }
             WriteFile("Conferences", stringStorage);
         }
 
         public static void InsertJournals(AuthorPaperEntities context, StringBuilder stringStorage)
         {
-            foreach (var journal in context.journals)
+            foreach (var journal in context.Journals)
             {
                 stringStorage.AppendLine(string.Format("insert into Journal(Id,ShortName,FullName,HomePage) values ({0},N'{1}',N'{2}',N'{3}')",
-                      journal.id, GetEscapedString(journal.shortname), GetEscapedString(journal.fullname),
-                    GetEscapedString(journal.homepage)));
+                      journal.Id, GetEscapedString(journal.ShortName), GetEscapedString(journal.FullName),
+                    GetEscapedString(journal.HomePage)));
             }
             WriteFile("Journals", stringStorage);
         }
@@ -89,13 +89,13 @@ namespace AuthorPaper
         {
             var iteration = 0;
             const int getItems = 1000000;
-            var totalCount = context.papers.Count();
+            var totalCount = context.Papers.Count();
 
             while (totalCount > getItems * iteration)
             {
                 var count = 0;
                 var myContext = new AuthorPaperEntities();
-                var orderedPapers = myContext.papers.OrderBy(p => p.id);
+                var orderedPapers = myContext.Papers.OrderBy(p => p.Id);
                 var papers = iteration == 0 ? orderedPapers.Take(getItems) :
                     orderedPapers.Skip(iteration * getItems)
                         .Take(totalCount < getItems * (iteration + 1) ? (totalCount - getItems * iteration) : getItems);
@@ -103,7 +103,8 @@ namespace AuthorPaper
                 {
                     stringStorage.AppendLine(string.Format("insert into Paper(Id,Title,Year,ConferenceId,JournalId,Keywords) values " +
                         "({0},N'{1}',{2},{3},{4},N'{5}')",
-                        paper.id, GetEscapedString(paper.title), paper.year, paper.conferenceid, paper.journalid, GetEscapedString(paper.keyword)));
+                        paper.Id, GetEscapedString(paper.Title), paper.Year, paper.ConferenceId, paper.JournalId, 
+                            GetEscapedString(paper.Keyword)));
                     count++;
                     if (count % 1000 == 0)
                     {

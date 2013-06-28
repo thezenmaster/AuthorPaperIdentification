@@ -27,7 +27,7 @@ namespace PreProcessing
             return value != null ? value.Replace("'", "''") : string.Empty;
         }
 
-        public static void InsertScript(int iteration, paper paper)
+        public static void InsertScript(int iteration, Paper paper)
         {
             var builder = new StringBuilder();
             var keywords = GenerateKeywords.GeneratePaperKeywords(paper);
@@ -39,42 +39,42 @@ namespace PreProcessing
             WriteFile("keywords" + iteration, builder);
         }
 
-        public static void InsertKeywordsForPaper(AuthorPaperEntities context, paper paper)
+        public static void InsertKeywordsForPaper(AuthorPaperEntities context, Paper paper)
         {
             var keywords = GenerateKeywords.GeneratePaperKeywords(paper);
             foreach (var keyword in keywords)
             {
                 // some keywords will duplicate
-                var contextKeyword = context.keyword.FirstOrDefault(k => k.value == keyword.Item1);
+                var contextKeyword = context.Keywords.FirstOrDefault(k => k.Value == keyword.Item1);
                 
                 if (contextKeyword != null)
                 {
-                    contextKeyword.count += keyword.Item2;
+                    contextKeyword.Count += keyword.Item2;
                 }
                 else
                 {
-                    contextKeyword = new keyword
+                    contextKeyword = new Keyword
                         {
-                            value = keyword.Item1,
-                            count = keyword.Item2
+                            Value = keyword.Item1,
+                            Count = keyword.Item2
                         };
-                    context.AddObject("keyword", contextKeyword);
+                    context.AddToKeywords(contextKeyword);
                 }
 
-                var paperKeyword = new paperkeyword
+                var paperKeyword = new PaperKeyword
                 {
-                    count = keyword.Item2,
-                    paper = paper,
-                    keyword = contextKeyword
+                    Count = keyword.Item2,
+                    Paper = paper,
+                    Keyword = contextKeyword
                 };
-                context.AddTopaperkeyword(paperKeyword);
+                context.AddToPaperKeywords(paperKeyword);
             }
         }
 
         public static void RunParallelInserts()
         {
             var context = new AuthorPaperEntities();
-            var totalCount = context.papers.Count();
+            var totalCount = context.Papers.Count();
             var totalIterations = totalCount/BatchSize;
 
             for (var outerIteration = 0; outerIteration <= totalIterations / MaxDegreeOfParallelization; outerIteration++)
@@ -103,12 +103,12 @@ namespace PreProcessing
                 {
                     //var skipItems = iteration*BatchSize;
                     var paperList = skipItems > 0
-                                        ? context2.papers.OrderBy(p => p.id)
+                                        ? context2.Papers.OrderBy(p => p.Id)
                                                     .Skip(skipItems)
                                                     .Take((totalCount - skipItems - BatchSize < 0)
                                                             ? (totalCount - skipItems) // last item in the list
                                                             : BatchSize)
-                                        : context2.papers.OrderBy(p => p.id).Take(BatchSize);
+                                        : context2.Papers.OrderBy(p => p.Id).Take(BatchSize);
 
                     foreach (var paper in paperList)
                     {
@@ -134,7 +134,7 @@ namespace PreProcessing
             {
                 var context = new AuthorPaperEntities();
 
-                var duplicateKeywordsGroup = context.keyword.Include("paperkeyword").GroupBy(g => g.value)
+                var duplicateKeywordsGroup = context.Keywords.Include("paperkeyword").GroupBy(g => g.Value)
                                                     .Where(g => g.Count() > 1)
                                                     .OrderBy(g => g.Key);
                 total = duplicateKeywordsGroup.Count();
@@ -145,20 +145,20 @@ namespace PreProcessing
 
                 foreach (var duplicateKeyword in duplicateKeywords)
                 {
-                    var totalCount = duplicateKeyword.Sum(dk => dk.count);
+                    var totalCount = duplicateKeyword.Sum(dk => dk.Count);
                     var firstKeyword = duplicateKeyword.First();
-                    firstKeyword.count = totalCount;
+                    firstKeyword.Count = totalCount;
 
                     foreach (
-                        var keyword in duplicateKeyword.Where(keyword => keyword.keywordid != firstKeyword.keywordid))
+                        var keyword in duplicateKeyword.Where(keyword => keyword.KeywordId != firstKeyword.KeywordId))
                     {
-                        foreach (var paperkeyword in keyword.paperkeyword)
+                        foreach (var paperkeyword in keyword.PaperKeywords)
                         {
-                            context.AddTopaperkeyword(new paperkeyword
+                            context.AddToPaperKeywords(new PaperKeyword
                                 {
-                                    paperid = paperkeyword.paperid,
-                                    keywordid = firstKeyword.keywordid,
-                                    count = paperkeyword.count
+                                    PaperId = paperkeyword.PaperId,
+                                    KeywordId = firstKeyword.KeywordId,
+                                    Count = paperkeyword.Count
                                 });
                             // fk on delete cascade
                             //context.DeleteObject(paperkeyword);

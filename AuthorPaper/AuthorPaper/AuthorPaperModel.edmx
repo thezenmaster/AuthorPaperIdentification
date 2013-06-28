@@ -176,178 +176,178 @@
     <edmx:ConceptualModels>
       <Schema Namespace="kdd2013Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="AuthorPaperEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="authors" EntityType="kdd2013Model.author" />
-          <EntitySet Name="conferences" EntityType="kdd2013Model.conference" />
-          <EntitySet Name="journals" EntityType="kdd2013Model.journal" />
-          <EntitySet Name="papers" EntityType="kdd2013Model.paper" />
-          <EntitySet Name="paperauthor" EntityType="kdd2013Model.paperauthor" />
-          <EntitySet Name="trainconfirmed" EntityType="kdd2013Model.trainconfirmed" />
-          <EntitySet Name="traindeleted" EntityType="kdd2013Model.traindeleted" />
-          <EntitySet Name="validpaper" EntityType="kdd2013Model.validpaper" />
-          <EntitySet Name="keyword" EntityType="kdd2013Model.keyword" />
+          <EntitySet Name="Authors" EntityType="kdd2013Model.Author" />
+          <EntitySet Name="Conferences" EntityType="kdd2013Model.Conference" />
+          <EntitySet Name="Journals" EntityType="kdd2013Model.Journal" />
+          <EntitySet Name="Papers" EntityType="kdd2013Model.Paper" />
+          <EntitySet Name="PaperAuthors" EntityType="kdd2013Model.PaperAuthor" />
+          <EntitySet Name="TrainConfirmed" EntityType="kdd2013Model.TrainConfirmed" />
+          <EntitySet Name="TrainDeleted" EntityType="kdd2013Model.TrainDeleted" />
+          <EntitySet Name="ValidPapers" EntityType="kdd2013Model.ValidPaper" />
+          <EntitySet Name="Keywords" EntityType="kdd2013Model.Keyword" />
           <AssociationSet Name="paper_conference" Association="kdd2013Model.paper_conference">
-            <End Role="conference" EntitySet="conferences" />
-            <End Role="paper" EntitySet="papers" />
+            <End Role="conference" EntitySet="Conferences" />
+            <End Role="paper" EntitySet="Papers" />
           </AssociationSet>
           <AssociationSet Name="paper_journal" Association="kdd2013Model.paper_journal">
-            <End Role="journal" EntitySet="journals" />
-            <End Role="paper" EntitySet="papers" />
+            <End Role="journal" EntitySet="Journals" />
+            <End Role="paper" EntitySet="Papers" />
           </AssociationSet>
-          <EntitySet Name="paperkeyword" EntityType="kdd2013Model.paperkeyword" />
+          <EntitySet Name="PaperKeywords" EntityType="kdd2013Model.PaperKeyword" />
           <AssociationSet Name="paperkeyword_keyword" Association="kdd2013Model.paperkeyword_keyword">
-            <End Role="keyword" EntitySet="keyword" />
-            <End Role="paperkeyword" EntitySet="paperkeyword" />
+            <End Role="keyword" EntitySet="Keywords" />
+            <End Role="paperkeyword" EntitySet="PaperKeywords" />
           </AssociationSet>
           <AssociationSet Name="paperkeyword_paper" Association="kdd2013Model.paperkeyword_paper">
-            <End Role="paper" EntitySet="papers" />
-            <End Role="paperkeyword" EntitySet="paperkeyword" />
+            <End Role="paper" EntitySet="Papers" />
+            <End Role="paperkeyword" EntitySet="PaperKeywords" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="author">
+        <EntityType Name="Author">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
-          <Property Name="affiliation" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
+          <Property Name="Affiliation" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
         </EntityType>
-        <EntityType Name="conference">
+        <EntityType Name="Conference">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" />
-          <Property Name="shortname" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
-          <Property Name="fullname" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
-          <Property Name="homepage" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="paper" Relationship="kdd2013Model.paper_conference" FromRole="conference" ToRole="paper" />
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="ShortName" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
+          <Property Name="FullName" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
+          <Property Name="HomePage" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Papers" Relationship="kdd2013Model.paper_conference" FromRole="conference" ToRole="paper" />
         </EntityType>
-        <EntityType Name="journal">
+        <EntityType Name="Journal">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" />
-          <Property Name="shortname" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
-          <Property Name="fullname" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
-          <Property Name="homepage" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="paper" Relationship="kdd2013Model.paper_journal" FromRole="journal" ToRole="paper" />
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="ShortName" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
+          <Property Name="FullName" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
+          <Property Name="HomePage" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Papers" Relationship="kdd2013Model.paper_journal" FromRole="journal" ToRole="paper" />
         </EntityType>
-        <EntityType Name="paper">
+        <EntityType Name="Paper">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" />
-          <Property Name="title" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
-          <Property Name="year" Type="Int64" />
-          <Property Name="conferenceid" Type="Int64" />
-          <Property Name="journalid" Type="Int64" />
-          <Property Name="keyword" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="conference" Relationship="kdd2013Model.paper_conference" FromRole="paper" ToRole="conference" />
-          <NavigationProperty Name="journal" Relationship="kdd2013Model.paper_journal" FromRole="paper" ToRole="journal" />
-          <NavigationProperty Name="paperkeyword" Relationship="kdd2013Model.paperkeyword_paper" FromRole="paper" ToRole="paperkeyword" />
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
+          <Property Name="Year" Type="Int64" />
+          <Property Name="ConferenceId" Type="Int64" />
+          <Property Name="JournalId" Type="Int64" />
+          <Property Name="Keyword" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Conference" Relationship="kdd2013Model.paper_conference" FromRole="paper" ToRole="conference" />
+          <NavigationProperty Name="Journal" Relationship="kdd2013Model.paper_journal" FromRole="paper" ToRole="journal" />
+          <NavigationProperty Name="PaperKeywords" Relationship="kdd2013Model.paperkeyword_paper" FromRole="paper" ToRole="paperkeyword" />
         </EntityType>
-        <EntityType Name="paperauthor">
+        <EntityType Name="PaperAuthor">
           <Key>
-            <PropertyRef Name="paperauthorid" />
+            <PropertyRef Name="PaperAuthorId" />
           </Key>
-          <Property Type="Int64" Name="paperid" />
-          <Property Type="Int64" Name="authorid" />
-          <Property Type="String" Name="name" MaxLength="65535" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="affiliation" MaxLength="65535" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="paperauthorid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int64" Name="PaperId" />
+          <Property Type="Int64" Name="AuthorId" />
+          <Property Type="String" Name="Name" MaxLength="65535" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Affiliation" MaxLength="65535" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="PaperAuthorId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
-        <EntityType Name="trainconfirmed">
+        <EntityType Name="TrainConfirmed">
           <Key>
-            <PropertyRef Name="trainconfirmedid" />
+            <PropertyRef Name="TrainConfirmedId" />
           </Key>
-          <Property Type="Int64" Name="authorid" />
-          <Property Type="Int64" Name="paperid" />
-          <Property Type="Int32" Name="trainconfirmedid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int64" Name="AuthorId" />
+          <Property Type="Int64" Name="PaperId" />
+          <Property Type="Int32" Name="TrainConfirmedId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
-        <EntityType Name="traindeleted">
+        <EntityType Name="TrainDeleted">
           <Key>
-            <PropertyRef Name="traindeletedid" />
+            <PropertyRef Name="TrainDeletedId" />
           </Key>
-          <Property Type="Int64" Name="authorid" />
-          <Property Type="Int64" Name="paperid" />
-          <Property Type="Int32" Name="traindeletedid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int64" Name="AuthorId" />
+          <Property Type="Int64" Name="PaperId" />
+          <Property Type="Int32" Name="TrainDeletedId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
-        <EntityType Name="validpaper">
+        <EntityType Name="ValidPaper">
           <Key>
-            <PropertyRef Name="validpaperid" />
+            <PropertyRef Name="ValidPaperId" />
           </Key>
-          <Property Type="Int64" Name="authorid" />
-          <Property Type="Int64" Name="paperid" />
-          <Property Type="Int32" Name="validpaperid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int64" Name="AuthorId" />
+          <Property Type="Int64" Name="PaperId" />
+          <Property Type="Int32" Name="ValidPaperId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
-        <EntityType Name="keyword">
+        <EntityType Name="Keyword">
           <Key>
-            <PropertyRef Name="keywordid" />
+            <PropertyRef Name="KeywordId" />
           </Key>
-          <Property Type="Int32" Name="keywordid" Nullable="false" />
-          <Property Type="Int64" Name="count" />
-          <Property Type="String" Name="value" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Type="Double" Name="normalizedcount" />
-          <NavigationProperty Name="paperkeyword" Relationship="kdd2013Model.paperkeyword_keyword" FromRole="keyword" ToRole="paperkeyword" />
+          <Property Type="Int32" Name="KeywordId" Nullable="false" />
+          <Property Type="Int64" Name="Count" />
+          <Property Type="String" Name="Value" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="Double" Name="NormalizedCount" />
+          <NavigationProperty Name="PaperKeywords" Relationship="kdd2013Model.paperkeyword_keyword" FromRole="keyword" ToRole="paperkeyword" />
         </EntityType>
         <Association Name="paper_conference">
-          <End Type="kdd2013Model.conference" Role="conference" Multiplicity="0..1" />
-          <End Type="kdd2013Model.paper" Role="paper" Multiplicity="*" />
+          <End Type="kdd2013Model.Conference" Role="conference" Multiplicity="0..1" />
+          <End Type="kdd2013Model.Paper" Role="paper" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="conference">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="paper">
-              <PropertyRef Name="conferenceid" />
+              <PropertyRef Name="ConferenceId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="paper_journal">
-          <End Type="kdd2013Model.journal" Role="journal" Multiplicity="0..1" />
-          <End Type="kdd2013Model.paper" Role="paper" Multiplicity="*" />
+          <End Type="kdd2013Model.Journal" Role="journal" Multiplicity="0..1" />
+          <End Type="kdd2013Model.Paper" Role="paper" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="journal">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="paper">
-              <PropertyRef Name="journalid" />
+              <PropertyRef Name="JournalId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="paperkeyword">
+        <EntityType Name="PaperKeyword">
           <Key>
-            <PropertyRef Name="paperkeywordid" />
+            <PropertyRef Name="PaperKeywordId" />
           </Key>
-          <Property Type="Int64" Name="paperid" Nullable="false" />
-          <Property Type="Int64" Name="count" />
-          <Property Type="Double" Name="normalizedcount" />
-          <Property Type="Int32" Name="keywordid" Nullable="false" />
-          <NavigationProperty Name="keyword" Relationship="kdd2013Model.paperkeyword_keyword" FromRole="paperkeyword" ToRole="keyword" />
-          <NavigationProperty Name="paper" Relationship="kdd2013Model.paperkeyword_paper" FromRole="paperkeyword" ToRole="paper" />
-          <Property Type="Int32" Name="paperkeywordid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int64" Name="PaperId" Nullable="false" />
+          <Property Type="Int64" Name="Count" />
+          <Property Type="Double" Name="NormalizedCount" />
+          <Property Type="Int32" Name="KeywordId" Nullable="false" />
+          <NavigationProperty Name="Keyword" Relationship="kdd2013Model.paperkeyword_keyword" FromRole="paperkeyword" ToRole="keyword" />
+          <NavigationProperty Name="Paper" Relationship="kdd2013Model.paperkeyword_paper" FromRole="paperkeyword" ToRole="paper" />
+          <Property Type="Int32" Name="PaperKeywordId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <Association Name="paperkeyword_keyword">
-          <End Type="kdd2013Model.keyword" Role="keyword" Multiplicity="1" >
+          <End Type="kdd2013Model.Keyword" Role="keyword" Multiplicity="1" >
             <OnDelete Action="Cascade" />
           </End>
-          <End Type="kdd2013Model.paperkeyword" Role="paperkeyword" Multiplicity="*" />
+          <End Type="kdd2013Model.PaperKeyword" Role="paperkeyword" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="keyword">
-              <PropertyRef Name="keywordid" />
+              <PropertyRef Name="KeywordId" />
             </Principal>
             <Dependent Role="paperkeyword">
-              <PropertyRef Name="keywordid" />
+              <PropertyRef Name="KeywordId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="paperkeyword_paper">
-          <End Type="kdd2013Model.paper" Role="paper" Multiplicity="1" />
-          <End Type="kdd2013Model.paperkeyword" Role="paperkeyword" Multiplicity="*" />
+          <End Type="kdd2013Model.Paper" Role="paper" Multiplicity="1" />
+          <End Type="kdd2013Model.PaperKeyword" Role="paperkeyword" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="paper">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="paperkeyword">
-              <PropertyRef Name="paperid" />
+              <PropertyRef Name="PaperId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -357,103 +357,103 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="kdd2013ModelStoreContainer" CdmEntityContainer="AuthorPaperEntities">
-          <EntitySetMapping Name="authors">
-            <EntityTypeMapping TypeName="kdd2013Model.author">
+          <EntitySetMapping Name="Authors">
+            <EntityTypeMapping TypeName="kdd2013Model.Author">
               <MappingFragment StoreEntitySet="author">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="affiliation" ColumnName="affiliation" />
+                <ScalarProperty Name="Id" ColumnName="id" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+                <ScalarProperty Name="Affiliation" ColumnName="affiliation" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="conferences">
-            <EntityTypeMapping TypeName="kdd2013Model.conference">
+          <EntitySetMapping Name="Conferences">
+            <EntityTypeMapping TypeName="kdd2013Model.Conference">
               <MappingFragment StoreEntitySet="conference">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="shortname" ColumnName="shortname" />
-                <ScalarProperty Name="fullname" ColumnName="fullname" />
-                <ScalarProperty Name="homepage" ColumnName="homepage" />
+                <ScalarProperty Name="Id" ColumnName="id" />
+                <ScalarProperty Name="ShortName" ColumnName="shortname" />
+                <ScalarProperty Name="FullName" ColumnName="fullname" />
+                <ScalarProperty Name="HomePage" ColumnName="homepage" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="journals">
-            <EntityTypeMapping TypeName="kdd2013Model.journal">
+          <EntitySetMapping Name="Journals">
+            <EntityTypeMapping TypeName="kdd2013Model.Journal">
               <MappingFragment StoreEntitySet="journal">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="shortname" ColumnName="shortname" />
-                <ScalarProperty Name="fullname" ColumnName="fullname" />
-                <ScalarProperty Name="homepage" ColumnName="homepage" />
+                <ScalarProperty Name="Id" ColumnName="id" />
+                <ScalarProperty Name="ShortName" ColumnName="shortname" />
+                <ScalarProperty Name="FullName" ColumnName="fullname" />
+                <ScalarProperty Name="HomePage" ColumnName="homepage" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="papers">
-            <EntityTypeMapping TypeName="kdd2013Model.paper">
+          <EntitySetMapping Name="Papers">
+            <EntityTypeMapping TypeName="kdd2013Model.Paper">
               <MappingFragment StoreEntitySet="paper">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="title" ColumnName="title" />
-                <ScalarProperty Name="year" ColumnName="year" />
-                <ScalarProperty Name="conferenceid" ColumnName="conferenceid" />
-                <ScalarProperty Name="journalid" ColumnName="journalid" />
-                <ScalarProperty Name="keyword" ColumnName="keyword" />
+                <ScalarProperty Name="Id" ColumnName="id" />
+                <ScalarProperty Name="Title" ColumnName="title" />
+                <ScalarProperty Name="Year" ColumnName="year" />
+                <ScalarProperty Name="ConferenceId" ColumnName="conferenceid" />
+                <ScalarProperty Name="JournalId" ColumnName="journalid" />
+                <ScalarProperty Name="Keyword" ColumnName="keyword" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="paperauthor">
-            <EntityTypeMapping TypeName="kdd2013Model.paperauthor">
+          <EntitySetMapping Name="PaperAuthors">
+            <EntityTypeMapping TypeName="kdd2013Model.PaperAuthor">
               <MappingFragment StoreEntitySet="paperauthor">
-                <ScalarProperty Name="paperauthorid" ColumnName="paperauthorid" />
-                <ScalarProperty Name="affiliation" ColumnName="affiliation" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="authorid" ColumnName="authorid" />
-                <ScalarProperty Name="paperid" ColumnName="paperid" />
+                <ScalarProperty Name="PaperAuthorId" ColumnName="paperauthorid" />
+                <ScalarProperty Name="Affiliation" ColumnName="affiliation" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+                <ScalarProperty Name="AuthorId" ColumnName="authorid" />
+                <ScalarProperty Name="PaperId" ColumnName="paperid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="trainconfirmed">
-            <EntityTypeMapping TypeName="kdd2013Model.trainconfirmed">
+          <EntitySetMapping Name="TrainConfirmed">
+            <EntityTypeMapping TypeName="kdd2013Model.TrainConfirmed">
               <MappingFragment StoreEntitySet="trainconfirmed">
-                <ScalarProperty Name="trainconfirmedid" ColumnName="trainconfirmedid" />
-                <ScalarProperty Name="paperid" ColumnName="paperid" />
-                <ScalarProperty Name="authorid" ColumnName="authorid" />
+                <ScalarProperty Name="TrainConfirmedId" ColumnName="trainconfirmedid" />
+                <ScalarProperty Name="PaperId" ColumnName="paperid" />
+                <ScalarProperty Name="AuthorId" ColumnName="authorid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="traindeleted">
-            <EntityTypeMapping TypeName="kdd2013Model.traindeleted">
+          <EntitySetMapping Name="TrainDeleted">
+            <EntityTypeMapping TypeName="kdd2013Model.TrainDeleted">
               <MappingFragment StoreEntitySet="traindeleted">
-                <ScalarProperty Name="traindeletedid" ColumnName="traindeletedid" />
-                <ScalarProperty Name="paperid" ColumnName="paperid" />
-                <ScalarProperty Name="authorid" ColumnName="authorid" />
+                <ScalarProperty Name="TrainDeletedId" ColumnName="traindeletedid" />
+                <ScalarProperty Name="PaperId" ColumnName="paperid" />
+                <ScalarProperty Name="AuthorId" ColumnName="authorid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="validpaper">
-            <EntityTypeMapping TypeName="kdd2013Model.validpaper">
+          <EntitySetMapping Name="ValidPapers">
+            <EntityTypeMapping TypeName="kdd2013Model.ValidPaper">
               <MappingFragment StoreEntitySet="validpaper">
-                <ScalarProperty Name="validpaperid" ColumnName="validpaperid" />
-                <ScalarProperty Name="paperid" ColumnName="paperid" />
-                <ScalarProperty Name="authorid" ColumnName="authorid" />
+                <ScalarProperty Name="ValidPaperId" ColumnName="validpaperid" />
+                <ScalarProperty Name="PaperId" ColumnName="paperid" />
+                <ScalarProperty Name="AuthorId" ColumnName="authorid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="keyword">
-            <EntityTypeMapping TypeName="kdd2013Model.keyword">
+          <EntitySetMapping Name="Keywords">
+            <EntityTypeMapping TypeName="kdd2013Model.Keyword">
               <MappingFragment StoreEntitySet="keyword">
-                <ScalarProperty Name="normalizedcount" ColumnName="normalizedcount" />
-                <ScalarProperty Name="value" ColumnName="value" />
-                <ScalarProperty Name="count" ColumnName="count" />
-                <ScalarProperty Name="keywordid" ColumnName="keywordid" />
+                <ScalarProperty Name="NormalizedCount" ColumnName="normalizedcount" />
+                <ScalarProperty Name="Value" ColumnName="value" />
+                <ScalarProperty Name="Count" ColumnName="count" />
+                <ScalarProperty Name="KeywordId" ColumnName="keywordid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="paperkeyword">
-            <EntityTypeMapping TypeName="kdd2013Model.paperkeyword">
+          <EntitySetMapping Name="PaperKeywords">
+            <EntityTypeMapping TypeName="kdd2013Model.PaperKeyword">
               <MappingFragment StoreEntitySet="paperkeyword">
-                <ScalarProperty Name="paperkeywordid" ColumnName="paperkeywordid" />
-                <ScalarProperty Name="keywordid" ColumnName="keywordid" />
-                <ScalarProperty Name="normalizedcount" ColumnName="normalizedcount" />
-                <ScalarProperty Name="count" ColumnName="count" />
-                <ScalarProperty Name="paperid" ColumnName="paperid" />
+                <ScalarProperty Name="PaperKeywordId" ColumnName="paperkeywordid" />
+                <ScalarProperty Name="KeywordId" ColumnName="keywordid" />
+                <ScalarProperty Name="NormalizedCount" ColumnName="normalizedcount" />
+                <ScalarProperty Name="Count" ColumnName="count" />
+                <ScalarProperty Name="PaperId" ColumnName="paperid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
