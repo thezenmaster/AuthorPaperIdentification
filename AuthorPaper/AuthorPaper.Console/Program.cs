@@ -10,10 +10,24 @@ namespace AuthorPaper.Console
     {
         static void Main(string[] args)
         {
-            var matches = KNearestNeighbours.FindKNearestPapers(2507, 10);
+            var matches = KNearestNeighbours.FindKNearestPapers(255, 10);
             foreach (var item in matches)
             {
                 System.Console.WriteLine(item.Paper.Id);
+                using (var context = new AuthorPaperEntities())
+                {
+                    var authorId = context.PaperAuthors.FirstOrDefault(x => x.PaperId == item.Paper.Id);
+                    if (authorId != null && authorId.AuthorId != null)
+                    {
+                        var author = context.Authors.FirstOrDefault(a => a.Id == authorId.AuthorId);
+                        if (author != null && author.Name != null)
+                        {
+                            System.Console.WriteLine(author.Id);
+                            System.Console.WriteLine(author.Name);
+                        }
+                    }
+                }
+
             }
             System.Console.ReadLine();
             //RemoveDuplicates();
