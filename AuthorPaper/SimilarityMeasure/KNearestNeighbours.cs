@@ -9,15 +9,15 @@ namespace SimilarityMeasure
 {
     public class KNearestNeighbours
     {
-        public static List<PaperVector> FindKNearestPapers(int paperId, int nearestK)
+        public static List<PaperVector> FindKNearestPapers(Paper paper, int nearestK, int trainCount)
         {
-            var paperIndex = BuildPaperIndex(paperId);
+            var paperIndex = LoadPaperKeywords(paper);
             NormalizeInputPaperIndex(paperIndex);
             var nearestPapers = new List<PaperVector>();
             using (var context = new AuthorPaperEntities())
             {
                 // todo: make sure child entity collections are loaded
-                var trainSet = context.Papers.Where(p => p.PaperKeywords != null && p.PaperKeywords.Any());
+                var trainSet = context.ValidPapers.OrderBy(v => v.PaperId).Take(trainCount);
                 foreach (var paperItem in trainSet)
                 {
                     double scalarProduct = 0.0;
@@ -27,7 +27,9 @@ namespace SimilarityMeasure
                     {
                         var wordNormalizedCount = word.NormalizedCount;
                         inputVectorNorm += wordNormalizedCount * wordNormalizedCount;
-                        var keywordInDb = paperItem.PaperKeywords.SingleOrDefault(k => k.Keyword.Value == word.Value);
+                        var keywordInDb = context.PaperKeywords.FirstOrDefault(k => k.PaperId == paperItem.PaperId 
+                            && k.Keyword.Value == word.Value);
+                            //paperItem.PaperKeywords.SingleOrDefault(k => k.Keyword.Value == word.Value);
                         if (keywordInDb != null && keywordInDb.NormalizedCount.HasValue)
                         {
                             scalarProduct += wordNormalizedCount * keywordInDb.NormalizedCount.Value;
@@ -37,7 +39,7 @@ namespace SimilarityMeasure
                     //It only makes sense to calc cosine if scalar product is > 0
                     if (scalarProduct > 0)
                     {
-                        trainSetItemNorm = CalculateNorm(paperItem);
+                        trainSetItemNorm = CalculateNorm(paperItem, context);
                         if (inputVectorNorm > 0 && trainSetItemNorm > 0)
                         {
                             inputVectorNorm = Math.Sqrt(inputVectorNorm);
@@ -63,11 +65,12 @@ namespace SimilarityMeasure
             return nearestPapers;
         }
 
-        private static double CalculateNorm(Paper paper)
+        private static double CalculateNorm(ValidPaper paper, AuthorPaperEntities context)
         {
             double norm = 0.0;
 
-            foreach (var item in paper.PaperKeywords)
+            var paperKeywords = context.PaperKeywords.Where(k => k.PaperId == paper.PaperId);
+            foreach (var item in paperKeywords)
             {
                 if (item.NormalizedCount.HasValue)
                 {
@@ -85,7 +88,7 @@ namespace SimilarityMeasure
             {
                 foreach (var word in index)
                 {
-                    var keyword = context.Keywords.SingleOrDefault(k => k.Value == word.Value);
+                    var keyword = context.Keywords.FirstOrDefault(k => k.Value == word.Value);
                     if (keyword == null)
                     {
                         //Why is this word missing from dictionary?
@@ -99,26 +102,12 @@ namespace SimilarityMeasure
             }
         }
 
-        public static List<Word> BuildPaperIndex(int paperId)
-        {
-            List<Word> keywords;
-            using (var context = new AuthorPaperEntities())
-            {
-                var paper = context.Papers.SingleOrDefault(p => p.Id == paperId);
-                if (paper == null)
-                    return null;
-                keywords = LoadPaperKeywords(paper).ToList();
-            }
-
-            return keywords;
-        }
-
-        private static IEnumerable<Word> LoadPaperKeywords(Paper paper)
+        private static List<Word> LoadPaperKeywords(Paper paper)
         {
             var splitChars = new [] { ',', ' ', ';', '.', '!', '?', '"' };
             var keywords = GenerateKeywords.GeneratePaperKeywords(paper);
             
-            return keywords;
+            return keywords.ToList();
         }
 
         public static List<string> LoadStopWords()
