@@ -84,7 +84,9 @@
     <Compile Include="GenerateKeywords.cs" />
     <Compile Include="InsertKeywords.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Stemmer.cs" />
     <Compile Include="StopWords.cs" />
+    <Compile Include="Tokenizer.cs" />
     <Compile Include="Word.cs" />
   </ItemGroup>
   <ItemGroup>
