@@ -20,6 +20,7 @@ namespace SimilarityMeasure
                 var trainSet = context.ValidPapers.OrderBy(v => v.PaperId).Take(trainCount);
                 foreach (var paperItem in trainSet)
                 {
+                    var paperItemKeywords = context.PaperKeywords.Where(k => k.PaperId == paperItem.PaperId).ToList();
                     double scalarProduct = 0.0;
                     double inputVectorNorm = 0.0;
                     double trainSetItemNorm = 0.0;
@@ -27,8 +28,7 @@ namespace SimilarityMeasure
                     {
                         var wordNormalizedCount = word.NormalizedCount;
                         inputVectorNorm += wordNormalizedCount * wordNormalizedCount;
-                        var keywordInDb = context.PaperKeywords.FirstOrDefault(k => k.PaperId == paperItem.PaperId 
-                            && k.Keyword.Value == word.Value);
+                        var keywordInDb = paperItemKeywords.FirstOrDefault(k => k.Keyword.Value == word.Value);
                             //paperItem.PaperKeywords.SingleOrDefault(k => k.Keyword.Value == word.Value);
                         if (keywordInDb != null && keywordInDb.NormalizedCount.HasValue)
                         {
@@ -39,7 +39,7 @@ namespace SimilarityMeasure
                     //It only makes sense to calc cosine if scalar product is > 0
                     if (scalarProduct > 0)
                     {
-                        trainSetItemNorm = CalculateNorm(paperItem, context);
+                        trainSetItemNorm = CalculateNorm(paperItemKeywords, context);
                         if (inputVectorNorm > 0 && trainSetItemNorm > 0)
                         {
                             inputVectorNorm = Math.Sqrt(inputVectorNorm);
@@ -65,12 +65,11 @@ namespace SimilarityMeasure
             return nearestPapers;
         }
 
-        private static double CalculateNorm(ValidPaper paper, AuthorPaperEntities context)
+        private static double CalculateNorm(List<PaperKeyword> keywords, AuthorPaperEntities context)
         {
             double norm = 0.0;
 
-            var paperKeywords = context.PaperKeywords.Where(k => k.PaperId == paper.PaperId);
-            foreach (var item in paperKeywords)
+            foreach (var item in keywords)
             {
                 if (item.NormalizedCount.HasValue)
                 {
