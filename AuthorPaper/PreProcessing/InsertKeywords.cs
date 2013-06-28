@@ -34,7 +34,7 @@ namespace PreProcessing
             foreach (var keyword in keywords)
             {
                 builder.AppendLine(
-                    string.Format("INSERT INTO keyword(count, value) VALUES ({0}, '{1}');", keyword.Item2, GetEscapedString(keyword.Item1)));
+                    string.Format("INSERT INTO keyword(count, value) VALUES ({0}, '{1}');", keyword.Count, GetEscapedString(keyword.Value)));
             }
             WriteFile("keywords" + iteration, builder);
         }
@@ -64,13 +64,13 @@ namespace PreProcessing
                 // duplicate records will be inserted, they have to be grouped afterwards
                 var contextKeyword = new Keyword
                         {
-                            Value = keyword.Item1,
-                            Count = keyword.Item2
+                            Value = keyword.Value,
+                            Count = keyword.Count
                         };
                 context.AddToKeywords(contextKeyword);
                 var paperKeyword = new PaperKeyword
                 {
-                    Count = keyword.Item2,
+                    Count = keyword.Count,
                     Paper = paper,
                     Keyword = contextKeyword
                 };

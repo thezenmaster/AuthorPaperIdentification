@@ -1,9 +1,11 @@
-﻿using System;
+﻿using AuthorPaper;
+using PreProcessing;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace AuthorPaper
+namespace SimilarityMeasure
 {
     public class KNearestNeighbours
     {
@@ -105,46 +107,50 @@ namespace AuthorPaper
                 var paper = context.Papers.SingleOrDefault(p => p.Id == paperId);
                 if (paper == null)
                     return null;
-                keywords = LoadPaperKeywords(paper);
+                keywords = LoadPaperKeywords(paper).ToList();
             }
 
             return keywords;
         }
 
-        private static List<Word> LoadPaperKeywords(Paper paper)
+        private static IEnumerable<Word> LoadPaperKeywords(Paper paper)
         {
             var splitChars = new [] { ',', ' ', ';', '.', '!', '?', '"' };
-            var keywords = new List<Word>();
+            var keywords = GenerateKeywords.GeneratePaperKeywords(paper);
             var stopWords = LoadStopWords();
             if (!String.IsNullOrEmpty(paper.Title))
             {
-                var titleKeywords = paper.Title.Trim(new [] { '"' }).Split(splitChars).ToList();
-                foreach (var keyword in titleKeywords)
-                {
-                    if (!stopWords.Contains(keyword) && !keywords.Contains(keyword))
-                    {
-                        keywords.Add(new Word { Value = keyword, Count = 0, NormalizedCount = 0.0 });
-                    }
-                    else
-                    {
-                        keywords.Single(w => w.Value == keyword).Count++;
-                    }
-                }
+                //var titleKeywords = paper.Title.Trim(new [] { '"' }).Split(splitChars).ToList();
+                //foreach (var keyword in titleKeywords)
+                //{
+                //    if (!stopWords.Contains(keyword) && !keywords.Contains(keyword))
+                //    {
+                //        keywords.Add(new Word { Value = keyword, Count = 0, NormalizedCount = 0.0 });
+                //    }
+                //    else
+                //    {
+                //        keywords.Single(w => w.Value == keyword).Count++;
+                //    }
+                //}
+                string title = paper.Title;
+                //keywords.AddRange(PreProcessing.GenerateKeywords.GetKeywords(title, true));
+                //paperKeywords.AddRange(GetKeywords(paper.Keyword, false));
             }
             if (!String.IsNullOrEmpty(paper.Keyword))
             {
-                var paperKeywords = paper.Keyword.Trim(new[] { '"' }).Split(splitChars);
-                foreach (var keyword in paperKeywords)
-                {
-                    if (!stopWords.Contains(keyword) && !keywords.Contains(keyword))
-                    {
-                        keywords.Add(new Word { Value = keyword, Count = 0, NormalizedCount = 0.0 });
-                    }
-                    else
-                    {
-                        keywords.Single(w => w.Value == keyword).Count++;
-                    }
-                }
+                //var paperKeywords = paper.Keyword.Trim(new[] { '"' }).Split(splitChars);
+                //foreach (var keyword in paperKeywords)
+                //{
+                //    if (!stopWords.Contains(keyword) && !keywords.Contains(keyword))
+                //    {
+                //        keywords.Add(new Word { Value = keyword, Count = 0, NormalizedCount = 0.0 });
+                //    }
+                //    else
+                //    {
+                //        keywords.Single(w => w.Value == keyword).Count++;
+                //    }
+                //}
+                //keywords.AddRange(PreProcessing.GenerateKeywords.GetKeywords(paper.Keyword, false));
             }
 
             return keywords;

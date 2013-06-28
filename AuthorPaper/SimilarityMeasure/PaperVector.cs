@@ -1,4 +1,5 @@
-﻿namespace AuthorPaper
+﻿using AuthorPaper;
+namespace SimilarityMeasure
 {
     public class PaperVector
     {
