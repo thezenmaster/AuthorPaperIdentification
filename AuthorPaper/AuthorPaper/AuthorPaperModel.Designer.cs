@@ -23,6 +23,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("kdd2013Model", "paper_journal", "journal", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AuthorPaper.Journal), "paper", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.Paper), true)]
 [assembly: EdmRelationshipAttribute("kdd2013Model", "paperkeyword_keyword", "keyword", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AuthorPaper.Keyword), "paperkeyword", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.PaperKeyword), true)]
 [assembly: EdmRelationshipAttribute("kdd2013Model", "paperkeyword_paper", "paper", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AuthorPaper.Paper), "paperkeyword", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.PaperKeyword), true)]
+[assembly: EdmRelationshipAttribute("kdd2013Model", "validpaper_paper", "Paper", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AuthorPaper.Paper), "ValidPaper", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.ValidPaper), true)]
 
 #endregion
 
@@ -1170,6 +1171,28 @@ namespace AuthorPaper
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("kdd2013Model", "validpaper_paper", "ValidPaper")]
+        public EntityCollection<ValidPaper> validpaper
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ValidPaper>("kdd2013Model.validpaper_paper", "ValidPaper");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ValidPaper>("kdd2013Model.validpaper_paper", "ValidPaper", value);
+                }
+            }
+        }
 
         #endregion
 
@@ -1878,6 +1901,48 @@ namespace AuthorPaper
         #endregion
 
     
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("kdd2013Model", "validpaper_paper", "Paper")]
+        public Paper paper
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Paper>("kdd2013Model.validpaper_paper", "Paper").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Paper>("kdd2013Model.validpaper_paper", "Paper").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Paper> paperReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Paper>("kdd2013Model.validpaper_paper", "Paper");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Paper>("kdd2013Model.validpaper_paper", "Paper", value);
+                }
+            }
+        }
+
+        #endregion
+
     }
 
     #endregion

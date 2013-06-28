@@ -32,6 +32,10 @@
             <End Role="paper" EntitySet="paper" />
             <End Role="paperkeyword" EntitySet="paperkeyword" />
           </AssociationSet>
+          <AssociationSet Name="validpaper_paper" Association="kdd2013Model.Store.validpaper_paper">
+            <End Role="paper" EntitySet="paper" />
+            <End Role="validpaper" EntitySet="validpaper" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="author">
           <Key>
@@ -160,13 +164,27 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="paperkeyword_paper">
-          <End Role="paper" Type="kdd2013Model.Store.paper" Multiplicity="1" />
+          <End Role="paper" Type="kdd2013Model.Store.paper" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="paperkeyword" Type="kdd2013Model.Store.paperkeyword" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="paper">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="paperkeyword">
+              <PropertyRef Name="paperid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="validpaper_paper">
+          <End Role="paper" Type="kdd2013Model.Store.paper" Multiplicity="0..1" />
+          <End Role="validpaper" Type="kdd2013Model.Store.validpaper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paper">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="validpaper">
               <PropertyRef Name="paperid" />
             </Dependent>
           </ReferentialConstraint>
@@ -201,6 +219,10 @@
           <AssociationSet Name="paperkeyword_paper" Association="kdd2013Model.paperkeyword_paper">
             <End Role="paper" EntitySet="Papers" />
             <End Role="paperkeyword" EntitySet="PaperKeywords" />
+          </AssociationSet>
+          <AssociationSet Name="validpaper_paper" Association="kdd2013Model.validpaper_paper">
+            <End Role="Paper" EntitySet="Papers" />
+            <End Role="ValidPaper" EntitySet="ValidPapers" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Author">
@@ -244,6 +266,7 @@
           <NavigationProperty Name="Conference" Relationship="kdd2013Model.paper_conference" FromRole="paper" ToRole="conference" />
           <NavigationProperty Name="Journal" Relationship="kdd2013Model.paper_journal" FromRole="paper" ToRole="journal" />
           <NavigationProperty Name="PaperKeywords" Relationship="kdd2013Model.paperkeyword_paper" FromRole="paper" ToRole="paperkeyword" />
+          <NavigationProperty Name="validpaper" Relationship="kdd2013Model.validpaper_paper" FromRole="Paper" ToRole="ValidPaper" />
         </EntityType>
         <EntityType Name="PaperAuthor">
           <Key>
@@ -278,6 +301,7 @@
           <Property Type="Int64" Name="AuthorId" />
           <Property Type="Int64" Name="PaperId" />
           <Property Type="Int32" Name="ValidPaperId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="paper" Relationship="kdd2013Model.validpaper_paper" FromRole="ValidPaper" ToRole="Paper" />
         </EntityType>
         <EntityType Name="Keyword">
           <Key>
@@ -347,6 +371,18 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="paperkeyword">
+              <PropertyRef Name="PaperId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="validpaper_paper">
+          <End Type="kdd2013Model.Paper" Role="Paper" Multiplicity="0..1" />
+          <End Type="kdd2013Model.ValidPaper" Role="ValidPaper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ValidPaper">
               <PropertyRef Name="PaperId" />
             </Dependent>
           </ReferentialConstraint>
@@ -488,21 +524,35 @@
         <EntityTypeShape EntityType="kdd2013Model.validpaper" Width="1.5" PointX="2.75" PointY="6.75" Height="1.5956835937499996" />
         <EntityTypeShape EntityType="kdd2013Model.keyword" Width="1.5" PointX="5" PointY="4.5" Height="1.9802864583333335" />
         <AssociationConnector Association="kdd2013Model.paper_conference" >
-          <ConnectorPoint PointX="3.5" PointY="2.7302864583333339" />
-          <ConnectorPoint PointX="3.5" PointY="3.75" />
+          <ConnectorPoint PointX="2.25" PointY="2.1692848541666669" />
+          <ConnectorPoint PointX="3" PointY="2.1692848541666669" />
         </AssociationConnector>
         <AssociationConnector Association="kdd2013Model.paper_journal" >
-          <ConnectorPoint PointX="2.25" PointY="4.7401432291666667" />
-          <ConnectorPoint PointX="2.75" PointY="4.7401432291666667" />
+          <ConnectorPoint PointX="2.25" PointY="5.375" />
+          <ConnectorPoint PointX="2.625" PointY="5" />
+          <ConnectorPoint PointX="2.625" PointY="3.0867912369791677" />
+          <ConnectorPoint PointX="3" PointY="3.0867912369791677" />
         </AssociationConnector>
         <EntityTypeShape EntityType="kdd2013Model.paperkeyword" Width="1.5" PointX="7.75" PointY="4" Height="2.1725878906249996" />
         <AssociationConnector Association="kdd2013Model.paperkeyword_keyword" >
-          <ConnectorPoint PointX="6.5" PointY="5.3362939453125" />
-          <ConnectorPoint PointX="7.75" PointY="5.3362939453125" />
+          <ConnectorPoint PointX="4.5" PointY="6.8817350260416656" />
+          <ConnectorPoint PointX="5.46875" PointY="6.8817350260416656" />
+          <ConnectorPoint PointX="5.46875" PointY="3.4898893229166674" />
         </AssociationConnector>
         <AssociationConnector Association="kdd2013Model.paperkeyword_paper" >
-          <ConnectorPoint PointX="4.25" PointY="4.21875" />
-          <ConnectorPoint PointX="7.75" PointY="4.21875" />
+          <ConnectorPoint PointX="4.5" PointY="2.3074446614583337" />
+          <ConnectorPoint PointX="5.25" PointY="2.3074446614583337" />
+        </AssociationConnector>
+        <AssociationConnector Association="kdd2013Model.validpaper_paper" >
+          <ConnectorPoint PointX="4.5" PointY="3.1558711406250013" />
+          <ConnectorPoint PointX="5" PointY="3.1558711406250013" />
+          <ConnectorPoint PointX="5" PointY="3.7398893229166674" />
+          <ConnectorPoint PointX="5.385416666666667" PointY="3.739889322916667" />
+          <ConnectorPoint PointX="5.552083333333333" PointY="3.7398893229166674" />
+          <ConnectorPoint PointX="7.5" PointY="3.7398893229166674" />
+          <ConnectorPoint PointX="7.5" PointY="5.59568359375" />
+          <ConnectorPoint PointX="8.5" PointY="5.59568359375" />
+          <ConnectorPoint PointX="8.5" PointY="6.75" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>

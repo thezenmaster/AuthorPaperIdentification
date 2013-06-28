@@ -81,7 +81,7 @@ namespace PreProcessing
         public static void RunParallelInserts()
         {
             var context = new AuthorPaperEntities();
-            var totalCount = 100000; // context.Papers.Count();
+            var totalCount = (int)Math.Floor(context.ValidPapers.Count() * 0.9);
             var totalIterations = totalCount/BatchSize;
 
             for (var outerIteration = 0; outerIteration <= totalIterations / MaxDegreeOfParallelization; outerIteration++)
@@ -92,7 +92,6 @@ namespace PreProcessing
                     var currentIteration = iteration + MaxDegreeOfParallelization * outerIteration;
                     if (currentIteration > totalIterations) break;
                     tasks.Add(Task.Factory.StartNew(() => InsertKeywordsForPapers(currentIteration*BatchSize, totalCount)));
-                    
                 }
                 Task.WaitAll(tasks.ToArray());
             }
@@ -110,17 +109,18 @@ namespace PreProcessing
                 {
                     //var skipItems = iteration*BatchSize;
                     var paperList = skipItems > 0
-                                        ? context2.Papers.OrderBy(p => p.Id)
+                                        ? context2.ValidPapers.Include("Paper")
+                                                    .OrderBy(p => p.PaperId)
                                                     .Skip(skipItems)
                                                     .Take((totalCount - skipItems - BatchSize < 0)
                                                             ? (totalCount - skipItems) // last item in the list
                                                             : BatchSize)
-                                        : context2.Papers.OrderBy(p => p.Id).Take(BatchSize);
+                                        : context2.ValidPapers.Include("Paper").OrderBy(p => p.PaperId).Take(BatchSize);
 
                     foreach (var paper in paperList)
                     {
                         //InsertScript(skipItems/BatchSize, paper);
-                        InsertKeywordsForPaper(context2, paper);
+                        InsertKeywordsForPaper(context2, paper.paper);
                     }
 
                     context2.SaveChanges();
