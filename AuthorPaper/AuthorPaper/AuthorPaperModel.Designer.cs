@@ -204,7 +204,7 @@ namespace AuthorPaper
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<keyword> keyword
+        public ObjectSet<keyword> Keywords
         {
             get
             {
@@ -773,7 +773,7 @@ namespace AuthorPaper
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int64> count
+        public Nullable<global::System.Int64> Count
         {
             get
             {
@@ -797,7 +797,7 @@ namespace AuthorPaper
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String value
+        public global::System.String Value
         {
             get
             {
