@@ -26,8 +26,9 @@ namespace PreProcessing
             paperKeywords.AddRange(GetKeywords(paper.Title, true));
             paperKeywords.AddRange(GetKeywords(paper.Keyword, false));
             // count number of occurrences
-            return paperKeywords.GroupBy(pk => pk).Select(g => new Word() { Value = g.Key, Count = g.Count() });
-                //.Select(g => new Tuple<string, int>(g., g.Count()));
+            return paperKeywords.Where(pk => !string.IsNullOrEmpty(pk))
+                .Select(Stemmer.GetStemmedWord)
+                .GroupBy(pk => pk).Select(g => new Word { Value = g.Key, Count = g.Count() });
         }
        
         public static bool IsValidKeyword(string keyword)

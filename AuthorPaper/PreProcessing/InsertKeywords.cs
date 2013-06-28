@@ -10,7 +10,7 @@ namespace PreProcessing
 {
     public class InsertKeywords
     {
-        private const int BatchSize = 250;
+        private const int BatchSize = 500;
         private const int MaxDegreeOfParallelization = 4;
 
         public static void WriteFile(string file, StringBuilder storage)
@@ -81,7 +81,7 @@ namespace PreProcessing
         public static void RunParallelInserts()
         {
             var context = new AuthorPaperEntities();
-            var totalCount = 1000; // context.Papers.Count();
+            var totalCount = 100000; // context.Papers.Count();
             var totalIterations = totalCount/BatchSize;
 
             for (var outerIteration = 0; outerIteration <= totalIterations / MaxDegreeOfParallelization; outerIteration++)
