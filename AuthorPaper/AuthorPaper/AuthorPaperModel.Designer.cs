@@ -19,9 +19,9 @@ using System.Xml.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("kdd2013Model", "paperkeyword", "keyword", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.keyword), "paper", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.paper))]
-[assembly: EdmRelationshipAttribute("kdd2013Model", "paper_conference", "conference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AuthorPaper.conference), "paper", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.paper), true)]
-[assembly: EdmRelationshipAttribute("kdd2013Model", "paper_journal", "journal", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AuthorPaper.journal), "paper", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.paper), true)]
+[assembly: EdmRelationshipAttribute("kdd2013Model", "paperkeyword", "keyword", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.keyword), "paper", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.Paper))]
+[assembly: EdmRelationshipAttribute("kdd2013Model", "paper_conference", "conference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AuthorPaper.conference), "paper", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.Paper), true)]
+[assembly: EdmRelationshipAttribute("kdd2013Model", "paper_journal", "journal", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AuthorPaper.journal), "paper", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.Paper), true)]
 
 #endregion
 
@@ -124,18 +124,18 @@ namespace AuthorPaper
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<paper> papers
+        public ObjectSet<Paper> Papers
         {
             get
             {
                 if ((_papers == null))
                 {
-                    _papers = base.CreateObjectSet<paper>("papers");
+                    _papers = base.CreateObjectSet<Paper>("papers");
                 }
                 return _papers;
             }
         }
-        private ObjectSet<paper> _papers;
+        private ObjectSet<Paper> _papers;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -248,7 +248,7 @@ namespace AuthorPaper
         /// <summary>
         /// Deprecated Method for adding a new object to the papers EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddTopapers(paper paper)
+        public void AddTopapers(Paper paper)
         {
             base.AddObject("papers", paper);
         }
@@ -542,17 +542,17 @@ namespace AuthorPaper
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("kdd2013Model", "paper_conference", "paper")]
-        public EntityCollection<paper> paper
+        public EntityCollection<Paper> paper
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<paper>("kdd2013Model.paper_conference", "paper");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Paper>("kdd2013Model.paper_conference", "paper");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<paper>("kdd2013Model.paper_conference", "paper", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Paper>("kdd2013Model.paper_conference", "paper", value);
                 }
             }
         }
@@ -697,17 +697,17 @@ namespace AuthorPaper
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("kdd2013Model", "paper_journal", "paper")]
-        public EntityCollection<paper> paper
+        public EntityCollection<Paper> paper
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<paper>("kdd2013Model.paper_journal", "paper");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Paper>("kdd2013Model.paper_journal", "paper");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<paper>("kdd2013Model.paper_journal", "paper", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Paper>("kdd2013Model.paper_journal", "paper", value);
                 }
             }
         }
@@ -852,17 +852,17 @@ namespace AuthorPaper
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("kdd2013Model", "paperkeyword", "paper")]
-        public EntityCollection<paper> papers
+        public EntityCollection<Paper> papers
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<paper>("kdd2013Model.paperkeyword", "paper");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Paper>("kdd2013Model.paperkeyword", "paper");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<paper>("kdd2013Model.paperkeyword", "paper", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Paper>("kdd2013Model.paperkeyword", "paper", value);
                 }
             }
         }
@@ -877,7 +877,7 @@ namespace AuthorPaper
     [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="paper")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class paper : EntityObject
+    public partial class Paper : EntityObject
     {
         #region Factory Method
     
@@ -885,10 +885,10 @@ namespace AuthorPaper
         /// Create a new paper object.
         /// </summary>
         /// <param name="id">Initial value of the id property.</param>
-        public static paper Createpaper(global::System.Int64 id)
+        public static Paper Createpaper(global::System.Int64 id)
         {
-            paper paper = new paper();
-            paper.id = id;
+            Paper paper = new Paper();
+            paper.Id = id;
             return paper;
         }
 
@@ -901,7 +901,7 @@ namespace AuthorPaper
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 id
+        public global::System.Int64 Id
         {
             get
             {
@@ -928,7 +928,7 @@ namespace AuthorPaper
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String title
+        public global::System.String Title
         {
             get
             {
@@ -952,7 +952,7 @@ namespace AuthorPaper
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int64> year
+        public Nullable<global::System.Int64> Year
         {
             get
             {
@@ -1024,7 +1024,7 @@ namespace AuthorPaper
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String keyword
+        public global::System.String Keyword
         {
             get
             {
