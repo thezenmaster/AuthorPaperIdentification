@@ -10,8 +10,8 @@ namespace PreProcessing
 {
     public class InsertKeywords
     {
-        private const int BatchSize = 10000;
-        private const int MaxDegreeOfParallelization = 1;
+        private const int BatchSize = 250;
+        private const int MaxDegreeOfParallelization = 4;
 
         public static void WriteFile(string file, StringBuilder storage)
         {
@@ -45,22 +45,29 @@ namespace PreProcessing
             foreach (var keyword in keywords)
             {
                 // some keywords will duplicate
-                var contextKeyword = context.Keywords.FirstOrDefault(k => k.Value == keyword.Item1);
+                //var contextKeyword = context.Keywords.FirstOrDefault(k => k.Value == keyword.Item1);
                 
-                if (contextKeyword != null)
-                {
-                    contextKeyword.Count += keyword.Item2;
-                }
-                else
-                {
-                    contextKeyword = new Keyword
+                //if (contextKeyword != null)
+                //{
+                //    contextKeyword.Count += keyword.Item2;
+                //}
+                //else
+                //{
+                //    contextKeyword = new Keyword
+                //        {
+                //            Value = keyword.Item1,
+                //            Count = keyword.Item2
+                //        };
+                //    context.AddToKeywords(contextKeyword);
+                //}
+
+                // duplicate records will be inserted, they have to be grouped afterwards
+                var contextKeyword = new Keyword
                         {
                             Value = keyword.Item1,
                             Count = keyword.Item2
                         };
-                    context.AddToKeywords(contextKeyword);
-                }
-
+                context.AddToKeywords(contextKeyword);
                 var paperKeyword = new PaperKeyword
                 {
                     Count = keyword.Item2,
@@ -74,7 +81,7 @@ namespace PreProcessing
         public static void RunParallelInserts()
         {
             var context = new AuthorPaperEntities();
-            var totalCount = context.Papers.Count();
+            var totalCount = 1000; // context.Papers.Count();
             var totalIterations = totalCount/BatchSize;
 
             for (var outerIteration = 0; outerIteration <= totalIterations / MaxDegreeOfParallelization; outerIteration++)
