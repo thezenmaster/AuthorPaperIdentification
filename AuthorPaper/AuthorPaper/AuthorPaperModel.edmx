@@ -123,6 +123,9 @@
           <Property Name="paperid" Type="bigint" />
           <Property Name="validpaperid" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
         </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'authorpaper.public.duplicate_keywords' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
         <Association Name="paper_conference">
           <End Role="conference" Type="kdd2013Model.Store.conference" Multiplicity="0..1" />
           <End Role="paper" Type="kdd2013Model.Store.paper" Multiplicity="*" />
@@ -160,7 +163,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="paperkeyword_paper">
-          <End Role="paper" Type="kdd2013Model.Store.paper" Multiplicity="1" />
+          <End Role="paper" Type="kdd2013Model.Store.paper" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="paperkeyword" Type="kdd2013Model.Store.paperkeyword" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="paper">

@@ -10,7 +10,7 @@ namespace PreProcessing
 {
     public class InsertKeywords
     {
-        private const int BatchSize = 250;
+        private const int BatchSize = 500;
         private const int MaxDegreeOfParallelization = 4;
 
         public static void WriteFile(string file, StringBuilder storage)
@@ -34,7 +34,7 @@ namespace PreProcessing
             foreach (var keyword in keywords)
             {
                 builder.AppendLine(
-                    string.Format("INSERT INTO keyword(count, value) VALUES ({0}, '{1}');", keyword.Item2, GetEscapedString(keyword.Item1)));
+                    string.Format("INSERT INTO keyword(count, value) VALUES ({0}, '{1}');", keyword.Count, GetEscapedString(keyword.Value)));
             }
             WriteFile("keywords" + iteration, builder);
         }
@@ -64,13 +64,13 @@ namespace PreProcessing
                 // duplicate records will be inserted, they have to be grouped afterwards
                 var contextKeyword = new Keyword
                         {
-                            Value = keyword.Item1,
-                            Count = keyword.Item2
+                            Value = keyword.Value,
+                            Count = keyword.Count
                         };
                 context.AddToKeywords(contextKeyword);
                 var paperKeyword = new PaperKeyword
                 {
-                    Count = keyword.Item2,
+                    Count = keyword.Count,
                     Paper = paper,
                     Keyword = contextKeyword
                 };
@@ -81,7 +81,7 @@ namespace PreProcessing
         public static void RunParallelInserts()
         {
             var context = new AuthorPaperEntities();
-            var totalCount = 1000; // context.Papers.Count();
+            var totalCount = context.Papers.Count();
             var totalIterations = totalCount/BatchSize;
 
             for (var outerIteration = 0; outerIteration <= totalIterations / MaxDegreeOfParallelization; outerIteration++)
@@ -131,54 +131,56 @@ namespace PreProcessing
            // }
         }
 
-        public static void RemoveDuplicatingKeywords()
-        {
-            int total;
-            var iteration = 0;
-            const int batchsize = 100;
+        //public static void RemoveDuplicatingKeywords()
+        //{
+        //    var iteration = 0;
+        //    const int batchsize = 100;
+        //    var context = new AuthorPaperEntities();
+        //    var duplicateKeywordsList = context.duplicate_keywords.ToList();
+        //    var allKeywords = context.Keywords.ToList();
+        //    var total = duplicateKeywordsList.Count();
 
-            do
-            {
-                var context = new AuthorPaperEntities();
+        //    while(total > iteration * batchsize)
+        //    {
+        //        context = new AuthorPaperEntities();
 
-                var duplicateKeywordsGroup = context.Keywords.Include("paperkeyword").GroupBy(g => g.Value)
-                                                    .Where(g => g.Count() > 1)
-                                                    .OrderBy(g => g.Key);
-                total = duplicateKeywordsGroup.Count();
+        //        var duplicateKeywords = iteration > 0? duplicateKeywordsList.Skip(iteration * batchsize)
+        //            .Take((total < ((iteration + 1) * batchsize))
+        //                                                                ? (total - iteration * batchsize)
+        //                                                                : batchsize).ToList() :
+        //                                               duplicateKeywordsList.Take(batchsize);
 
-                var duplicateKeywords = duplicateKeywordsGroup.Take((total < batchsize)
-                                                                        ? total
-                                                                        : batchsize).ToList();
+        //        foreach (var duplicateKeyword in duplicateKeywords)
+        //        {
+        //            var localDupKeyword = duplicateKeyword;
+        //            var dbKeywords = allKeywords.Where(k => k.Value == localDupKeyword.value).ToList();
 
-                foreach (var duplicateKeyword in duplicateKeywords)
-                {
-                    var totalCount = duplicateKeyword.Sum(dk => dk.Count);
-                    var firstKeyword = duplicateKeyword.First();
-                    firstKeyword.Count = totalCount;
+        //            var totalCount = dbKeywords.Sum(dk => dk.Count);
+        //            var firstKeyword = dbKeywords.First();
+        //            firstKeyword.Count = totalCount;
 
-                    foreach (
-                        var keyword in duplicateKeyword.Where(keyword => keyword.KeywordId != firstKeyword.KeywordId))
-                    {
-                        foreach (var paperkeyword in keyword.PaperKeywords)
-                        {
-                            context.AddToPaperKeywords(new PaperKeyword
-                                {
-                                    PaperId = paperkeyword.PaperId,
-                                    KeywordId = firstKeyword.KeywordId,
-                                    Count = paperkeyword.Count
-                                });
-                            // fk on delete cascade
-                            //context.DeleteObject(paperkeyword);
-                        }
-                        context.DeleteObject(keyword);
-                    }
-                }
+        //            foreach (var keyword in dbKeywords.Where(keyword => keyword.KeywordId != firstKeyword.KeywordId))
+        //            {
+        //                foreach (var paperkeyword in keyword.PaperKeywords)
+        //                {
+        //                    context.AddToPaperKeywords(new PaperKeyword
+        //                        {
+        //                            PaperId = paperkeyword.PaperId,
+        //                            KeywordId = firstKeyword.KeywordId,
+        //                            Count = paperkeyword.Count
+        //                        });
+        //                    // fk on delete cascade
+        //                    //context.DeleteObject(paperkeyword);
+        //                }
+        //                context.DeleteObject(keyword);
+        //            }
+        //        }
 
-                context.SaveChanges();
-                Console.WriteLine("saved iteration " + iteration + DateTime.Now);
-                iteration++;
+        //        context.SaveChanges();
+        //        Console.WriteLine("saved iteration " + iteration + DateTime.Now);
+        //        iteration++;
                
-            } while (total > 0);
-        }
+        //    }
+        //}
     }
 }
