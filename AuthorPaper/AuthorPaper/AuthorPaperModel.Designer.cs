@@ -19,9 +19,10 @@ using System.Xml.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("kdd2013Model", "paperkeyword", "keyword", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.keyword), "paper", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.paper))]
 [assembly: EdmRelationshipAttribute("kdd2013Model", "paper_conference", "conference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AuthorPaper.conference), "paper", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.paper), true)]
 [assembly: EdmRelationshipAttribute("kdd2013Model", "paper_journal", "journal", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AuthorPaper.journal), "paper", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.paper), true)]
+[assembly: EdmRelationshipAttribute("kdd2013Model", "paperkeyword_keyword", "keyword", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AuthorPaper.keyword), "paperkeyword", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.paperkeyword), true)]
+[assembly: EdmRelationshipAttribute("kdd2013Model", "paperkeyword_paper", "paper", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AuthorPaper.paper), "paperkeyword", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AuthorPaper.paperkeyword), true)]
 
 #endregion
 
@@ -216,6 +217,22 @@ namespace AuthorPaper
             }
         }
         private ObjectSet<keyword> _keyword;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<paperkeyword> paperkeyword
+        {
+            get
+            {
+                if ((_paperkeyword == null))
+                {
+                    _paperkeyword = base.CreateObjectSet<paperkeyword>("paperkeyword");
+                }
+                return _paperkeyword;
+            }
+        }
+        private ObjectSet<paperkeyword> _paperkeyword;
 
         #endregion
 
@@ -291,6 +308,14 @@ namespace AuthorPaper
         public void AddTokeyword(keyword keyword)
         {
             base.AddObject("keyword", keyword);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the paperkeyword EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddTopaperkeyword(paperkeyword paperkeyword)
+        {
+            base.AddObject("paperkeyword", paperkeyword);
         }
 
         #endregion
@@ -730,7 +755,7 @@ namespace AuthorPaper
         /// Create a new keyword object.
         /// </summary>
         /// <param name="keywordid">Initial value of the keywordid property.</param>
-        public static keyword Createkeyword(global::System.Int64 keywordid)
+        public static keyword Createkeyword(global::System.Int32 keywordid)
         {
             keyword keyword = new keyword();
             keyword.keywordid = keywordid;
@@ -746,7 +771,7 @@ namespace AuthorPaper
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 keywordid
+        public global::System.Int32 keywordid
         {
             get
             {
@@ -764,8 +789,8 @@ namespace AuthorPaper
                 }
             }
         }
-        private global::System.Int64 _keywordid;
-        partial void OnkeywordidChanging(global::System.Int64 value);
+        private global::System.Int32 _keywordid;
+        partial void OnkeywordidChanging(global::System.Int32 value);
         partial void OnkeywordidChanged();
     
         /// <summary>
@@ -851,18 +876,18 @@ namespace AuthorPaper
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("kdd2013Model", "paperkeyword", "paper")]
-        public EntityCollection<paper> papers
+        [EdmRelationshipNavigationPropertyAttribute("kdd2013Model", "paperkeyword_keyword", "paperkeyword")]
+        public EntityCollection<paperkeyword> paperkeyword
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<paper>("kdd2013Model.paperkeyword", "paper");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<paperkeyword>("kdd2013Model.paperkeyword_keyword", "paperkeyword");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<paper>("kdd2013Model.paperkeyword", "paper", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<paperkeyword>("kdd2013Model.paperkeyword_keyword", "paperkeyword", value);
                 }
             }
         }
@@ -1054,28 +1079,6 @@ namespace AuthorPaper
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("kdd2013Model", "paperkeyword", "keyword")]
-        public EntityCollection<keyword> keywords
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<keyword>("kdd2013Model.paperkeyword", "keyword");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<keyword>("kdd2013Model.paperkeyword", "keyword", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("kdd2013Model", "paper_conference", "conference")]
         public conference conference
         {
@@ -1142,6 +1145,28 @@ namespace AuthorPaper
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<journal>("kdd2013Model.paper_journal", "journal", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("kdd2013Model", "paperkeyword_paper", "paperkeyword")]
+        public EntityCollection<paperkeyword> paperkeyword
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<paperkeyword>("kdd2013Model.paperkeyword_paper", "paperkeyword");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<paperkeyword>("kdd2013Model.paperkeyword_paper", "paperkeyword", value);
                 }
             }
         }
@@ -1301,6 +1326,243 @@ namespace AuthorPaper
         #endregion
 
     
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="kdd2013Model", Name="paperkeyword")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class paperkeyword : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new paperkeyword object.
+        /// </summary>
+        /// <param name="paperid">Initial value of the paperid property.</param>
+        /// <param name="keywordid">Initial value of the keywordid property.</param>
+        /// <param name="paperkeywordid">Initial value of the paperkeywordid property.</param>
+        public static paperkeyword Createpaperkeyword(global::System.Int64 paperid, global::System.Int32 keywordid, global::System.Int32 paperkeywordid)
+        {
+            paperkeyword paperkeyword = new paperkeyword();
+            paperkeyword.paperid = paperid;
+            paperkeyword.keywordid = keywordid;
+            paperkeyword.paperkeywordid = paperkeywordid;
+            return paperkeyword;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int64 paperid
+        {
+            get
+            {
+                return _paperid;
+            }
+            set
+            {
+                OnpaperidChanging(value);
+                ReportPropertyChanging("paperid");
+                _paperid = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("paperid");
+                OnpaperidChanged();
+            }
+        }
+        private global::System.Int64 _paperid;
+        partial void OnpaperidChanging(global::System.Int64 value);
+        partial void OnpaperidChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int64> count
+        {
+            get
+            {
+                return _count;
+            }
+            set
+            {
+                OncountChanging(value);
+                ReportPropertyChanging("count");
+                _count = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("count");
+                OncountChanged();
+            }
+        }
+        private Nullable<global::System.Int64> _count;
+        partial void OncountChanging(Nullable<global::System.Int64> value);
+        partial void OncountChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Double> normalizedcount
+        {
+            get
+            {
+                return _normalizedcount;
+            }
+            set
+            {
+                OnnormalizedcountChanging(value);
+                ReportPropertyChanging("normalizedcount");
+                _normalizedcount = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("normalizedcount");
+                OnnormalizedcountChanged();
+            }
+        }
+        private Nullable<global::System.Double> _normalizedcount;
+        partial void OnnormalizedcountChanging(Nullable<global::System.Double> value);
+        partial void OnnormalizedcountChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 keywordid
+        {
+            get
+            {
+                return _keywordid;
+            }
+            set
+            {
+                OnkeywordidChanging(value);
+                ReportPropertyChanging("keywordid");
+                _keywordid = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("keywordid");
+                OnkeywordidChanged();
+            }
+        }
+        private global::System.Int32 _keywordid;
+        partial void OnkeywordidChanging(global::System.Int32 value);
+        partial void OnkeywordidChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 paperkeywordid
+        {
+            get
+            {
+                return _paperkeywordid;
+            }
+            set
+            {
+                if (_paperkeywordid != value)
+                {
+                    OnpaperkeywordidChanging(value);
+                    ReportPropertyChanging("paperkeywordid");
+                    _paperkeywordid = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("paperkeywordid");
+                    OnpaperkeywordidChanged();
+                }
+            }
+        }
+        private global::System.Int32 _paperkeywordid;
+        partial void OnpaperkeywordidChanging(global::System.Int32 value);
+        partial void OnpaperkeywordidChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("kdd2013Model", "paperkeyword_keyword", "keyword")]
+        public keyword keyword
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<keyword>("kdd2013Model.paperkeyword_keyword", "keyword").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<keyword>("kdd2013Model.paperkeyword_keyword", "keyword").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<keyword> keywordReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<keyword>("kdd2013Model.paperkeyword_keyword", "keyword");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<keyword>("kdd2013Model.paperkeyword_keyword", "keyword", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("kdd2013Model", "paperkeyword_paper", "paper")]
+        public paper paper
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<paper>("kdd2013Model.paperkeyword_paper", "paper").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<paper>("kdd2013Model.paperkeyword_paper", "paper").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<paper> paperReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<paper>("kdd2013Model.paperkeyword_paper", "paper");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<paper>("kdd2013Model.paperkeyword_paper", "paper", value);
+                }
+            }
+        }
+
+        #endregion
+
     }
     
     /// <summary>

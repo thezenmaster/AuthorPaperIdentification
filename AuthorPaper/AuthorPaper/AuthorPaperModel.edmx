@@ -63,10 +63,10 @@
           <Key>
             <PropertyRef Name="keywordid" />
           </Key>
-          <Property Name="keywordid" Type="bigint" Nullable="false" />
           <Property Name="count" Type="bigint" />
           <Property Name="value" Type="varchar" MaxLength="256" />
           <Property Name="normalizedcount" Type="double precision" />
+          <Property Name="keywordid" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="paper">
           <Key>
@@ -91,13 +91,13 @@
         </EntityType>
         <EntityType Name="paperkeyword">
           <Key>
-            <PropertyRef Name="paperid" />
-            <PropertyRef Name="keywordid" />
+            <PropertyRef Name="paperkeywordid" />
           </Key>
           <Property Name="paperid" Type="bigint" Nullable="false" />
-          <Property Name="keywordid" Type="bigint" Nullable="false" />
           <Property Name="count" Type="bigint" />
           <Property Name="normalizedcount" Type="double precision" />
+          <Property Name="keywordid" Type="int" Nullable="false" />
+          <Property Name="paperkeywordid" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="trainconfirmed">
           <Key>
@@ -185,10 +185,6 @@
           <EntitySet Name="traindeleted" EntityType="kdd2013Model.traindeleted" />
           <EntitySet Name="validpaper" EntityType="kdd2013Model.validpaper" />
           <EntitySet Name="keyword" EntityType="kdd2013Model.keyword" />
-          <AssociationSet Name="paperkeyword" Association="kdd2013Model.paperkeyword">
-            <End Role="keyword" EntitySet="keyword" />
-            <End Role="paper" EntitySet="papers" />
-          </AssociationSet>
           <AssociationSet Name="paper_conference" Association="kdd2013Model.paper_conference">
             <End Role="conference" EntitySet="conferences" />
             <End Role="paper" EntitySet="papers" />
@@ -196,6 +192,15 @@
           <AssociationSet Name="paper_journal" Association="kdd2013Model.paper_journal">
             <End Role="journal" EntitySet="journals" />
             <End Role="paper" EntitySet="papers" />
+          </AssociationSet>
+          <EntitySet Name="paperkeyword" EntityType="kdd2013Model.paperkeyword" />
+          <AssociationSet Name="paperkeyword_keyword" Association="kdd2013Model.paperkeyword_keyword">
+            <End Role="keyword" EntitySet="keyword" />
+            <End Role="paperkeyword" EntitySet="paperkeyword" />
+          </AssociationSet>
+          <AssociationSet Name="paperkeyword_paper" Association="kdd2013Model.paperkeyword_paper">
+            <End Role="paper" EntitySet="papers" />
+            <End Role="paperkeyword" EntitySet="paperkeyword" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="author">
@@ -236,9 +241,9 @@
           <Property Name="conferenceid" Type="Int64" />
           <Property Name="journalid" Type="Int64" />
           <Property Name="keyword" Type="String" MaxLength="65535" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="keywords" Relationship="kdd2013Model.paperkeyword" FromRole="paper" ToRole="keyword" />
           <NavigationProperty Name="conference" Relationship="kdd2013Model.paper_conference" FromRole="paper" ToRole="conference" />
           <NavigationProperty Name="journal" Relationship="kdd2013Model.paper_journal" FromRole="paper" ToRole="journal" />
+          <NavigationProperty Name="paperkeyword" Relationship="kdd2013Model.paperkeyword_paper" FromRole="paper" ToRole="paperkeyword" />
         </EntityType>
         <EntityType Name="paperauthor">
           <Key>
@@ -278,16 +283,12 @@
           <Key>
             <PropertyRef Name="keywordid" />
           </Key>
-          <Property Type="Int64" Name="keywordid" Nullable="false" />
+          <Property Type="Int32" Name="keywordid" Nullable="false" />
           <Property Type="Int64" Name="count" />
           <Property Type="String" Name="value" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="papers" Relationship="kdd2013Model.paperkeyword" FromRole="keyword" ToRole="paper" />
           <Property Type="Double" Name="normalizedcount" />
+          <NavigationProperty Name="paperkeyword" Relationship="kdd2013Model.paperkeyword_keyword" FromRole="keyword" ToRole="paperkeyword" />
         </EntityType>
-        <Association Name="paperkeyword">
-          <End Type="kdd2013Model.keyword" Role="keyword" Multiplicity="*" />
-          <End Type="kdd2013Model.paper" Role="paper" Multiplicity="*" />
-        </Association>
         <Association Name="paper_conference">
           <End Type="kdd2013Model.conference" Role="conference" Multiplicity="0..1" />
           <End Type="kdd2013Model.paper" Role="paper" Multiplicity="*" />
@@ -309,6 +310,44 @@
             </Principal>
             <Dependent Role="paper">
               <PropertyRef Name="journalid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="paperkeyword">
+          <Key>
+            <PropertyRef Name="paperkeywordid" />
+          </Key>
+          <Property Type="Int64" Name="paperid" Nullable="false" />
+          <Property Type="Int64" Name="count" />
+          <Property Type="Double" Name="normalizedcount" />
+          <Property Type="Int32" Name="keywordid" Nullable="false" />
+          <NavigationProperty Name="keyword" Relationship="kdd2013Model.paperkeyword_keyword" FromRole="paperkeyword" ToRole="keyword" />
+          <NavigationProperty Name="paper" Relationship="kdd2013Model.paperkeyword_paper" FromRole="paperkeyword" ToRole="paper" />
+          <Property Type="Int32" Name="paperkeywordid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <Association Name="paperkeyword_keyword">
+          <End Type="kdd2013Model.keyword" Role="keyword" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="kdd2013Model.paperkeyword" Role="paperkeyword" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="keyword">
+              <PropertyRef Name="keywordid" />
+            </Principal>
+            <Dependent Role="paperkeyword">
+              <PropertyRef Name="keywordid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="paperkeyword_paper">
+          <End Type="kdd2013Model.paper" Role="paper" Multiplicity="1" />
+          <End Type="kdd2013Model.paperkeyword" Role="paperkeyword" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paper">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="paperkeyword">
+              <PropertyRef Name="paperid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -407,14 +446,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="paperkeyword" TypeName="kdd2013Model.paperkeyword" StoreEntitySet="paperkeyword">
-            <EndProperty Name="paper">
-              <ScalarProperty Name="id" ColumnName="paperid" />
-            </EndProperty>
-            <EndProperty Name="keyword">
-              <ScalarProperty Name="keywordid" ColumnName="keywordid" />
-            </EndProperty>
-          </AssociationSetMapping>
+          <EntitySetMapping Name="paperkeyword">
+            <EntityTypeMapping TypeName="kdd2013Model.paperkeyword">
+              <MappingFragment StoreEntitySet="paperkeyword">
+                <ScalarProperty Name="paperkeywordid" ColumnName="paperkeywordid" />
+                <ScalarProperty Name="keywordid" ColumnName="keywordid" />
+                <ScalarProperty Name="normalizedcount" ColumnName="normalizedcount" />
+                <ScalarProperty Name="count" ColumnName="count" />
+                <ScalarProperty Name="paperid" ColumnName="paperid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -444,11 +486,7 @@
         <EntityTypeShape EntityType="kdd2013Model.trainconfirmed" Width="1.5" PointX="5.5" PointY="6.75" Height="1.5956835937499996" />
         <EntityTypeShape EntityType="kdd2013Model.traindeleted" Width="1.5" PointX="0.75" PointY="6.75" Height="1.5956835937499996" />
         <EntityTypeShape EntityType="kdd2013Model.validpaper" Width="1.5" PointX="2.75" PointY="6.75" Height="1.5956835937499996" />
-        <EntityTypeShape EntityType="kdd2013Model.keyword" Width="1.5" PointX="5.5" PointY="4.125" Height="1.7879850260416674" />
-        <AssociationConnector Association="kdd2013Model.paperkeyword" >
-          <ConnectorPoint PointX="5.5" PointY="5.0189925130208337" />
-          <ConnectorPoint PointX="4.25" PointY="5.0189925130208337" />
-        </AssociationConnector>
+        <EntityTypeShape EntityType="kdd2013Model.keyword" Width="1.5" PointX="5" PointY="4.5" Height="1.9802864583333335" />
         <AssociationConnector Association="kdd2013Model.paper_conference" >
           <ConnectorPoint PointX="3.5" PointY="2.7302864583333339" />
           <ConnectorPoint PointX="3.5" PointY="3.75" />
@@ -456,6 +494,15 @@
         <AssociationConnector Association="kdd2013Model.paper_journal" >
           <ConnectorPoint PointX="2.25" PointY="4.7401432291666667" />
           <ConnectorPoint PointX="2.75" PointY="4.7401432291666667" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="kdd2013Model.paperkeyword" Width="1.5" PointX="7.75" PointY="4" Height="2.1725878906249996" />
+        <AssociationConnector Association="kdd2013Model.paperkeyword_keyword" >
+          <ConnectorPoint PointX="6.5" PointY="5.3362939453125" />
+          <ConnectorPoint PointX="7.75" PointY="5.3362939453125" />
+        </AssociationConnector>
+        <AssociationConnector Association="kdd2013Model.paperkeyword_paper" >
+          <ConnectorPoint PointX="4.25" PointY="4.21875" />
+          <ConnectorPoint PointX="7.75" PointY="4.21875" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>

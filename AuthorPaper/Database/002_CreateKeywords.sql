@@ -1,8 +1,9 @@
 CREATE TABLE keyword
 (
-  keywordid bigint NOT NULL,
   count bigint,
   value character varying(256),
+  normalizedcount double precision,
+  keywordid serial NOT NULL,
   CONSTRAINT keyword_pk PRIMARY KEY (keywordid)
 )
 WITH (
@@ -10,18 +11,22 @@ WITH (
 );
 ALTER TABLE keyword
   OWNER TO postgres;
+
   
 CREATE TABLE paperkeyword
 (
   paperid bigint NOT NULL,
-  keywordid bigint NOT NULL,
-  CONSTRAINT paperkeyword_pk PRIMARY KEY (paperid, keywordid),
+  count bigint,
+  normalizedcount double precision,
+  keywordid integer NOT NULL,
+  paperkeywordid serial NOT NULL,
+  CONSTRAINT paperkeyword_pk PRIMARY KEY (paperkeywordid),
   CONSTRAINT paperkeyword_keyword FOREIGN KEY (keywordid)
       REFERENCES keyword (keywordid) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT paperkeyword_paper FOREIGN KEY (paperid)
       REFERENCES paper (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+      ON UPDATE NO ACTION ON DELETE NO CASCADE
 )
 WITH (
   OIDS=FALSE
@@ -37,4 +42,7 @@ CREATE INDEX fki_paperkeyword_keyword
   ON paperkeyword
   USING btree
   (keywordid);
+
+
+
 
