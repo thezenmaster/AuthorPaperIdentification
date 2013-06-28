@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace PreProcessing
@@ -15,6 +14,7 @@ namespace PreProcessing
             };
         private static readonly string[] Digits = new[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
         private static readonly Regex NonUtf8Characters = new Regex(@"[\x80-\xFF]");
+        private static readonly Regex DigitRegex = new Regex(@"\d{1}");
 
         private static readonly char[] Punctuation = new[] { ' ', ',', '.', '\'', '"', '(', ')', '-', '_', ';', ':', '[', ']', '?', '!', '`' };
         private static readonly char[] Separators = new[] { ';', ',', '|' };
@@ -25,11 +25,15 @@ namespace PreProcessing
             return !string.IsNullOrEmpty(keyword) 
                 && keyword.Length >= MinValidWordLength
                 && !Digits.Any(keyword.StartsWith)
+                && !ContainsTooManyDigits(keyword)
                 && !NonUtf8Characters.IsMatch(keyword)
                 && InvalidCharacters.All(ic => !keyword.Contains(ic))
                 && !StopWordsContainer.StopWords.Contains(keyword);
         }
-
+        private static bool ContainsTooManyDigits(string inputString)
+        {
+            return DigitRegex.Matches(inputString).Count > 2;
+        }
         public static List<string> TokenizeList(string keywordList, bool isTitle)
         {
             if (!string.IsNullOrEmpty(keywordList))
