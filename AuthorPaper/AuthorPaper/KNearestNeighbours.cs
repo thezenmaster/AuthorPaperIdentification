@@ -8,11 +8,11 @@ namespace AuthorPaper
 {
     public class KNearestNeighbours
     {
-        public static List<Paper> FindKNearestPapers(int paperId, int nearestK)
+        public static List<PaperVector> FindKNearestPapers(int paperId, int nearestK)
         {
             var paperIndex = BuildPaperIndex(paperId);
             NormalizeInputPaperIndex(paperIndex);
-            var nearestPapers = new List<Paper>();
+            var nearestPapers = new List<PaperVector>();
             using (var context = new AuthorPaperEntities())
             {
                 var trainSet = context.Papers.Where(p => p.keywords != null && p.keywords.Count > 0);
@@ -40,12 +40,25 @@ namespace AuthorPaper
                         {
                             inputVectorNorm = Math.Sqrt(inputVectorNorm);
                             double cosine = scalarProduct / (inputVectorNorm * trainSetItemNorm);
+                            if (nearestPapers.Count < nearestK)
+                            {
+                                nearestPapers.Add(new PaperVector { Paper = paperItem, Similarity = cosine });
+                            }
+                            else
+                            {
+                                nearestPapers = nearestPapers.OrderByDescending(p => p.Similarity).ToList();
+                                if (nearestPapers.Last().Similarity < cosine)
+                                {
+                                    nearestPapers.Remove(nearestPapers.Last());
+                                    nearestPapers.Add(new PaperVector { Paper = paperItem, Similarity = cosine });
+                                }
+                            }
                         }
                     }
                 }
             }
 
-            return null;
+            return nearestPapers;
         }
 
         private static double CalculateNorm(Paper paper)
