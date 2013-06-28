@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace AuthorPaper
+﻿namespace AuthorPaper
 {
     public class PaperVector
     {
-        public Paper Paper { get; set; }
+        public paper Paper { get; set; }
         public double Similarity { get; set; }
     }
 }

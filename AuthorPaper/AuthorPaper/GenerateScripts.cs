@@ -89,13 +89,13 @@ namespace AuthorPaper
         {
             var iteration = 0;
             const int getItems = 1000000;
-            var totalCount = context.Papers.Count();
+            var totalCount = context.papers.Count();
 
             while (totalCount > getItems * iteration)
             {
                 var count = 0;
                 var myContext = new AuthorPaperEntities();
-                var orderedPapers = myContext.Papers.OrderBy(p => p.Id);
+                var orderedPapers = myContext.papers.OrderBy(p => p.id);
                 var papers = iteration == 0 ? orderedPapers.Take(getItems) :
                     orderedPapers.Skip(iteration * getItems)
                         .Take(totalCount < getItems * (iteration + 1) ? (totalCount - getItems * iteration) : getItems);
@@ -103,7 +103,7 @@ namespace AuthorPaper
                 {
                     stringStorage.AppendLine(string.Format("insert into Paper(Id,Title,Year,ConferenceId,JournalId,Keywords) values " +
                         "({0},N'{1}',{2},{3},{4},N'{5}')",
-                        paper.Id, GetEscapedString(paper.Title), paper.Year, paper.conferenceid, paper.journalid, GetEscapedString(paper.Keyword)));
+                        paper.id, GetEscapedString(paper.title), paper.year, paper.conferenceid, paper.journalid, GetEscapedString(paper.keyword)));
                     count++;
                     if (count % 1000 == 0)
                     {

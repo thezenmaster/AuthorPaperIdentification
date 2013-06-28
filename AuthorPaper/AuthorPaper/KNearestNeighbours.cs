@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace AuthorPaper
 {
@@ -15,7 +14,8 @@ namespace AuthorPaper
             var nearestPapers = new List<PaperVector>();
             using (var context = new AuthorPaperEntities())
             {
-                var trainSet = context.Papers.Where(p => p.keywords != null && p.keywords.Count > 0);
+                // todo: make sure child entity collections are loaded
+                var trainSet = context.papers.Where(p => p.paperkeyword != null && p.paperkeyword.Any());
                 foreach (var paperItem in trainSet)
                 {
                     double scalarProduct = 0.0;
@@ -25,7 +25,7 @@ namespace AuthorPaper
                     {
                         var wordNormalizedCount = word.NormalizedCount;
                         inputVectorNorm += wordNormalizedCount * wordNormalizedCount;
-                        var keywordInDb = paperItem.keywords.SingleOrDefault(k => k.Value == word.Value);
+                        var keywordInDb = paperItem.paperkeyword.SingleOrDefault(k => k.keyword.value == word.Value);
                         if (keywordInDb != null && keywordInDb.normalizedcount.HasValue)
                         {
                             scalarProduct += wordNormalizedCount * keywordInDb.normalizedcount.Value;
@@ -61,11 +61,11 @@ namespace AuthorPaper
             return nearestPapers;
         }
 
-        private static double CalculateNorm(Paper paper)
+        private static double CalculateNorm(paper paper)
         {
             double norm = 0.0;
 
-            foreach (var item in paper.keywords)
+            foreach (var item in paper.paperkeyword)
             {
                 if (item.normalizedcount.HasValue)
                 {
@@ -83,15 +83,15 @@ namespace AuthorPaper
             {
                 foreach (var word in index)
                 {
-                    var keyword = context.Keywords.SingleOrDefault(k => k.Value == word.Value);
+                    var keyword = context.keyword.SingleOrDefault(k => k.value == word.Value);
                     if (keyword == null)
                     {
                         //Why is this word missing from dictionary?
                         continue;
                     }
-                    if (keyword.Count.HasValue)
+                    if (keyword.count.HasValue)
                     {
-                        word.NormalizedCount = (double) word.Count / keyword.Count.Value;
+                        word.NormalizedCount = (double) word.Count / keyword.count.Value;
                     }
                 }
             }
@@ -99,10 +99,10 @@ namespace AuthorPaper
 
         public static List<Word> BuildPaperIndex(int paperId)
         {
-            var keywords = new List<Word>();
+            List<Word> keywords;
             using (var context = new AuthorPaperEntities())
             {
-                var paper = context.Papers.SingleOrDefault(p => p.Id == paperId);
+                var paper = context.papers.SingleOrDefault(p => p.id == paperId);
                 if (paper == null)
                     return null;
                 keywords = LoadPaperKeywords(paper);
@@ -111,14 +111,14 @@ namespace AuthorPaper
             return keywords;
         }
 
-        private static List<Word> LoadPaperKeywords(Paper paper)
+        private static List<Word> LoadPaperKeywords(paper paper)
         {
-            var splitChars = new char[] { ',', ' ', ';', '.', '!', '?', '"' };
+            var splitChars = new [] { ',', ' ', ';', '.', '!', '?', '"' };
             var keywords = new List<Word>();
             var stopWords = LoadStopWords();
-            if (!String.IsNullOrEmpty(paper.Title))
+            if (!String.IsNullOrEmpty(paper.title))
             {
-                var titleKeywords = paper.Title.Trim(new char[] { '"' }).Split(splitChars).ToList();
+                var titleKeywords = paper.title.Trim(new [] { '"' }).Split(splitChars).ToList();
                 foreach (var keyword in titleKeywords)
                 {
                     if (!stopWords.Contains(keyword) && !keywords.Contains(keyword))
@@ -131,9 +131,9 @@ namespace AuthorPaper
                     }
                 }
             }
-            if (!String.IsNullOrEmpty(paper.Keyword))
+            if (!String.IsNullOrEmpty(paper.keyword))
             {
-                var paperKeywords = paper.Keyword.Trim(new char[] { '"' }).Split(splitChars);
+                var paperKeywords = paper.keyword.Trim(new [] { '"' }).Split(splitChars);
                 foreach (var keyword in paperKeywords)
                 {
                     if (!stopWords.Contains(keyword) && !keywords.Contains(keyword))
@@ -154,10 +154,10 @@ namespace AuthorPaper
         {
             var stopWords = new List<string>();
 
-            var filePath = @"..\..\..\data\english_stop.txt";
+            const string filePath = @"..\..\..\data\english_stop.txt";
             if (File.Exists(filePath))
             {
-                using (StreamReader reader = new StreamReader(filePath))
+                using (var reader = new StreamReader(filePath))
                 {
                     while (reader.Peek() >= 0)
                     {
