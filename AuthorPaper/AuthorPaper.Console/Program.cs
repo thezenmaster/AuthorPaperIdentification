@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using PreProcessing;
 using SimilarityMeasure;
 using System.Collections;
@@ -9,96 +10,103 @@ using System.IO;
 
 namespace AuthorPaper.Console
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             //Test with 10 percent
             GetLasNPercent(10);
             System.Console.ReadLine();
         }
 
-        private static bool StoreOutput(List<PaperVector> matches, Paper originalPaper, StreamWriter sw)
+        private static bool StoreOutput(List<PaperVector> matches, Paper originalPaper, string path)
         {
-            bool match = false;
-            using (var context = new AuthorPaperEntities())
-            {
-                var originalAuthorId = context.PaperAuthors.FirstOrDefault(x => x.PaperId == originalPaper.Id);
-                sw.WriteLine("The real author has ID of: {0}", originalAuthorId.AuthorId);
-                System.Console.WriteLine("The real author has ID of: {0}", originalAuthorId.AuthorId);
-                foreach (var item in matches)
-                {
-                    sw.WriteLine("Paper ID: {0}", item.Paper.PaperId);
-                    System.Console.WriteLine("Paper ID: {0}. ", item.Paper.PaperId);
-                    var authorId = context.PaperAuthors.FirstOrDefault(x => x.PaperId == item.Paper.PaperId);
-                    if (authorId != null && authorId.AuthorId != null)
-                    {
-                        var author = context.Authors.FirstOrDefault(a => a.Id == authorId.AuthorId);
-                        if (author != null && author.Name != null)
-                        {
-                            sw.Write("Author Name={0}; Author Id={1}", author.Name, author.Id);
-                            sw.WriteLine();
-                            System.Console.WriteLine(author.Id);
-                            System.Console.WriteLine(author.Name);
-
-                            if (author.Id == originalAuthorId.AuthorId)
-                                match = true;
-                        }
-                    }
-                }
-            }
-            sw.WriteLine("-----------------------------------------------");
-            sw.WriteLine();
-            System.Console.WriteLine("-----------------------------------------------");
-            System.Console.WriteLine();
-            return match;
-        }
-
-        private static void GetLasNPercent(int percent)
-        {
-            string path = @"..\..\..\..\result" + DateTime.Now.ToFileTime() + ".txt";
             if (!File.Exists(path))
             {
                 using (StreamWriter sw = File.CreateText(path))
                 {
-                    using (var context = new AuthorPaperEntities())
+                    var builder = new StringBuilder();
+                    builder.AppendFormat("{0};", originalPaper.Id);
+                    foreach (var paperVector in matches)
                     {
-                        var testPapersCount = (int)Math.Floor(context.ValidPapers.Count() * 0.1);
-                        var trainCount = (int)Math.Floor(context.ValidPapers.Count() * 0.9);
-                        var testPapers = context.ValidPapers.OrderByDescending(v => v.PaperId).Take(testPapersCount);
-                        int matchedCount = 0;
-                        foreach (var validPaper in testPapers)
-                        {
-                            var paper = context.Papers.FirstOrDefault(p => p.Id == validPaper.PaperId);
-                            if (paper != null)
-                            {
-                                var matches = KNearestNeighbours.FindKNearestPapers(paper, 5, trainCount);
-                                if (StoreOutput(matches, paper, sw))
-                                    matchedCount++;
-                            }
-                            else
-                            {
-
-                            }
-                        }
-                        sw.WriteLine("Match percentage: {0}", matchedCount / testPapersCount);
-                        System.Console.WriteLine("Match percentage: {0}", matchedCount / testPapersCount);
+                        builder.AppendFormat("{0},{1};", paperVector.Paper.PaperId, paperVector.Similarity);
                     }
+                    sw.WriteLine(builder.ToString());
+                    // bool match = false;
+                    //using (var context = new AuthorPaperEntities())
+                    //{
+                    //    var originalAuthorId = context.PaperAuthors.FirstOrDefault(x => x.PaperId == originalPaper.Id);
+                    //    sw.WriteLine("The real author has ID of: {0}", originalAuthorId.AuthorId);
+                    //    System.Console.WriteLine("The real author has ID of: {0}", originalAuthorId.AuthorId);
+                    //    foreach (var item in matches)
+                    //    {
+                    //        sw.WriteLine("Paper ID: {0}", item.Paper.PaperId);
+                    //        System.Console.WriteLine("Paper ID: {0}. ", item.Paper.PaperId);
+                    //        var authorId = context.PaperAuthors.FirstOrDefault(x => x.PaperId == item.Paper.PaperId);
+                    //        if (authorId != null && authorId.AuthorId != null)
+                    //        {
+                    //            var author = context.Authors.FirstOrDefault(a => a.Id == authorId.AuthorId);
+                    //            if (author != null && author.Name != null)
+                    //            {
+                    //                sw.Write("Author Name={0}; Author Id={1}", author.Name, author.Id);
+                    //                sw.WriteLine();
+                    //                System.Console.WriteLine(author.Id);
+                    //                System.Console.WriteLine(author.Name);
+
+                    //                if (author.Id == originalAuthorId.AuthorId)
+                    //                    match = true;
+                    //            }
+                    //        }
+                    //    }
+                    //}
+                    //sw.WriteLine("-----------------------------------------------");
+                    //sw.WriteLine();
+                    // System.Console.WriteLine("-----------------------------------------------");
+                    // System.Console.WriteLine();
+                }
+            }
+            return true;
+        }
+
+        private static void GetLasNPercent (int percent)
+        {
+                string path = @"..\..\..\..\result" + DateTime.Now.ToFileTime() + ".txt";
+
+                using (var context = new AuthorPaperEntities())
+                {
+                    var paperCount = context.ValidPapers.Count();
+                    var testPapersCount = (int) Math.Floor(paperCount*0.1);
+                    var trainCount = paperCount - testPapersCount;
+                    System.Console.WriteLine("started loading papers in memory " + DateTime.Now);
+                    var allPapers = context.ValidPapers.Include("Paper").OrderBy(v => v.PaperId);
+                    KNearestNeighbours.TestPapers =
+                        allPapers.Skip(trainCount).Take(testPapersCount)
+                                 .ToList();
+                    KNearestNeighbours.TrainPapers = allPapers
+                        .Take(trainCount)
+                        .ToList();
+                    KNearestNeighbours.PaperKeywords = context.PaperKeywords.ToList();
+                    KNearestNeighbours.Keywords = context.Keywords.ToList();
+                    var matchedCount = 0;
+                    System.Console.WriteLine("loaded papers in memory "+ DateTime.Now);
+                    var index = 0;
+                    foreach (var validPaper in KNearestNeighbours.TestPapers.Take(1))
+                    {
+                        var paper = validPaper.paper;
+                        if (paper != null)
+                        {
+                            var matches = KNearestNeighbours.FindKNearestPapersParallel(paper, 5);
+                            //var matches = KNearestNeighbours.FindKNearestPapers(paper, 5, trainCount);
+                            if (StoreOutput(matches, paper, path))
+                                matchedCount++;
+                            System.Console.WriteLine("matched paper "+ index + " " + DateTime.Now);
+                        }
+                        index++;
+                    }
+                    //sw.WriteLine("Match percentage: {0}", matchedCount / testPapersCount);
+                    //System.Console.WriteLine("Match percentage: {0}", matchedCount / testPapersCount);
                 }
             }
         }
-
-        private static void RemoveDuplicates()
-        {
-            var startTime = DateTime.Now;
-            System.Console.WriteLine("start time " + (startTime));
-
-            //InsertKeywords.InsertKeywordsForPapers();
-            // InsertKeywords.RunParallelInserts();
-            InsertKeywords.RemoveDuplicatingKeywords();
-            var endTime = DateTime.Now;
-
-            System.Console.WriteLine("total time " + endTime.Subtract(startTime));
-        }
-    }
 }
+
