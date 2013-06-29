@@ -74,15 +74,15 @@ namespace AuthorPaper.Console
 
                 using (var context = new AuthorPaperEntities())
                 {
-                    var paperCount = context.ValidPapers.Count();
+                    var paperCount = context.ValidPapers.Count() / 10;
                     var testPapersCount = (int) Math.Floor(paperCount*0.1);
                     var trainCount = paperCount - testPapersCount;
                     System.Console.WriteLine("started loading papers in memory " + DateTime.Now);
-                    var allPapers = context.ValidPapers.Include("Paper").OrderBy(v => v.PaperId);
+                    var allPapers = context.ValidPapers.Include("Paper");
                     KNearestNeighbours.TestPapers =
-                        allPapers.Skip(trainCount).Take(testPapersCount)
+                        allPapers.OrderByDescending(v => v.PaperId).Take(testPapersCount)
                                  .ToList();
-                    KNearestNeighbours.TrainPapers = allPapers
+                    KNearestNeighbours.TrainPapers = allPapers.OrderBy(p => p.PaperId)
                         .Take(trainCount)
                         .ToList();
                     KNearestNeighbours.PaperKeywords = context.PaperKeywords.ToList();
@@ -90,7 +90,7 @@ namespace AuthorPaper.Console
                     var matchedCount = 0;
                     System.Console.WriteLine("loaded papers in memory "+ DateTime.Now);
                     var index = 0;
-                    foreach (var validPaper in KNearestNeighbours.TestPapers.Take(1))
+                    foreach (var validPaper in KNearestNeighbours.TestPapers)
                     {
                         var paper = validPaper.paper;
                         if (paper != null)
