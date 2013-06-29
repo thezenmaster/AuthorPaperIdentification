@@ -61,6 +61,7 @@ namespace AuthorPaper.Console
         {
             var matchedFirst = 0;
             var matchedAny = 0;
+            var matchedMostCommon = 0;
             var totalRows = 0;
             using (var sw = new StreamWriter(!File.Exists(path) ? File.Open(path, FileMode.Create) : File.Open(path, FileMode.Append)))
             {
@@ -73,9 +74,17 @@ namespace AuthorPaper.Console
                     var isMatchedAny = (firstMatch != null &&
                                         paperVector.MatchedPapers.Any(mp => mp.AuthorId == paperVector.AuthorId));
                     if (isMatchedAny) matchedAny++;
-                    builder.AppendFormat("{0},{1},{2},{3};", paperVector.PaperId, paperVector.AuthorId,
+                    var matchMostCommon = paperVector.MatchedPapers.GroupBy(b => b.AuthorId)
+                                                       .OrderByDescending(m => m.Count()).FirstOrDefault();
+                    var isMatchMostCommon = false;
+                    if (matchMostCommon != null)
+                        isMatchMostCommon = matchMostCommon.Any()
+                                            && paperVector.AuthorId == matchMostCommon.First().AuthorId;
+                    if (isMatchMostCommon) matchedMostCommon++;
+                    builder.AppendFormat("{0},{1},{2},{3},{4};", paperVector.PaperId, paperVector.AuthorId,
                         isMatchedFirst ? 1 : 0,
-                        isMatchedAny ? 1 : 0);
+                        isMatchedAny ? 1 : 0,
+                        isMatchMostCommon ? 1 : 0);
                     foreach (var match in paperVector.MatchedPapers)
                     {
                         builder.AppendFormat("{0},{1};", match.PaperId, match.AuthorId);
@@ -86,6 +95,7 @@ namespace AuthorPaper.Console
                 sw.WriteLine(builder.ToString());
                 sw.WriteLine("Matched first: " + matchedFirst);
                 sw.WriteLine("Matched any: " + matchedAny);
+                sw.WriteLine("Matched most common: " + matchedMostCommon);
                 sw.WriteLine("Total: " + totalRows);
             }
         }
