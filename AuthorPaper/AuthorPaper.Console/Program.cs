@@ -21,9 +21,7 @@ namespace AuthorPaper.Console
 
         private static bool StoreOutput(List<PaperVector> matches, Paper originalPaper, string path)
         {
-            if (!File.Exists(path))
-            {
-                using (StreamWriter sw = File.CreateText(path))
+            using (var sw = new StreamWriter(!File.Exists(path) ? File.Open(path, FileMode.Create) : File.Open(path, FileMode.Append)))
                 {
                     var builder = new StringBuilder();
                     builder.AppendFormat("{0};", originalPaper.Id);
@@ -63,7 +61,6 @@ namespace AuthorPaper.Console
                     //sw.WriteLine();
                     // System.Console.WriteLine("-----------------------------------------------");
                     // System.Console.WriteLine();
-                }
             }
             return true;
         }
@@ -88,6 +85,9 @@ namespace AuthorPaper.Console
                     KNearestNeighbours.PaperKeywords = context.PaperKeywords.ToList();
                     KNearestNeighbours.Keywords = context.Keywords.ToList();
                     var matchedCount = 0;
+                    System.Console.WriteLine("number of all " + paperCount);
+                    System.Console.WriteLine("number of train set " + trainCount);
+                    System.Console.WriteLine("number of test set " + testPapersCount);
                     System.Console.WriteLine("loaded papers in memory "+ DateTime.Now);
                     var index = 0;
                     foreach (var validPaper in KNearestNeighbours.TestPapers)
