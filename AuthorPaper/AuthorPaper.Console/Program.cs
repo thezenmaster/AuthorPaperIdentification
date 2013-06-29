@@ -14,11 +14,13 @@ namespace AuthorPaper.Console
     {
         private static void Main(string[] args)
         {
+            // todo: uncommit when parsing results
+            //ParsePaperOutput.GetPaperAuthors();
             //Test with 10 percent
             GetLasNPercent(10);
             System.Console.ReadLine();
         }
-
+        
         private static bool StoreOutput(List<PaperVector> matches, Paper originalPaper, string path)
         {
             using (var sw = new StreamWriter(!File.Exists(path) ? File.Open(path, FileMode.Create) : File.Open(path, FileMode.Append)))
