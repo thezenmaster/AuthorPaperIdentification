@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace PreProcessing
+namespace PreProcessing.Keywords
 {
     public class Stemmer
     {

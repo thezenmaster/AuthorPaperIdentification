@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
-namespace PreProcessing
+namespace PreProcessing.Keywords
 {
     public class StopWordsContainer
     {

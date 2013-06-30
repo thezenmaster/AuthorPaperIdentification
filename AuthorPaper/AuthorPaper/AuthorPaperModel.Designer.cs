@@ -1502,6 +1502,30 @@ namespace AuthorPaper
         private global::System.Int32 _PaperKeywordId;
         partial void OnPaperKeywordIdChanging(global::System.Int32 value);
         partial void OnPaperKeywordIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int64> MaxCount
+        {
+            get
+            {
+                return _MaxCount;
+            }
+            set
+            {
+                OnMaxCountChanging(value);
+                ReportPropertyChanging("MaxCount");
+                _MaxCount = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("MaxCount");
+                OnMaxCountChanged();
+            }
+        }
+        private Nullable<global::System.Int64> _MaxCount;
+        partial void OnMaxCountChanging(Nullable<global::System.Int64> value);
+        partial void OnMaxCountChanged();
 
         #endregion
 

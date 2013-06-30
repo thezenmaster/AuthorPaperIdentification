@@ -23,7 +23,7 @@ CREATE TABLE paperkeyword
   CONSTRAINT paperkeyword_pk PRIMARY KEY (paperkeywordid),
   CONSTRAINT paperkeyword_keyword FOREIGN KEY (keywordid)
       REFERENCES keyword (keywordid) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
+      ON UPDATE NO ACTION ON DELETE CASCADE,
   CONSTRAINT paperkeyword_paper FOREIGN KEY (paperid)
       REFERENCES paper (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE CASCADE

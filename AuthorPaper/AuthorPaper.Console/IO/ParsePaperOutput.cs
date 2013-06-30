@@ -3,21 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using AuthorPaper.Console.Classifier;
+using PreProcessing.BuildIndices;
+using PreProcessing.IO;
 
-namespace AuthorPaper.Console
+namespace AuthorPaper.Console.IO
 {
-    public class PaperOutput
-    {
-        public long PaperId { get; set; }
-        public long AuthorId { get; set; }
-        public List<MatchedPaperOutput> MatchedPapers { get; set; } 
-    }
-    public class MatchedPaperOutput
-    {
-        public long PaperId { get; set; }
-        public long AuthorId { get; set; }
-        public double Similarity { get; set; }
-    }
     public class ParsePaperOutput
     {
         private static List<PaperOutput> ParsePaperResultFile(string path)
@@ -57,7 +48,7 @@ namespace AuthorPaper.Console
             return list;
         }
 
-        private static void WriteAuthorResultFile(string path, List<PaperOutput> paperOutputs)
+        private static void WriteAuthorResultFile(string path, IEnumerable<PaperOutput> paperOutputs)
         {
             var matchedFirst = 0;
             var matchedAny = 0;
@@ -100,32 +91,32 @@ namespace AuthorPaper.Console
             }
         }
 
-        public static void GetPaperAuthors()
+        public static void WritePaperAuthors(string srcPath, string dstPath)
         {
-            const string srcpath = @"..\..\..\..\result130169398164206210.txt";
-            const string dstpath = @"..\..\..\..\resultauthors.txt";
-            using (var context = new AuthorPaperEntities())
-            {
-                var validPapers = context.ValidPapers.ToList();
+            //const string srcpath = @"..\..\..\..\result130169398164206210.txt";
+            //const string dstpath = @"..\..\..\..\resultauthors.txt";
+            var paperOutput = ParsePaperResultFile(srcPath);
+            PaperAuthors.GetPaperAuthors(paperOutput);
+            WriteAuthorResultFile(dstPath, paperOutput);
+        }
 
-                var paperOutput = ParsePaperResultFile(srcpath);
-                foreach (var output in paperOutput)
+        public static void WritePaperOutputResults(string path)
+        {
+            using (var sw = new StreamWriter(!File.Exists(path)
+                                         ? File.Open(path, FileMode.Create)
+                                         : File.Open(path, FileMode.Append)))
+            {
+                var builder = new StringBuilder();
+                foreach (var testPaperResult in BigStorage.TestPaperResults)
                 {
-                    var validPaper = validPapers.FirstOrDefault(p => p.PaperId == output.PaperId);
-                    if (validPaper != null)
+                    builder.AppendFormat("{0};", testPaperResult.Value.PaperId);
+                    foreach (var paperVector in testPaperResult.Value.MatchedPapers)
                     {
-                        output.AuthorId = validPaper.AuthorId.HasValue ? validPaper.AuthorId.Value : -1;
+                        builder.AppendFormat("{0},{1};", paperVector.PaperId, paperVector.Similarity);
                     }
-                    foreach (var matched in output.MatchedPapers)
-                    {
-                        var validMatchedPaper = validPapers.FirstOrDefault(p => p.PaperId == matched.PaperId);
-                        if (validMatchedPaper != null)
-                        {
-                            matched.AuthorId = validMatchedPaper.AuthorId.HasValue ? validMatchedPaper.AuthorId.Value : -1;
-                        }
-                    }
+                    sw.WriteLine(builder.ToString());
+                    builder.Clear();
                 }
-                WriteAuthorResultFile(dstpath, paperOutput);
             }
         }
     }

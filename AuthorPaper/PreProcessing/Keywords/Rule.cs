@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PreProcessing
+namespace PreProcessing.Keywords
 {
     public class Rule
     {

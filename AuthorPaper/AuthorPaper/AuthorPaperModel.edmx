@@ -102,6 +102,7 @@
           <Property Name="normalizedcount" Type="double precision" />
           <Property Name="keywordid" Type="int" Nullable="false" />
           <Property Name="paperkeywordid" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="maxcount" Type="bigint" />
         </EntityType>
         <EntityType Name="trainconfirmed">
           <Key>
@@ -348,6 +349,7 @@
           <NavigationProperty Name="Keyword" Relationship="kdd2013Model.paperkeyword_keyword" FromRole="paperkeyword" ToRole="keyword" />
           <NavigationProperty Name="Paper" Relationship="kdd2013Model.paperkeyword_paper" FromRole="paperkeyword" ToRole="paper" />
           <Property Type="Int32" Name="PaperKeywordId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int64" Name="MaxCount" />
         </EntityType>
         <Association Name="paperkeyword_keyword">
           <End Type="kdd2013Model.Keyword" Role="keyword" Multiplicity="1" >
@@ -485,6 +487,7 @@
           <EntitySetMapping Name="PaperKeywords">
             <EntityTypeMapping TypeName="kdd2013Model.PaperKeyword">
               <MappingFragment StoreEntitySet="paperkeyword">
+                <ScalarProperty Name="MaxCount" ColumnName="maxcount" />
                 <ScalarProperty Name="PaperKeywordId" ColumnName="paperkeywordid" />
                 <ScalarProperty Name="KeywordId" ColumnName="keywordid" />
                 <ScalarProperty Name="NormalizedCount" ColumnName="normalizedcount" />

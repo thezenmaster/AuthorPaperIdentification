@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="KNearestNeighbours.cs" />
-    <Compile Include="PaperVector.cs" />
+    <Compile Include="PaperSimilarity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

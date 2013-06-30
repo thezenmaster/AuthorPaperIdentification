@@ -57,3 +57,14 @@ CREATE INDEX keyword_value_ix
 	END
 	$$;
 	SELECT removeDuplicates();
+	
+	
+delete from paperkeyword
+where paperkeywordid in 
+(select first(paperkeywordid)
+from
+(select paperid,keywordid,keywordid::INT8*255000+paperid as keywordposition,first(paperkeywordid) as paperkeywordid
+from paperkeyword
+group by paperid,keywordid) kp
+group by keywordposition
+having count(keywordposition)>1)

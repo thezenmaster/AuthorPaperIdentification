@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text;
+using System.Threading.Tasks;
 using AuthorPaper;
 using PreProcessing;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using PreProcessing.Keywords;
 
 namespace SimilarityMeasure
 {
@@ -17,6 +19,95 @@ namespace SimilarityMeasure
         public static List<Keyword> Keywords = new List<Keyword>();
 
         public const int MaxDegreeOfParallelization = 4;
+
+        private static bool StoreOutput(List<PaperSimilarity> matches, Paper originalPaper, string path)
+        {
+            using (var sw = new StreamWriter(!File.Exists(path) ? File.Open(path, FileMode.Create) : File.Open(path, FileMode.Append)))
+            {
+                var builder = new StringBuilder();
+                builder.AppendFormat("{0};", originalPaper.Id);
+                foreach (var paperVector in matches)
+                {
+                    builder.AppendFormat("{0},{1};", paperVector.PaperId, paperVector.Similarity);
+                }
+                sw.WriteLine(builder.ToString());
+                // bool match = false;
+                //using (var context = new AuthorPaperEntities())
+                //{
+                //    var originalAuthorId = context.PaperAuthors.FirstOrDefault(x => x.PaperId == originalPaper.Id);
+                //    sw.WriteLine("The real author has ID of: {0}", originalAuthorId.AuthorId);
+                //    System.Console.WriteLine("The real author has ID of: {0}", originalAuthorId.AuthorId);
+                //    foreach (var item in matches)
+                //    {
+                //        sw.WriteLine("Paper ID: {0}", item.Paper.PaperId);
+                //        System.Console.WriteLine("Paper ID: {0}. ", item.Paper.PaperId);
+                //        var authorId = context.PaperAuthors.FirstOrDefault(x => x.PaperId == item.Paper.PaperId);
+                //        if (authorId != null && authorId.AuthorId != null)
+                //        {
+                //            var author = context.Authors.FirstOrDefault(a => a.Id == authorId.AuthorId);
+                //            if (author != null && author.Name != null)
+                //            {
+                //                sw.Write("Author Name={0}; Author Id={1}", author.Name, author.Id);
+                //                sw.WriteLine();
+                //                System.Console.WriteLine(author.Id);
+                //                System.Console.WriteLine(author.Name);
+
+                //                if (author.Id == originalAuthorId.AuthorId)
+                //                    match = true;
+                //            }
+                //        }
+                //    }
+                //}
+                //sw.WriteLine("-----------------------------------------------");
+                //sw.WriteLine();
+                // System.Console.WriteLine("-----------------------------------------------");
+                // System.Console.WriteLine();
+            }
+            return true;
+        }
+
+        private static void GetLasNPercent(int percent)
+        {
+            string path = @"..\..\..\..\result" + DateTime.Now.ToFileTime() + ".txt";
+
+            using (var context = new AuthorPaperEntities())
+            {
+                var paperCount = context.ValidPapers.Count() / 10;
+                var testPapersCount = (int)Math.Floor(paperCount * 0.1);
+                var trainCount = paperCount - testPapersCount;
+                System.Console.WriteLine("started loading papers in memory " + DateTime.Now);
+                var allPapers = context.ValidPapers.Include("Paper");
+                TestPapers =
+                    allPapers.OrderByDescending(v => v.PaperId).Take(testPapersCount)
+                             .ToList();
+                TrainPapers = allPapers.OrderBy(p => p.PaperId)
+                    .Take(trainCount)
+                    .ToList();
+                PaperKeywords = context.PaperKeywords.ToList();
+                Keywords = context.Keywords.ToList();
+                var matchedCount = 0;
+                System.Console.WriteLine("number of all " + paperCount);
+                System.Console.WriteLine("number of train set " + trainCount);
+                System.Console.WriteLine("number of test set " + testPapersCount);
+                System.Console.WriteLine("loaded papers in memory " + DateTime.Now);
+                var index = 0;
+                foreach (var validPaper in TestPapers)
+                {
+                    var paper = validPaper.paper;
+                    if (paper != null)
+                    {
+                        var matches = FindKNearestPapersParallel(paper, 5);
+                        //var matches = KNearestNeighbours.FindKNearestPapers(paper, 5, trainCount);
+                        if (StoreOutput(matches, paper, path))
+                            matchedCount++;
+                        System.Console.WriteLine("matched paper " + index + " " + DateTime.Now);
+                    }
+                    index++;
+                }
+                //sw.WriteLine("Match percentage: {0}", matchedCount / testPapersCount);
+                //System.Console.WriteLine("Match percentage: {0}", matchedCount / testPapersCount);
+            }
+        }
 
         public static double GetScalarProduct(List<Word> paperIndex, List<PaperKeyword> paperItemKeywords)
         {
@@ -35,10 +126,10 @@ namespace SimilarityMeasure
             return scalarProduct;
         }
 
-        public static List<PaperVector> FindKNearestPapersParallel(Paper paper, int nearestK)
+        public static List<PaperSimilarity> FindKNearestPapersParallel(Paper paper, int nearestK)
         {
             var batchCount = TrainPapers.Count/MaxDegreeOfParallelization;
-            var tasks = new List<Task<List<PaperVector>>>();
+            var tasks = new List<Task<List<PaperSimilarity>>>();
             for (var i = 0; i < MaxDegreeOfParallelization; i++)
             {
                 var localVar = i;
@@ -47,7 +138,7 @@ namespace SimilarityMeasure
 
             Task.WaitAll(tasks.ToArray());
 
-            var result = new List<PaperVector>();
+            var result = new List<PaperSimilarity>();
             tasks.ForEach(t => 
             {
                 if (!t.IsFaulted) result.AddRange(t.Result);
@@ -55,18 +146,18 @@ namespace SimilarityMeasure
             return GetTopDistinctValues(result, nearestK);
         } 
 
-        public static List<PaperVector> GetTopDistinctValues(List<PaperVector> list, int top)
+        public static List<PaperSimilarity> GetTopDistinctValues(List<PaperSimilarity> list, int top)
         {
-            var result = list.GroupBy(g => g.Paper.PaperId).Select(p => p.First()).OrderByDescending(r => r.Similarity);
+            var result = list.GroupBy(g => g.PaperId).Select(p => p.First()).OrderByDescending(r => r.Similarity);
             if (result.Count() >= top) return result.Take(top).ToList();
             return result.ToList();
         } 
 
-        public static List<PaperVector> FindKNearestPapers(Paper paper, int nearestK, int startPos, int batchCount)
+        public static List<PaperSimilarity> FindKNearestPapers(Paper paper, int nearestK, int startPos, int batchCount)
         {
             var paperIndex = LoadPaperKeywords(paper);
             NormalizeInputPaperIndex(paperIndex);
-            var nearestPapers = new List<PaperVector>();
+            var nearestPapers = new List<PaperSimilarity>();
             double inputVectorNorm = 0.0;
             foreach (var word in paperIndex)
             {
@@ -90,7 +181,7 @@ namespace SimilarityMeasure
                         double cosine = scalarProduct / (inputVectorNorm * trainSetItemNorm);
                         if (nearestPapers.Count < nearestK)
                         {
-                            nearestPapers.Add(new PaperVector { Paper = paperItem, Similarity = cosine });
+                            nearestPapers.Add(new PaperSimilarity { PaperId = paperItem.PaperId.Value, Similarity = cosine });
                         }
                         else
                         {
@@ -98,7 +189,7 @@ namespace SimilarityMeasure
                             if (nearestPapers.Last().Similarity < cosine)
                             {
                                 nearestPapers.Remove(nearestPapers.Last());
-                                nearestPapers.Add(new PaperVector { Paper = paperItem, Similarity = cosine });
+                                nearestPapers.Add(new PaperSimilarity { PaperId = paperItem.PaperId.Value, Similarity = cosine });
                             }
                         }
                     }

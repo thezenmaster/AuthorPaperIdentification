@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AuthorPaper;
 
-namespace PreProcessing
+namespace PreProcessing.Keywords
 {
     public class InsertKeywords
     {
@@ -133,52 +133,53 @@ namespace PreProcessing
 
         public static void RemoveDuplicatingKeywords()
         {
-            int total;
-            var iteration = 0;
-            const int batchsize = 100;
+            // after the insert, duplicates are removed by running sql scripts in the database
+            //int total;
+            //var iteration = 0;
+            //const int batchsize = 100;
 
-            do
-            {
-                var context = new AuthorPaperEntities();
+            //do
+            //{
+            //    var context = new AuthorPaperEntities();
 
-                var duplicateKeywordsGroup = context.Keywords.Include("paperkeyword").GroupBy(g => g.Value)
-                                                    .Where(g => g.Count() > 1)
-                                                    .OrderBy(g => g.Key);
-                total = duplicateKeywordsGroup.Count();
+            //    var duplicateKeywordsGroup = context.Keywords.Include("paperkeyword").GroupBy(g => g.Value)
+            //                                        .Where(g => g.Count() > 1)
+            //                                        .OrderBy(g => g.Key);
+            //    total = duplicateKeywordsGroup.Count();
 
-                var duplicateKeywords = duplicateKeywordsGroup.Take((total < batchsize)
-                                                                        ? total
-                                                                        : batchsize).ToList();
+            //    var duplicateKeywords = duplicateKeywordsGroup.Take((total < batchsize)
+            //                                                            ? total
+            //                                                            : batchsize).ToList();
 
-                foreach (var duplicateKeyword in duplicateKeywords)
-                {
-                    var totalCount = duplicateKeyword.Sum(dk => dk.Count);
-                    var firstKeyword = duplicateKeyword.First();
-                    firstKeyword.Count = totalCount;
+            //    foreach (var duplicateKeyword in duplicateKeywords)
+            //    {
+            //        var totalCount = duplicateKeyword.Sum(dk => dk.Count);
+            //        var firstKeyword = duplicateKeyword.First();
+            //        firstKeyword.Count = totalCount;
 
-                    foreach (
-                        var keyword in duplicateKeyword.Where(keyword => keyword.KeywordId != firstKeyword.KeywordId))
-                    {
-                        foreach (var paperkeyword in keyword.PaperKeywords)
-                        {
-                            context.AddToPaperKeywords(new PaperKeyword
-                                {
-                                    PaperId = paperkeyword.PaperId,
-                                    KeywordId = firstKeyword.KeywordId,
-                                    Count = paperkeyword.Count
-                                });
-                            // fk on delete cascade
-                            //context.DeleteObject(paperkeyword);
-                        }
-                        context.DeleteObject(keyword);
-                    }
-                }
+            //        foreach (
+            //            var keyword in duplicateKeyword.Where(keyword => keyword.KeywordId != firstKeyword.KeywordId))
+            //        {
+            //            foreach (var paperkeyword in keyword.PaperKeywords)
+            //            {
+            //                context.AddToPaperKeywords(new PaperKeyword
+            //                    {
+            //                        PaperId = paperkeyword.PaperId,
+            //                        KeywordId = firstKeyword.KeywordId,
+            //                        Count = paperkeyword.Count
+            //                    });
+            //                // fk on delete cascade
+            //                //context.DeleteObject(paperkeyword);
+            //            }
+            //            context.DeleteObject(keyword);
+            //        }
+            //    }
 
-                context.SaveChanges();
-                Console.WriteLine("saved iteration " + iteration + DateTime.Now);
-                iteration++;
+            //    context.SaveChanges();
+            //    Console.WriteLine("saved iteration " + iteration + DateTime.Now);
+            //    iteration++;
                
-            } while (total > 0);
+            //} while (total > 0);
         }
     }
 }
