@@ -90,24 +90,24 @@ namespace AuthorPaper.Console.Classifier
         {
             // get list of relevant papers
             var result = new List<PaperVector>();
-            foreach (var simplePaper in BigStorage.Papers)
+            //foreach (var simplePaper in BigStorage.Papers)
+            //{
+            //    result.Add(PaperIndex.GeneratePaperVector(simplePaper.Value));
+            //}
+            var listPaperIds = new List<long>();
+            foreach (var keywords in paper.KeywordValues)
             {
-                result.Add(PaperIndex.GeneratePaperVector(simplePaper.Value));
+                var keywordIndexItem = BigStorage.KeywordIndex[KeywordIndex.RemoveNewLines(keywords.Key)];
+                listPaperIds.AddRange(keywordIndexItem.PaperKeywordFrequencies.Select(pk => pk.Key));
             }
-            //var listPaperIds = new List<long>();
-            //foreach (var keywords in paper.KeywordValues)
-            //{
-            //    var keywordIndexItem = BigStorage.KeywordIndex[KeywordIndex.RemoveNewLines(keywords.Key)];
-            //    listPaperIds.AddRange(keywordIndexItem.PaperKeywordFrequencies.Select(pk => pk.Key));
-            //}
-            //var distinctPaperIds = listPaperIds.Distinct();
-            //foreach (var distinctPaperId in distinctPaperIds)
-            //{
-            //    if (!BigStorage.PaperIndex.ContainsKey(distinctPaperId)) continue;
-                
-            //    var relevantPaper = BigStorage.PaperIndex[distinctPaperId];
-            //    result.Add(relevantPaper);
-            //}
+            var distinctPaperIds = listPaperIds.Distinct();
+            foreach (var distinctPaperId in distinctPaperIds)
+            {
+                if (!BigStorage.PaperIndex.ContainsKey(distinctPaperId)) continue;
+
+                var relevantPaper = BigStorage.PaperIndex[distinctPaperId];
+                result.Add(relevantPaper);
+            }
 
             return result;
         }
