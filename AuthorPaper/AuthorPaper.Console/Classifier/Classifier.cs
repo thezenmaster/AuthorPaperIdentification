@@ -18,6 +18,29 @@ namespace AuthorPaper.Console.Classifier
             var testPaperResults = new SortedList<long, PaperOutput>();
             foreach (var testPaper in BigStorage.TestPapers)
             {
+                var keywords = PreProcessing.Keywords.GenerateKeywords.GeneratePaperKeywords(testPaper.Value).ToList();
+                if (!keywords.Any())
+                {
+                    System.Console.WriteLine("zero keywords for paperid " + testPaper.Key);
+                }
+                var simpleKeywords = new List<SimplePaperKeyword>();
+                foreach (var keyword in keywords)
+                {
+                    var escapedKey = KeywordIndex.RemoveNewLines(keyword.Value);
+                    if (!BigStorage.KeywordIndex.ContainsKey(escapedKey))
+                    {
+                        System.Console.WriteLine("keyword not found " + escapedKey + " paperid " + testPaper.Key);
+                        continue;
+                    }
+                    var getFromIndex = BigStorage.KeywordIndex[escapedKey];
+                    simpleKeywords.Add(new SimplePaperKeyword
+                        {
+                            Value = keyword.Value,
+                            Count = keyword.Count,
+                            KeywordId = getFromIndex.KeywordId
+                        });
+                }
+                testPaper.Value.PaperKeywords = simpleKeywords;
                 var paperVector = PaperIndex.GeneratePaperVector(testPaper.Value);
 
                 var paperOutput = ExecuteClassifierAlgorithm(paperVector);
@@ -103,7 +126,11 @@ namespace AuthorPaper.Console.Classifier
             var distinctPaperIds = listPaperIds.Distinct();
             foreach (var distinctPaperId in distinctPaperIds)
             {
-                if (!BigStorage.PaperIndex.ContainsKey(distinctPaperId)) continue;
+                if (!BigStorage.PaperIndex.ContainsKey(distinctPaperId))
+                {
+                    System.Console.WriteLine("relevant paper not found in big index " + distinctPaperId);
+                    continue;
+                }
 
                 var relevantPaper = BigStorage.PaperIndex[distinctPaperId];
                 result.Add(relevantPaper);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using AuthorPaper;
+using PreProcessing.BuildIndices;
 
 namespace PreProcessing.Keywords
 {
@@ -20,17 +21,28 @@ namespace PreProcessing.Keywords
         private static readonly char[] Separators = new[] {';', ',', '|'};
         private const int MinValidWordLength = 4;
         private const int MaxNumberOfWords = 4;
+
+        public static IEnumerable<Word> GeneratePaperKeywords(SimplePaper paper)
+        {
+            return GenerateAllKeywords(paper.Title, paper.Keywords);
+        }
+
         public static IEnumerable<Word> GeneratePaperKeywords(Paper paper)
         {
+            return GenerateAllKeywords(paper.Title, paper.Keyword);
+        }
+       
+        private static IEnumerable<Word> GenerateAllKeywords(string title, string keywords)
+        {
             var paperKeywords = new List<string>();
-            paperKeywords.AddRange(GetKeywords(paper.Title, true));
-            paperKeywords.AddRange(GetKeywords(paper.Keyword, false));
+            paperKeywords.AddRange(GetKeywords(title, true));
+            paperKeywords.AddRange(GetKeywords(keywords, false));
             // count number of occurrences
             return paperKeywords.Where(pk => !string.IsNullOrEmpty(pk))
                 .Select(Stemmer.GetStemmedWord)
                 .GroupBy(pk => pk).Select(g => new Word { Value = g.Key, Count = g.Count() });
         }
-       
+
         public static bool IsValidKeyword(string keyword)
         {
             return !string.IsNullOrEmpty(keyword) && keyword.Length >= MinValidWordLength

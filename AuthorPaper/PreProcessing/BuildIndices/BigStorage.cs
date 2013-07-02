@@ -89,7 +89,9 @@ namespace PreProcessing.BuildIndices
                                         PaperKeywordId = pk.PaperKeywordId,
                                         KeywordId = pk.KeywordId,
                                         Value = pk.Keyword.Value
-                                    })
+                                    }),
+                                    Title = p.paper.Title,
+                                    Keywords = p.paper.Keyword
                             })
                             .ToList();
                         testPapers.ForEach(f => _testPapers.Add(f.Id, f));

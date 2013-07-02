@@ -14,7 +14,8 @@ namespace PreProcessing.BuildIndices
         public long PaperId { get; set; }
         public double ScalarSquare { get; set; }
         public SortedList<long, double> KeywordWeight { get; set; }
-        public SortedList<string, long> KeywordValues { get; set; } 
+        public SortedList<string, long> KeywordValues { get; set; }
+        public SortedList<long, KeywordVector> KeywordVectors { get; set; } 
     }
     public class PaperIndex
     {

@@ -50,21 +50,36 @@ namespace AuthorPaper.Console.IO
 
         private static void WriteAuthorResultFile(string path, IEnumerable<PaperOutput> paperOutputs)
         {
-            var matchedFirst = 0;
-            var matchedAny = 0;
+            //var matchedFirst = 0;
+            //var matchedAny = 0;
             var matchedMostCommon = 0;
+            var matchedArray = new [] {0,0,0,0,0}; //k = 5
             var totalRows = 0;
             using (var sw = new StreamWriter(!File.Exists(path) ? File.Open(path, FileMode.Create) : File.Open(path, FileMode.Append)))
             {
                 var builder = new StringBuilder();
                 foreach (var paperVector in paperOutputs)
                 {
-                    var firstMatch = paperVector.MatchedPapers.OrderByDescending(r => r.Similarity).FirstOrDefault();
-                    var isMatchedFirst = (firstMatch != null && paperVector.AuthorId == firstMatch.AuthorId);
-                    if (isMatchedFirst) matchedFirst++;
-                    var isMatchedAny = (firstMatch != null &&
-                                        paperVector.MatchedPapers.Any(mp => mp.AuthorId == paperVector.AuthorId));
-                    if (isMatchedAny) matchedAny++;
+                    //var firstMatch = paperVector.MatchedPapers.OrderByDescending(r => r.Similarity).FirstOrDefault();
+                    //var isMatchedFirst = (firstMatch != null && paperVector.AuthorId == firstMatch.AuthorId);
+                    //if (isMatchedFirst) matchedFirst++;
+                    //var isMatchedAny = (firstMatch != null &&
+                    //                    paperVector.MatchedPapers.Any(mp => mp.AuthorId == paperVector.AuthorId));
+                    //if (isMatchedAny) matchedAny++;
+
+                    var matchPosition = -1;
+                    var index = 0;
+                    foreach (var matchedPaperOutput in paperVector.MatchedPapers.OrderByDescending(r => r.Similarity))
+                    {
+                        if (matchedPaperOutput.AuthorId == paperVector.AuthorId)
+                        {
+                            matchedArray[index]++;
+                            matchPosition = index;
+                            break;
+                        }
+                        index++;
+                    }
+
                     var matchMostCommon = paperVector.MatchedPapers.GroupBy(b => b.AuthorId)
                                                        .OrderByDescending(m => m.Count()).FirstOrDefault();
                     var isMatchMostCommon = false;
@@ -72,9 +87,8 @@ namespace AuthorPaper.Console.IO
                         isMatchMostCommon = matchMostCommon.Any()
                                             && paperVector.AuthorId == matchMostCommon.First().AuthorId;
                     if (isMatchMostCommon) matchedMostCommon++;
-                    builder.AppendFormat("{0},{1},{2},{3},{4};", paperVector.PaperId, paperVector.AuthorId,
-                        isMatchedFirst ? 1 : 0,
-                        isMatchedAny ? 1 : 0,
+                    builder.AppendFormat("{0},{1},{2},{3};", paperVector.PaperId, paperVector.AuthorId,
+                        matchPosition,
                         isMatchMostCommon ? 1 : 0);
                     foreach (var match in paperVector.MatchedPapers)
                     {
@@ -84,8 +98,12 @@ namespace AuthorPaper.Console.IO
                     totalRows++;
                 }
                 sw.WriteLine(builder.ToString());
-                sw.WriteLine("Matched first: " + matchedFirst);
-                sw.WriteLine("Matched any: " + matchedAny);
+                for(var i=0; i< matchedArray.Length; i++)
+                {
+                    sw.WriteLine("Matched at position i " + i + " papers: " + matchedArray[i]);
+                }
+                //sw.WriteLine("Matched first: " + matchedFirst);
+                //sw.WriteLine("Matched any: " + matchedAny);
                 sw.WriteLine("Matched most common: " + matchedMostCommon);
                 sw.WriteLine("Total: " + totalRows);
             }
