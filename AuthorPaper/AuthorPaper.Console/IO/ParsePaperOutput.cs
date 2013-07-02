@@ -81,7 +81,8 @@ namespace AuthorPaper.Console.IO
                     }
 
                     var matchMostCommon = paperVector.MatchedPapers.GroupBy(b => b.AuthorId)
-                                                       .OrderByDescending(m => m.Count()).FirstOrDefault();
+                                                       .OrderByDescending(m => m.Count())
+                                                       .ThenByDescending(r => r.Max(p => p.Similarity)).FirstOrDefault();
                     var isMatchMostCommon = false;
                     if (matchMostCommon != null)
                         isMatchMostCommon = matchMostCommon.Any()
