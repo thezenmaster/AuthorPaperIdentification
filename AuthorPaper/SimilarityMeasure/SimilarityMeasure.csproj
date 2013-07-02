@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="KNearestNeighbours.cs" />
+    <Compile Include="LevenshteinDistance.cs" />
     <Compile Include="PaperSimilarity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
