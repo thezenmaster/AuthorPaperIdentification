@@ -87,26 +87,31 @@ namespace PreProcessing.Keywords
                 }
                 else
                 {
-                    splitTitle = keywordLower.Split(Separators).ToList();
-                    
-                    if (splitTitle.Count() == 1)
-                    {
-                        splitTitle = keywordLower.Split(' ').ToList();
-                    }
-                    else
-                    {
-                        var localSplit = new List<string>();
-                        localSplit.AddRange(splitTitle);
-                        
-                        for(var index = 0; index < localSplit.Count; index++)
+                    var localSplit = keywordLower.Split(Separators).ToList();
+
+                    //if (localSplit.Count() == 1)
+                    //{
+                    //    splitTitle = keywordLower.Split(' ').ToList();
+                    //}
+                    //else
+                    //{
+                        splitTitle = new List<string>();
+                        foreach (var localString in localSplit)
                         {
-                            var part = localSplit[index];
-                            var splitBySpace = part.Split(' ').ToList();
-                            if (splitBySpace.Count <= MaxNumberOfWords) continue;
-                            splitTitle.RemoveAt(index);
-                            splitTitle.AddRange(splitBySpace);
+                            splitTitle.AddRange(localString.Split(' '));
                         }
-                    }
+
+                        //localSplit.AddRange(splitTitle);
+                        
+                        //for(var index = 0; index < localSplit.Count; index++)
+                        //{
+                        //    var part = localSplit[index];
+                        //    var splitBySpace = part.Split(' ').ToList();
+                        //    if (splitBySpace.Count <= MaxNumberOfWords) continue;
+                        //    splitTitle.RemoveAt(index);
+                        //    splitTitle.AddRange(splitBySpace);
+                        //}
+                    //}
                 }
                 return splitTitle.Select(TrimKeyword).Where(IsValidKeyword).ToList();
             }

@@ -92,7 +92,8 @@ namespace PreProcessing.BuildIndices
                 foreach (var paperKeyword in keywordVector.Value.PaperKeywordFrequencies.OrderBy(x => x.Key))
                 {
                     // calculate tf/or other
-                    var maxCount = BigStorage.Papers[paperKeyword.Key].PaperKeywords.Max(m => m.Count);
+                    var keywords = BigStorage.Papers[paperKeyword.Key].PaperKeywords;
+                    var maxCount = keywords != null && keywords.Any() ? keywords.Max(m => m.Count) : 1;
                     var tf = VectorParameters.CalculateKeywordFrequency(paperKeyword.Key,
                         (long)paperKeyword.Value,
                         maxCount);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using PreProcessing.BuildIndices;
 using PreProcessing.IO;
@@ -16,12 +17,17 @@ namespace AuthorPaper.Console.Classifier
             System.Console.WriteLine("start classify");
             var index = 0;
             var testPaperResults = new SortedList<long, PaperOutput>();
+           // var keywordsNotFound = new List<string>();
+           // var papersWithNoKeywords = new List<string>();
+
             foreach (var testPaper in BigStorage.TestPapers)
             {
                 var keywords = PreProcessing.Keywords.GenerateKeywords.GeneratePaperKeywords(testPaper.Value).ToList();
                 if (!keywords.Any())
                 {
-                    System.Console.WriteLine("zero keywords for paperid " + testPaper.Key);
+                    //System.Console.WriteLine("zero keywords for paperid " + testPaper.Key);
+                   // papersWithNoKeywords.Add(string.Format("{0},{1},{2}", testPaper.Key, testPaper.Value.Title, testPaper.Value.Keywords));
+                    continue;
                 }
                 var simpleKeywords = new List<SimplePaperKeyword>();
                 foreach (var keyword in keywords)
@@ -29,7 +35,8 @@ namespace AuthorPaper.Console.Classifier
                     var escapedKey = keyword.Value;// KeywordIndex.RemoveNewLines(keyword.Value);
                     if (!BigStorage.KeywordIndex.ContainsKey(escapedKey))
                     {
-                        System.Console.WriteLine("keyword not found " + escapedKey + " paperid " + testPaper.Key);
+                       // keywordsNotFound.Add(escapedKey);
+                        //System.Console.WriteLine("keyword not found " + escapedKey + " paperid " + testPaper.Key);
                         continue;
                     }
                     var getFromIndex = BigStorage.KeywordIndex[escapedKey];
@@ -55,8 +62,22 @@ namespace AuthorPaper.Console.Classifier
             }
             BigStorage.TestPaperResults = testPaperResults;
             System.Console.WriteLine("end classify");
-            
+
+            //StoreItemsNotFound(keywordsNotFound, "keywords_not_found.txt");
+            //StoreItemsNotFound(papersWithNoKeywords, "papers_zero_keywords.txt");
             // store similar papers for all in file
+        }
+
+        private static void StoreItemsNotFound(List<string> keywords, string path)
+        {
+            using (var sw = new StreamWriter(!File.Exists(path) ? File.Open(path, FileMode.Create) : File.Open(path, FileMode.Append)))
+            {
+                foreach (var keyword in keywords)
+                {
+                    sw.WriteLine(keyword);
+                }
+                // close file
+            }
         }
 
         private static void Initialize()
