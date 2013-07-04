@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using AuthorPaper;
+using PreProcessing.Keywords;
 
 namespace PreProcessing.BuildIndices
 {
@@ -19,16 +20,95 @@ namespace PreProcessing.BuildIndices
     }
     public class PaperIndex
     {
-        public const string KeywordPath = "paperindex.txt";
+        public const string KeywordPath = "paperindex_new.txt";
         public static void BuildIndex()
         {
             // generate index
             GenerateIndex();
             // store index
             StoreIndex(KeywordPath);
+            KeywordIndex.StoreIndex("keyword_new.txt");
+        }
+        
+        public static void GenerateIndex()
+        {
+            Console.WriteLine("start gen index");
+            var index = 0;
+            var paperVectors = new SortedList<long, PaperVector>();
+            foreach (var validPaper in BigStorage.TrainPapers)
+            {
+               var keywords = GenerateKeywords.GeneratePaperKeywords(validPaper.Value);
+               var paperKeywords = new List<SimplePaperKeyword>();
+                foreach (var keyword in keywords)
+                {
+                    KeywordVector keywordIndexItem = null;
+                    if(BigStorage.KeywordIndex.ContainsKey(keyword.Value))
+                    {
+                        keywordIndexItem = BigStorage.KeywordIndex[keyword.Value];
+                    }
+                    else
+                    {
+                        // new keyword - generate id and add it to index
+                        keywordIndexItem = new KeywordVector
+                                               {
+                                                   KeywordId = KeywordIndex.GetNextKeywordId(),
+                                                   Value = keyword.Value,
+                                                   PaperKeywordFrequencies = new SortedList<long, double>(),
+                                                   InvertedPaperFrequency = 1.0
+                                               };
+                        BigStorage.KeywordIndex.Add(keyword.Value, keywordIndexItem);
+                    }
+                    keywordIndexItem.PaperKeywordFrequencies.Add(validPaper.Value.Id, (int)keyword.Count);
+                    // store keyword count
+                    paperKeywords.Add(new SimplePaperKeyword
+                                          {
+                                              KeywordId = keywordIndexItem.KeywordId,
+                                              Count = keyword.Count,
+                                              Value = keyword.Value,
+                                              PaperKeywordId = KeywordIndex.GetNextPaperKeywordId()
+                                          });
+                }
+                validPaper.Value.PaperKeywords = paperKeywords;
+                
+                var paperVector = GeneratePaperVector(validPaper.Value);
+                paperVectors.Add(paperVector.PaperId, paperVector);
+                // calculate tf for each paper keyword
+
+                index++;
+                if (index % 1000 == 0)
+                {
+                    Console.WriteLine("generating for keyword # " + index);
+                }
+            }
+
+            BigStorage.PaperIndex = paperVectors;
+
+            // calculate idf for each keyword
+            foreach (var keywordVector in BigStorage.KeywordIndex)
+            {
+                keywordVector.Value.InvertedPaperFrequency =
+                    VectorParameters.CalculateInvertedPaperFreq(keywordVector.Value);
+                
+                foreach (var paperKeyword in keywordVector.Value.PaperKeywordFrequencies.OrderBy(x => x.Key))
+                {
+                    // calculate tf/or other
+                    var maxCount = BigStorage.Papers[paperKeyword.Key].PaperKeywords.Max(m => m.Count);
+                    var tf = VectorParameters.CalculateKeywordFrequency(paperKeyword.Key,
+                        (long)paperKeyword.Value,
+                        maxCount);
+                    keywordVector.Value.PaperKeywordFrequencies[paperKeyword.Key] = tf;
+                }
+            }
+            // calculate tf*idf + scalar square for each paper
+            foreach (var paperVector in BigStorage.PaperIndex)
+            {
+                GeneratePaperVectorParams(paperVector.Value);
+            }
+           
+            Console.WriteLine("end gen index");
         }
 
-        public static void GenerateIndex()
+        public static void GenerateIndexFromDb()
         {
             // need to generate list of papers ordered by id
             // get train papers from validpaper ordered by id
@@ -51,6 +131,75 @@ namespace PreProcessing.BuildIndices
             Console.WriteLine("end gen index");
         }
 
+        public static void GeneratePaperVectorParamsForTestPapers(SimplePaper validPaper, PaperVector paperVector)
+        {
+            // get paper keywords list
+            // foreach keyword
+            if(validPaper.PaperKeywords == null || !validPaper.PaperKeywords.Any()) return;
+            var maxCount = validPaper.PaperKeywords.Max(m => m.Count);
+            maxCount = maxCount == 0 ? 1 : maxCount;
+            foreach (var paperKeyword in validPaper.PaperKeywords)
+            {
+                if (string.IsNullOrEmpty(paperKeyword.Value)) continue;
+                // calculate tf*idf
+                var keywordWeight = VectorParameters.CalculateWeight(paperVector.PaperId, paperKeyword.Value, (double)paperKeyword.Count / maxCount);
+                // store in list
+                paperVector.KeywordWeight.Add(paperKeyword.KeywordId, keywordWeight);
+                paperVector.KeywordValues.Add(paperKeyword.Value, paperKeyword.KeywordId);
+            }
+            // calculate similarity term (math.sqrt(sum((tf*idf)^2)))
+            paperVector.ScalarSquare = VectorParameters.CalculateScalarSquare(paperVector);
+        }
+
+        public static void GeneratePaperVectorParams(PaperVector paperVector)
+        {
+            // get paper keywords list
+            // foreach keyword
+            if (paperVector.KeywordVectors == null || !paperVector.KeywordVectors.Any()) return;
+            foreach (var paperKeyword in paperVector.KeywordVectors)
+            {
+                // calculate tf*idf
+                var keywordWeight = VectorParameters.CalculateWeight(paperVector.PaperId, paperKeyword.Value.Value);
+                // store in list
+                paperVector.KeywordWeight.Add(paperKeyword.Value.KeywordId, keywordWeight);
+                paperVector.KeywordValues.Add(paperKeyword.Value.Value, paperKeyword.Value.KeywordId);
+            }
+            // calculate similarity term (math.sqrt(sum((tf*idf)^2)))
+            paperVector.ScalarSquare = VectorParameters.CalculateScalarSquare(paperVector);
+        }
+
+        public static void GeneratePaperVectorParams(SimplePaper validPaper, PaperVector paperVector)
+        {
+            // get paper keywords list
+            // foreach keyword
+            foreach (var paperKeyword in validPaper.PaperKeywords.GroupBy(pk => pk.KeywordId).OrderBy(k => k.Key))
+            {
+                var firstKeyword = paperKeyword.First();
+                if (string.IsNullOrEmpty(firstKeyword.Value)) continue;
+                // calculate tf*idf
+                var keywordWeight = VectorParameters.CalculateWeight(paperVector.PaperId, firstKeyword.Value);
+                // store in list
+                paperVector.KeywordWeight.Add(firstKeyword.KeywordId, keywordWeight);
+                paperVector.KeywordValues.Add(firstKeyword.Value, firstKeyword.KeywordId);
+            }
+            // calculate similarity term (math.sqrt(sum((tf*idf)^2)))
+            paperVector.ScalarSquare = VectorParameters.CalculateScalarSquare(paperVector);
+        }
+
+        public static PaperVector GeneratePaperVectorForTestPapers(SimplePaper validPaper)
+        {
+            var paperVector = new PaperVector
+            {
+                PaperId = validPaper.Id,
+                KeywordWeight = new SortedList<long, double>(),
+                KeywordValues = new SortedList<string, long>()
+            };
+
+            GeneratePaperVectorParamsForTestPapers(validPaper, paperVector);
+
+            return paperVector;
+        }
+
         public static PaperVector GeneratePaperVector(SimplePaper validPaper)
         {
             var paperVector = new PaperVector
@@ -59,20 +208,9 @@ namespace PreProcessing.BuildIndices
                     KeywordWeight = new SortedList<long, double>(),
                     KeywordValues = new SortedList<string, long>()
                 };
-            // get paper keywords list
-            // foreach keyword
-            foreach (var paperKeyword in validPaper.PaperKeywords.GroupBy(pk => pk.KeywordId).OrderBy(k => k.Key))
-            {
-                var firstKeyword = paperKeyword.First();
-                if(string.IsNullOrEmpty(firstKeyword.Value)) continue;
-                // calculate tf*idf
-                var keywordWeight = VectorParameters.CalculateWeight(validPaper.Id, firstKeyword.Value);
-                // store in list
-                paperVector.KeywordWeight.Add(firstKeyword.KeywordId, keywordWeight);
-                paperVector.KeywordValues.Add(firstKeyword.Value, firstKeyword.KeywordId);
-            }
-            // calculate similarity term (math.sqrt(sum((tf*idf)^2)))
-            paperVector.ScalarSquare = VectorParameters.CalculateScalarSquare(paperVector);
+
+            GeneratePaperVectorParams(validPaper, paperVector);
+           
             return paperVector;
         }
 

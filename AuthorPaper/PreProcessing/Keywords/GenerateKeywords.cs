@@ -19,6 +19,7 @@ namespace PreProcessing.Keywords
 
         private static readonly char[] Punctuation = new[] { ' ', ',', '.', '\'', '"', '(', ')', '-', '_', ';', ':', '[', ']', '?', '!', '`' };
         private static readonly char[] Separators = new[] {';', ',', '|'};
+        private static readonly string[] ReplaceCharacters = new [] {"\n", "\r", "\t"};
         private const int MinValidWordLength = 4;
         private const int MaxNumberOfWords = 4;
 
@@ -55,6 +56,7 @@ namespace PreProcessing.Keywords
         public static string TrimKeyword(string keyword)
         {
             var result = keyword.Trim(Punctuation);
+            result = ReplaceCharacters.Aggregate(result, (current, t) => current.Replace(t, ""));
 
             // trim html tags
             if (result.StartsWith("<"))
@@ -66,7 +68,7 @@ namespace PreProcessing.Keywords
             if (result.EndsWith(">"))
             {
                 var endTagStartIndex = result.LastIndexOf("<", StringComparison.Ordinal);
-                if (endTagStartIndex > -1)
+                if (endTagStartIndex > 0)
                     result = result.Substring(0, endTagStartIndex - 1);
             }
 

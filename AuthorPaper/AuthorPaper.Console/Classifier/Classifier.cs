@@ -26,7 +26,7 @@ namespace AuthorPaper.Console.Classifier
                 var simpleKeywords = new List<SimplePaperKeyword>();
                 foreach (var keyword in keywords)
                 {
-                    var escapedKey = KeywordIndex.RemoveNewLines(keyword.Value);
+                    var escapedKey = keyword.Value;// KeywordIndex.RemoveNewLines(keyword.Value);
                     if (!BigStorage.KeywordIndex.ContainsKey(escapedKey))
                     {
                         System.Console.WriteLine("keyword not found " + escapedKey + " paperid " + testPaper.Key);
@@ -41,7 +41,7 @@ namespace AuthorPaper.Console.Classifier
                         });
                 }
                 testPaper.Value.PaperKeywords = simpleKeywords;
-                var paperVector = PaperIndex.GeneratePaperVector(testPaper.Value);
+                var paperVector = PaperIndex.GeneratePaperVectorForTestPapers(testPaper.Value);
 
                 var paperOutput = ExecuteClassifierAlgorithm(paperVector);
 
@@ -120,7 +120,7 @@ namespace AuthorPaper.Console.Classifier
             var listPaperIds = new List<long>();
             foreach (var keywords in paper.KeywordValues)
             {
-                var keywordIndexItem = BigStorage.KeywordIndex[KeywordIndex.RemoveNewLines(keywords.Key)];
+                var keywordIndexItem = BigStorage.KeywordIndex[keywords.Key]; //KeywordIndex.RemoveNewLines(keywords.Key)
                 listPaperIds.AddRange(keywordIndexItem.PaperKeywordFrequencies.Select(pk => pk.Key));
             }
             var distinctPaperIds = listPaperIds.Distinct();

@@ -9,7 +9,9 @@ namespace PreProcessing.BuildIndices
 {
     public class KeywordIndex
     {
-        public const string KeywordPath = "keywordindex.txt";
+        public const string KeywordPath = "keyword_new.txt";
+        private static long _initKeywordId = 0;
+        private static long _initPaperKeywordId = 0;
         public static void BuildIndex()
         {
             // generate index
@@ -19,6 +21,23 @@ namespace PreProcessing.BuildIndices
         }
 
         public static void GenerateIndex()
+        {
+            
+        }
+
+        public static long GetNextKeywordId()
+        {
+            // not thread safe
+            return ++_initKeywordId;
+        }
+
+        public static long GetNextPaperKeywordId()
+        {
+            // not thread safe
+            return ++_initPaperKeywordId;
+        }
+
+        public static void GenerateIndexFromDb()
         {
             // need to generate list of keywords ordered by value
             // get all keywords from db, order them
@@ -45,22 +64,22 @@ namespace PreProcessing.BuildIndices
             Console.WriteLine("end gen index");
         }
 
-        // todo: new lines should be removed from keywords on insert
-        public static string RemoveNewLines(string value)
-        {
-            if(string.IsNullOrEmpty(value)) return "";
-            var result = value.Replace("\t", "");
-            if (value.Contains('\r') || value.Contains('\n'))
-                return result.Replace('\r', ' ').Replace('\n', ' ') + '1';
-            return result;
-        }
+        //// todo: new lines should be removed from keywords on insert
+        //public static string RemoveNewLines(string value)
+        //{
+        //    if(string.IsNullOrEmpty(value)) return "";
+        //    var result = value.Replace("\t", "");
+        //    if (value.Contains('\r') || value.Contains('\n'))
+        //        return result.Replace('\r', ' ').Replace('\n', ' ') + '1';
+        //    return result;
+        //}
         
         private static KeywordVector GenerateKeywordVector(Keyword keyword)
         {
             var keywordVector = new KeywordVector
                 {
                     KeywordId = keyword.KeywordId,
-                    Value = RemoveNewLines(keyword.Value),
+                    Value = keyword.Value, //RemoveNewLines(keyword.Value),
                     InvertedPaperFrequency = VectorParameters.CalculateInvertedPaperFreq(keyword),
                     PaperKeywordFrequencies = new SortedList<long, double>()
                 };

@@ -19,15 +19,34 @@ namespace PreProcessing.BuildIndices
             }
             return -1.0;
         }
+
+        public static double CalculateWeight(long paperId, string keywordValue, double tf)
+        {
+            if (BigStorage.KeywordIndex.ContainsKey(keywordValue))
+            {
+                var keywordFromIndex = BigStorage.KeywordIndex[keywordValue];
+                var idf = keywordFromIndex.InvertedPaperFrequency;
+                return idf * tf;
+            }
+            return 0.00001;
+        }
+
         public static double CalculateWeight(long paperId, string keywordValue)
         {
             // todo: remove hack for removing new lines
-            var weight = TryFindKeywordInIndex(paperId, KeywordIndex.RemoveNewLines(keywordValue));
+            var weight = TryFindKeywordInIndex(paperId, keywordValue); //KeywordIndex.RemoveNewLines(keywordValue)
             return weight > -1.0 ? weight : 0.00001;
         }
         public static double CalculateInvertedPaperFreq(Keyword keyword)
         {
             var numberOfPapersContainingKeyword = keyword.PaperKeywords.Count;
+            var result = BigStorage.TrainPaperCount / (numberOfPapersContainingKeyword + 1.0);
+            return Math.Log(result);
+        }
+
+        public static double CalculateInvertedPaperFreq(KeywordVector keyword)
+        {
+            var numberOfPapersContainingKeyword = keyword.PaperKeywordFrequencies.Count;
             var result = BigStorage.TrainPaperCount / (numberOfPapersContainingKeyword + 1.0);
             return Math.Log(result);
         }

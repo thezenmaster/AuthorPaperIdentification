@@ -42,19 +42,21 @@ namespace PreProcessing.BuildIndices
                     using (var context = new AuthorPaperEntities())
                     {
                         _trainPapers = new SortedList<long, SimplePaper>();
-                        var trainPapers = context.ValidPapers.Include("paper.PaperKeywords.Keyword")
+                        var trainPapers = context.ValidPapers//.Include("paper.PaperKeywords.Keyword")
                             .OrderBy(p => p.PaperId).Take(TrainPaperCount)
                             .Select(p => new SimplePaper
                             {
                                 Id = p.PaperId.Value,
-                                PaperKeywords =
-                                    p.paper.PaperKeywords.Select(pk => new SimplePaperKeyword
-                                    {
-                                        Count = pk.Count.HasValue ? pk.Count.Value : 1,
-                                        PaperKeywordId = pk.PaperKeywordId,
-                                        KeywordId = pk.KeywordId,
-                                        Value = pk.Keyword.Value
-                                    })
+                                Title = p.paper.Title,
+                                Keywords = p.paper.Keyword
+                                //PaperKeywords = new List<SimplePaperKeyword>()
+                                    //p.paper.PaperKeywords.Select(pk => new SimplePaperKeyword
+                                    //{
+                                    //    Count = pk.Count.HasValue ? pk.Count.Value : 1,
+                                    //    PaperKeywordId = pk.PaperKeywordId,
+                                    //    KeywordId = pk.KeywordId,
+                                    //    Value = pk.Keyword.Value
+                                    //})
                             })
                             .ToList();
                         trainPapers.ForEach(f =>  _trainPapers.Add(f.Id, f));
@@ -82,14 +84,14 @@ namespace PreProcessing.BuildIndices
                             .Select(p => new SimplePaper
                             {
                                 Id = p.PaperId.Value,
-                                PaperKeywords =
-                                    p.paper.PaperKeywords.Select(pk => new SimplePaperKeyword
-                                    {
-                                        Count = pk.Count.HasValue ? pk.Count.Value : 1,
-                                        PaperKeywordId = pk.PaperKeywordId,
-                                        KeywordId = pk.KeywordId,
-                                        Value = pk.Keyword.Value
-                                    }),
+                                //PaperKeywords = new List<SimplePaperKeyword>(),
+                                    //p.paper.PaperKeywords.Select(pk => new SimplePaperKeyword
+                                    //{
+                                    //    Count = pk.Count.HasValue ? pk.Count.Value : 1,
+                                    //    PaperKeywordId = pk.PaperKeywordId,
+                                    //    KeywordId = pk.KeywordId,
+                                    //    Value = pk.Keyword.Value
+                                    //}),
                                     Title = p.paper.Title,
                                     Keywords = p.paper.Keyword
                             })
@@ -147,6 +149,7 @@ namespace PreProcessing.BuildIndices
                 if (_keywordIndex == null)
                 {
                     //todo: get keyword index
+                    _keywordIndex = new SortedList<string, KeywordVector>();
                 }
                 return _keywordIndex;
             }
